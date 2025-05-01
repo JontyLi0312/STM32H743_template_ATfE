@@ -1,0 +1,67 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "CMake Configure",
+			"type": "shell",
+			"command": "cmake",
+			"args": [
+				"-DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE",
+				"-GNinja",
+				"-Bbuild"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"label": "CMake Build",
+			"type": "shell",
+			"command": "cmake",
+			"args": [
+				"--build",
+				"build",
+				"--target",
+				"all"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"label": "CMake Clean Build",
+			"type": "shell",
+			"command": "cmake",
+			"args": [
+				"--build",
+				"build",
+				"--target",
+				"clean"
+			],
+			"problemMatcher": [],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"label": "Flash",
+			"type": "shell",
+			"command": "openocd",
+			"args": [
+				"-f",
+				"interface/cmsis-dap.cfg",
+				"-f",
+				"target/stm32h7x.cfg",
+				"-c",
+				"program ./build/STM32H743IIT6.elf verify reset exit"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		}
+	]
+}

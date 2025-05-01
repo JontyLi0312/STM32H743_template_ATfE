@@ -1,0 +1,13 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "todo-tree.tree.scanMode": "workspace",
+        "todo-tree.tree.disableCompactFolders": false,
+        "todo-tree.tree.showBadges": true,
+        "todo-tree.tree.showCountsInTree": false
+    }
+}
