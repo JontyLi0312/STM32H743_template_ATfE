@@ -6,7 +6,7 @@
 
 ## 使用方法
 
-本工程使用的工具有：CMake、Ninja、Openocd、Clang+llvm \
+本工程使用的工具有：CMake、Ninja、Openocd(optional)、Clang+llvm \
 
 1. CMake: 构建系统生成器，用于管理项目构建过程、抽象构建细节、生成原生构建文件、处理交叉编译;
 2. Ninja: 构建系统生成器，相比 make 可以更快解析输入文件;
