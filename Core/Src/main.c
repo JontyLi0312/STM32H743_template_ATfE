@@ -130,7 +130,7 @@ int main(void)
     while (1) {
         Touch_Scan();
         LCD_SetTextFont(&Font12);
-        LCD_DisplayDecimals(160, 200, 98765.4321, 11, 5);
+        LCD_DisplayDecimals(160, 200, 98765.1234, 11, 5);
         // LCD_Test_Variable();
         HAL_Delay(50);
         /* USER CODE END WHILE */
