@@ -8,8 +8,7 @@ set(CMAKE_CXX_COMPILER_ID GNU)
 
 # Some default ATfE settings
 # ATfE must be part of path environment
-
-
+# Windows
 if(WIN32)
 set(TOOLCHAIN_PREFIX                "D:/Arm_ToolChain/ATfE-20.1.0-Windows-x86_64/bin" CACHE PATH "Path to the toolchain prefix")
 set(CMAKE_C_COMPILER                "${TOOLCHAIN_PREFIX}/clang.exe")
@@ -18,7 +17,7 @@ set(CMAKE_CXX_COMPILER              "${TOOLCHAIN_PREFIX}/clang++.exe")
 set(CMAKE_LINKER                    "${TOOLCHAIN_PREFIX}/ld.lld.exe")
 set(CMAKE_OBJCOPY                   "${TOOLCHAIN_PREFIX}/llvm-objcopy.exe")
 set(CMAKE_SIZE                      "${TOOLCHAIN_PREFIX}/jllvm-size.exe")
-
+# Linux
 elseif(UNIX)
 set(TOOLCHAIN_PREFIX                "/home/jonty/Dev_Tool/ATfE-20.1.0-Linux-x86_64/bin" CACHE PATH "Path to the toolchain prefix")
 set(CMAKE_C_COMPILER                "${TOOLCHAIN_PREFIX}/clang")
@@ -54,7 +53,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -fno-rtti -fno-exceptions -fno-threadsafe-
 
 set(CMAKE_C_LINK_FLAGS "${TARGET_FLAGS}")
 set(CMAKE_C_LINK_FLAGS "${CMAKE_C_LINK_FLAGS} -T \"${CMAKE_SOURCE_DIR}/STM32H743XX_FLASH.ld\"")
-set(CMAKE_C_LINK_FLAGS "${CMAKE_C_LINK_FLAGS} --specs=nosys.specs")
+set(CMAKE_C_LINK_FLAGS "${CMAKE_C_LINK_FLAGS} -Wl,--specs=nosys.specs")
 set(CMAKE_C_LINK_FLAGS "${CMAKE_C_LINK_FLAGS} -Wl,-Map=${CMAKE_PROJECT_NAME}.map -Wl,--gc-sections")
 set(CMAKE_C_LINK_FLAGS "${CMAKE_C_LINK_FLAGS} -Wl,--start-group -Wl,--end-group")
 set(CMAKE_C_LINK_FLAGS "${CMAKE_C_LINK_FLAGS} -Wl,--print-memory-usage")
