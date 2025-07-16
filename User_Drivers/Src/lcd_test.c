@@ -3,18 +3,18 @@
     *	@file  	lcd_test.c
     *	@version V1.0
     *  @date    2021-7-20
-    *	@author  ���ͿƼ�
-    *	@brief   LTDC���Ժ���
+    *	@author  反客科技
+    *	@brief   LTDC测试函数
    ***************************************************************************************************************************
    *  @description
     *
-    *	ʵ��ƽ̨������STM32H743IIT6���İ� ���ͺţ�FK743M2-IIT6�� +
-����800*480�ֱ��ʵ�RGB��Ļ *	�Ա���ַ��https://shop212360197.taobao.com
-    *	QQ����Ⱥ��536665479
+    *	实验平台：反客STM32H743IIT6核心板 （型号：FK743M2-IIT6） +
+反客800*480分辨率的RGB屏幕 *	淘宝地址：https://shop212360197.taobao.com
+    *	QQ交流群：536665479
     *
->>>>> �ļ�˵����
+>>>>> 文件说明：
     *
-    *	1. �����ڲ��ԣ����ļ����Ǳ��룬�û���ֲ��ʱ���������
+    *	1. 仅用于测试，该文件不是必须，用户移植的时候可以舍弃
     *
     ****************************************************************************************************************************
 ***/
@@ -22,51 +22,51 @@
 #include "lcd_test.h"
 
 /*************************************************************************************************
- *	�� �� ��:	LCD_Test_DoubleLayer
+ *	函 数 名:	LCD_Test_DoubleLayer
  *
- *	��������:	˫����ʾ
+ *	函数功能:	双层显示
  *
- *	˵    ��:	������˫���ʱ����Ч
+ *	说    明:	仅开启双层的时候生效
  *************************************************************************************************/
 
 void LCD_Test_DoubleLayer(void)
 {
-    uint16_t time = 100; // ��ʱʱ��
+    uint16_t time = 100; // 延时时间
     uint16_t i    = 0;
 
-    // ���Ƴ�ʼ���棬�������⡢LOGO�Լ�������>>>>>
+    // 绘制初始界面，包括标题、LOGO以及进度条>>>>>
 
-    LCD_SetBackColor(0xffB9EDF8); //	���ñ���ɫ��ʹ���Զ�����ɫ
-    LCD_Clear();                  //	������ˢ����ɫ
+    LCD_SetBackColor(0xffB9EDF8); //	设置背景色，使用自定义颜色
+    LCD_Clear();                  //	清屏，刷背景色
 
-    LCD_SetTextFont(&CH_Font32); // ����3232��������,ASCII�����ӦΪ3216
-    LCD_SetColor(0xff333333);    //	���û���ɫ��ʹ���Զ�����ɫ
-    LCD_DisplayText(334, 160, "˫�����"); // ��ʾ�ı�
+    LCD_SetTextFont(&CH_Font32); // 设置3232中文字体,ASCII字体对应为3216
+    LCD_SetColor(0xff333333);    //	设置画笔色，使用自定义颜色
+    LCD_DisplayText(334, 160, "双层测试"); // 显示文本
 
-    LCD_SetColor(0xfffd7923); //	���û���ɫ��ʹ���Զ�����ɫ
-    LCD_DrawImage(280, 218, 240, 83, Image_FANKE_240x83); // ��ʾLOGOͼƬ
+    LCD_SetColor(0xfffd7923); //	设置画笔色，使用自定义颜色
+    LCD_DrawImage(280, 218, 240, 83, Image_FANKE_240x83); // 显示LOGO图片
 
-    LCD_SetColor(LIGHT_YELLOW); //	���û���ɫ
+    LCD_SetColor(LIGHT_YELLOW); //	设置画笔色
     for (i = 0; i < 150; i++) {
-        LCD_FillRect(100, 330, 4 * i, 6); // ���ƾ��Σ�ʵ�ּ��׽�������Ч��
+        LCD_FillRect(100, 330, 4 * i, 6); // 绘制矩形，实现简易进度条的效果
         HAL_Delay(10);
     }
 
-    LCD_SetLayer(1); // �л�����1
+    LCD_SetLayer(1); // 切换到层1
     LCD_SetBackColor(LCD_BLACK &
-                     0x00FFFFFF); // ͸����100%����8λ������ԽС͸����Խ��
-    LCD_Clear(); // ��ʱǰ������ȫ͸���������޷����� layer0 ��ͼ��
+                     0x00FFFFFF); // 透明度100%，高8位的数字越小透明度越高
+    LCD_Clear(); // 此时前景层完全透明，否则无法看到 layer0 的图像
 
-    // layer0 ��ʾ���� >>>>>
+    // layer0 显示内容 >>>>>
 
-    LCD_SetLayer(0); // �л�����0
+    LCD_SetLayer(0); // 切换到层0
 
     LCD_SetBackColor(LCD_BLACK);
     LCD_Clear();
 
     LCD_SetColor(LCD_WHITE);
-    LCD_SetTextFont(&CH_Font32); // ����2424��������,ASCII�����ӦΪ2412
-    LCD_DisplayText(10, 10, "STM32H743 LTDC ������, layer0");
+    LCD_SetTextFont(&CH_Font32); // 设置2424中文字体,ASCII字体对应为2412
+    LCD_DisplayText(10, 10, "STM32H743 LTDC 背景层, layer0");
 
     HAL_Delay(1000);
 
@@ -114,99 +114,99 @@ void LCD_Test_DoubleLayer(void)
 
     HAL_Delay(1000);
 
-    // layer1 ��ʾ���� >>>>>
+    // layer1 显示内容 >>>>>
 
-    LCD_SetLayer(1); // �л�����1
+    LCD_SetLayer(1); // 切换到层1
 
     LCD_SetColor(0Xff348498);
     LCD_FillRect(100, 80, 600, 380);
 
     LCD_SetBackColor(0Xff348498);
     LCD_SetColor(LCD_BLACK);
-    LCD_DisplayText(146, 90, "ǰ����, layer1");
+    LCD_DisplayText(146, 90, "前景层, layer1");
     HAL_Delay(1000);
 
-#if ColorMode_1 == LTDC_PIXEL_FORMAT_ARGB8888 // ���layer1 ����Ϊ ARGB8888
+#if ColorMode_1 == LTDC_PIXEL_FORMAT_ARGB8888 // 如果layer1 定义为 ARGB8888
 
     LCD_SetBackColor(
         LCD_BLACK &
-        0xE0FFFFFF); // ���ñ���ɫ͸���ȣ���8λ������ԽС͸����Խ�ߣ�ARGB8888֧��8λ͸��ɫ����255��͸��״̬
-    LCD_SetColor(LCD_WHITE); // ���ʲ�͸��
+        0xE0FFFFFF); // 设置背景色透明度，高8位的数字越小透明度越高，ARGB8888支持8位透明色，有255种透明状态
+    LCD_SetColor(LCD_WHITE); // 画笔不透明
     LCD_DisplayText(110, 140, "STM32H743IIT6 LTDC, ARGB8888, layer1");
     HAL_Delay(1000);
 
     LCD_SetBackColor(
         LCD_BLACK &
-        0xa0FFFFFF); // ���ñ���ɫ͸���ȣ���8λ������ԽС͸����Խ�ߣ�ARGB8888֧��8λ͸��ɫ����255��͸��״̬
+        0xa0FFFFFF); // 设置背景色透明度，高8位的数字越小透明度越高，ARGB8888支持8位透明色，有255种透明状态
     LCD_SetColor(LCD_WHITE);
     LCD_DisplayText(110, 200, "STM32H743IIT6 LTDC, ARGB8888, layer1");
     HAL_Delay(1000);
 
     LCD_SetBackColor(
         LCD_BLACK &
-        0x70FFFFFF); // ���ñ���ɫ͸���ȣ���8λ������ԽС͸����Խ�ߣ�ARGB8888֧��8λ͸��ɫ����255��͸��״̬
+        0x70FFFFFF); // 设置背景色透明度，高8位的数字越小透明度越高，ARGB8888支持8位透明色，有255种透明状态
     LCD_SetColor(LCD_WHITE);
     LCD_DisplayText(110, 260, "STM32H743IIT6 LTDC, ARGB8888, layer1");
     HAL_Delay(1000);
 
     LCD_SetBackColor(
         LCD_BLACK &
-        0x20FFFFFF); // ���ñ���ɫ͸���ȣ���8λ������ԽС͸����Խ�ߣ�ARGB8888֧��8λ͸��ɫ����255��͸��״̬
+        0x20FFFFFF); // 设置背景色透明度，高8位的数字越小透明度越高，ARGB8888支持8位透明色，有255种透明状态
     LCD_SetColor(LCD_WHITE);
     LCD_DisplayText(110, 320, "STM32H743IIT6 LTDC, ARGB8888, layer1");
     HAL_Delay(1000);
 
-    LCD_SetBackColor(LCD_BLACK);          // ������ɫ����Ϊ ��͸��
-    LCD_SetColor(LCD_WHITE & 0x00FFFFFF); // ������ɫ����Ϊ ��ȫ͸��
+    LCD_SetBackColor(LCD_BLACK);          // 将背景色设置为 不透明
+    LCD_SetColor(LCD_WHITE & 0x00FFFFFF); // 将画笔色设置为 完全透明
     LCD_DisplayText(110, 380, "STM32H743IIT6 LTDC, ARGB8888, layer1");
     HAL_Delay(2000);
 
-#elif ColorMode_1 == LTDC_PIXEL_FORMAT_ARGB4444 // ���layer1 ����Ϊ ARGB4444
+#elif ColorMode_1 == LTDC_PIXEL_FORMAT_ARGB4444 // 如果layer1 定义为 ARGB4444
 
     LCD_SetBackColor(
         LCD_BLACK &
-        0xB0FFFFFF); // ���ñ���ɫ͸���ȣ���8λ������ԽС͸����Խ�ߣ�ARGB4444֧��4λ͸��ɫ����16��͸��״̬
-    LCD_SetColor(LCD_WHITE); // ���ʲ�͸��
+        0xB0FFFFFF); // 设置背景色透明度，高8位的数字越小透明度越高，ARGB4444支持4位透明色，有16种透明状态
+    LCD_SetColor(LCD_WHITE); // 画笔不透明
     LCD_DisplayText(110, 140, "STM32H743IIT6 LTDC, ARGB4444, layer1");
     HAL_Delay(1000);
 
     LCD_SetBackColor(
         LCD_BLACK &
-        0x80FFFFFF); // ���ñ���ɫ͸���ȣ���8λ������ԽС͸����Խ�ߣ�ARGB4444֧��4λ͸��ɫ����16��͸��״̬
+        0x80FFFFFF); // 设置背景色透明度，高8位的数字越小透明度越高，ARGB4444支持4位透明色，有16种透明状态
     LCD_SetColor(LCD_WHITE);
     LCD_DisplayText(110, 200, "STM32H743IIT6 LTDC, ARGB4444, layer1");
     HAL_Delay(1000);
 
     LCD_SetBackColor(
         LCD_BLACK &
-        0x30FFFFFF); // ���ñ���ɫ͸���ȣ���8λ������ԽС͸����Խ�ߣ�ARGB4444֧��4λ͸��ɫ����16��͸��״̬
+        0x30FFFFFF); // 设置背景色透明度，高8位的数字越小透明度越高，ARGB4444支持4位透明色，有16种透明状态
     LCD_SetColor(LCD_WHITE);
     LCD_DisplayText(110, 260, "STM32H743IIT6 LTDC, ARGB4444, layer1");
     HAL_Delay(1000);
 
-    LCD_SetBackColor(LCD_BLACK);          // ������ɫ����Ϊ ��͸��
-    LCD_SetColor(LCD_WHITE & 0x00FFFFFF); // ������ɫ����Ϊ ��ȫ͸��
+    LCD_SetBackColor(LCD_BLACK);          // 将背景色设置为 不透明
+    LCD_SetColor(LCD_WHITE & 0x00FFFFFF); // 将画笔色设置为 完全透明
     LCD_DisplayText(110, 320, "STM32H743IIT6 LTDC, ARGB4444, layer1");
     HAL_Delay(2000);
 
-#elif ColorMode_1 == LTDC_PIXEL_FORMAT_ARGB1555 // ���layer1 ����Ϊ ARGB1555
+#elif ColorMode_1 == LTDC_PIXEL_FORMAT_ARGB1555 // 如果layer1 定义为 ARGB1555
 
     LCD_SetBackColor(
         LCD_BLACK &
-        0xffFFFFF); // ���ñ���ɫ͸���ȣ���8λ������ԽС͸����Խ�ߣ�ARGB1555��֧��һλ͸��ɫ��������͸���Ͳ�͸������״̬
-    LCD_SetColor(LCD_WHITE); // ���ʲ�͸��
+        0xffFFFFF); // 设置背景色透明度，高8位的数字越小透明度越高，ARGB1555仅支持一位透明色，即仅有透明和不透明两种状态
+    LCD_SetColor(LCD_WHITE); // 画笔不透明
     LCD_DisplayText(110, 140, "STM32H743IIT6 LTDC, ARGB1555, layer1");
     HAL_Delay(1000);
 
     LCD_SetBackColor(
         LCD_BLACK &
-        0x00FFFFFF); // ���ñ���ɫ͸���ȣ���8λ������ԽС͸����Խ�ߣ�ARGB1555��֧��һλ͸��ɫ��������͸���Ͳ�͸������״̬
-    LCD_SetColor(LCD_WHITE); // ���ʲ�͸��
+        0x00FFFFFF); // 设置背景色透明度，高8位的数字越小透明度越高，ARGB1555仅支持一位透明色，即仅有透明和不透明两种状态
+    LCD_SetColor(LCD_WHITE); // 画笔不透明
     LCD_DisplayText(110, 200, "STM32H743IIT6 LTDC, ARGB1555, layer1");
     HAL_Delay(1000);
 
-    LCD_SetBackColor(LCD_BLACK & 0xffFFFFF); // ������ɫ����Ϊ ��͸��
-    LCD_SetColor(LCD_WHITE & 0x00FFFFFF);    // ������ɫ����Ϊ ��ȫ͸��
+    LCD_SetBackColor(LCD_BLACK & 0xffFFFFF); // 将背景色设置为 不透明
+    LCD_SetColor(LCD_WHITE & 0x00FFFFFF);    // 将画笔色设置为 完全透明
     LCD_DisplayText(110, 260, "STM32H743IIT6 LTDC, ARGB1555, layer1");
     HAL_Delay(2000);
 
@@ -214,43 +214,43 @@ void LCD_Test_DoubleLayer(void)
 }
 
 /*************************************************************************************************
- *	�� �� ��:	LCD_Test_Clear
+ *	函 数 名:	LCD_Test_Clear
  *
- *	��������:	��������
+ *	函数功能:	清屏测试
  *
- *	˵    ��:	��
+ *	说    明:	无
  *************************************************************************************************/
 
 void LCD_Test_Clear(void)
 {
-    uint16_t time = 1000; // ��ʱʱ��
-    uint8_t i     = 0;    // ��������
+    uint16_t time = 1000; // 延时时间
+    uint8_t i     = 0;    // 计数变量
 
-    // ���Ƴ�ʼ���棬�������⡢LOGO�Լ�������>>>>>
+    // 绘制初始界面，包括标题、LOGO以及进度条>>>>>
 
-    LCD_SetBackColor(0xffB9EDF8); //	���ñ���ɫ��ʹ���Զ�����ɫ
-    LCD_Clear();                  //	������ˢ����ɫ
+    LCD_SetBackColor(0xffB9EDF8); //	设置背景色，使用自定义颜色
+    LCD_Clear();                  //	清屏，刷背景色
 
-    LCD_SetTextFont(&CH_Font32); // ����3232��������,ASCII�����ӦΪ3216
-    LCD_SetColor(0xff333333);    //	���û���ɫ��ʹ���Զ�����ɫ
-    LCD_DisplayText(334, 160, "ˢ������"); // ��ʾ�ı�
+    LCD_SetTextFont(&CH_Font32); // 设置3232中文字体,ASCII字体对应为3216
+    LCD_SetColor(0xff333333);    //	设置画笔色，使用自定义颜色
+    LCD_DisplayText(334, 160, "刷屏测试"); // 显示文本
 
-    LCD_SetColor(0xfffd7923); //	���û���ɫ��ʹ���Զ�����ɫ
-    LCD_DrawImage(280, 218, 240, 83, Image_FANKE_240x83); // ��ʾLOGOͼƬ
+    LCD_SetColor(0xfffd7923); //	设置画笔色，使用自定义颜色
+    LCD_DrawImage(280, 218, 240, 83, Image_FANKE_240x83); // 显示LOGO图片
 
-    LCD_SetColor(LIGHT_YELLOW); //	���û���ɫ
+    LCD_SetColor(LIGHT_YELLOW); //	设置画笔色
     for (i = 0; i < 150; i++) {
-        LCD_FillRect(100, 330, 4 * i, 6); // ���ƾ��Σ�ʵ�ּ��׽�������Ч��
+        LCD_FillRect(100, 330, 4 * i, 6); // 绘制矩形，实现简易进度条的效果
         HAL_Delay(10);
     }
 
-    // ˢ������>>>>>
+    // 刷屏测试>>>>>
 
-    LCD_SetTextFont(&CH_Font32); // ����2424��������,ASCII�����ӦΪ2412
-    LCD_SetColor(LCD_BLACK);     // ���û�����ɫ
+    LCD_SetTextFont(&CH_Font32); // 设置2424中文字体,ASCII字体对应为2412
+    LCD_SetColor(LCD_BLACK);     // 设置画笔颜色
 
     for (i = 0; i < 8; i++) {
-        switch (i) // �л�����ɫ
+        switch (i) // 切换背景色
         {
             case 0:
                 LCD_SetBackColor(LIGHT_RED);
@@ -279,51 +279,51 @@ void LCD_Test_Clear(void)
             default:
                 break;
         }
-        LCD_Clear(); // ����
-        LCD_DisplayText(112, 84, "STM32H743 LTDC ˢ������");
-        LCD_DisplayText(112, 134, "���İ��ͺţ�FK743M2");
-        LCD_DisplayText(112, 184, "��Ļ�ֱ��ʣ�800*480");
-        HAL_Delay(time); // ��ʱ
+        LCD_Clear(); // 清屏
+        LCD_DisplayText(112, 84, "STM32H743 LTDC 刷屏测试");
+        LCD_DisplayText(112, 134, "核心板型号：FK743M2");
+        LCD_DisplayText(112, 184, "屏幕分辨率：800*480");
+        HAL_Delay(time); // 延时
     }
 }
 
 /*************************************************************************************************
- *	�� �� ��:	LCD_Test_Text
+ *	函 数 名:	LCD_Test_Text
  *
- *	��������:	�ı���ʾ����
+ *	函数功能:	文本显示测试
  *
- *	˵    ��:	��
+ *	说    明:	无
  *************************************************************************************************/
 
 void LCD_Test_Text(void)
 {
-    uint16_t i;         // ��������
-    uint16_t time = 80; // ��ʱʱ��
+    uint16_t i;         // 计数变量
+    uint16_t time = 80; // 延时时间
 
-    // ���Ƴ�ʼ���棬�������⡢LOGO�Լ�������>>>>>
+    // 绘制初始界面，包括标题、LOGO以及进度条>>>>>
 
-    LCD_SetBackColor(0xffB9EDF8); //	���ñ���ɫ��ʹ���Զ�����ɫ
-    LCD_Clear();                  //	������ˢ����ɫ
+    LCD_SetBackColor(0xffB9EDF8); //	设置背景色，使用自定义颜色
+    LCD_Clear();                  //	清屏，刷背景色
 
-    LCD_SetTextFont(&CH_Font32); // ����3232��������,ASCII�����ӦΪ3216
-    LCD_SetColor(0xff333333);    //	���û���ɫ��ʹ���Զ�����ɫ
-    LCD_DisplayText(334, 160, "�ı���ʾ"); // ��ʾ�ı�
+    LCD_SetTextFont(&CH_Font32); // 设置3232中文字体,ASCII字体对应为3216
+    LCD_SetColor(0xff333333);    //	设置画笔色，使用自定义颜色
+    LCD_DisplayText(334, 160, "文本显示"); // 显示文本
 
-    LCD_SetColor(0xfffd7923); //	���û���ɫ��ʹ���Զ�����ɫ
-    LCD_DrawImage(280, 218, 240, 83, Image_FANKE_240x83); // ��ʾLOGOͼƬ
+    LCD_SetColor(0xfffd7923); //	设置画笔色，使用自定义颜色
+    LCD_DrawImage(280, 218, 240, 83, Image_FANKE_240x83); // 显示LOGO图片
 
-    LCD_SetColor(LIGHT_YELLOW); //	���û���ɫ
+    LCD_SetColor(LIGHT_YELLOW); //	设置画笔色
     for (i = 0; i < 150; i++) {
-        LCD_FillRect(100, 330, 4 * i, 6); // ���ƾ��Σ�ʵ�ּ��׽�������Ч��
+        LCD_FillRect(100, 330, 4 * i, 6); // 绘制矩形，实现简易进度条的效果
         HAL_Delay(10);
     }
 
-    // ��ʾ�ı����������������С�����ĺ�ASCII�ַ� >>>>>
+    // 显示文本，包括各种字体大小的中文和ASCII字符 >>>>>
 
-    LCD_SetBackColor(LCD_BLACK); //	���ñ���ɫ
-    LCD_Clear();                 // ����
+    LCD_SetBackColor(LCD_BLACK); //	设置背景色
+    LCD_Clear();                 // 清屏
 
-    LCD_SetColor(LCD_WHITE); // ���û��ʣ���ɫ
+    LCD_SetColor(LCD_WHITE); // 设置画笔，白色
     LCD_SetFont(&Font32);
     LCD_DisplayString(0, 0,
                       "!#$%&'()*+,-.0123456789:;<=>?@ABCDEFGHIJKLMNOPQRST");
@@ -367,137 +367,135 @@ void LCD_Test_Text(void)
                       "!#$%&'()*+,-.0123456789:;<=>?@ABCDEFGHIJKLMNOPQRST");
     HAL_Delay(time);
 
-    LCD_SetTextFont(&CH_Font24); // ����2424��������,ASCII�����ӦΪ2412
-    LCD_SetColor(LCD_YELLOW);    // ���û��ʣ���ɫ
-    LCD_DisplayText(0, 230, "�ı���ʾ������ʾ���ĺ�ASCII�ַ���");
-    LCD_DisplayText(0, 260, "�û��ɸ������󣬶��ֿ����������ɾ��");
+    LCD_SetTextFont(&CH_Font24); // 设置2424中文字体,ASCII字体对应为2412
+    LCD_SetColor(LCD_YELLOW);    // 设置画笔，黄色
+    LCD_DisplayText(0, 230, "文本显示，可显示中文和ASCII字符集");
+    LCD_DisplayText(0, 260, "用户可根据需求，对字库进行增添和删减");
 
-    LCD_SetTextFont(&CH_Font12); // ����1212��������,ASCII�����ӦΪ1206
-    LCD_SetColor(0Xff8AC6D1);    // ���û���
-    LCD_DisplayText(28, 290, "1212�������壺���ͿƼ�");
+    LCD_SetTextFont(&CH_Font12); // 设置1212中文字体,ASCII字体对应为1206
+    LCD_SetColor(0Xff8AC6D1);    // 设置画笔
+    LCD_DisplayText(28, 290, "1212中文字体：反客科技");
 
-    LCD_SetTextFont(&CH_Font16); // ����1616��������,ASCII�����ӦΪ1608
-    LCD_SetColor(0XffC5E1A5);    // ���û���
-    LCD_DisplayText(28, 310, "1616�������壺���ͿƼ�");
+    LCD_SetTextFont(&CH_Font16); // 设置1616中文字体,ASCII字体对应为1608
+    LCD_SetColor(0XffC5E1A5);    // 设置画笔
+    LCD_DisplayText(28, 310, "1616中文字体：反客科技");
 
-    LCD_SetTextFont(&CH_Font20); // ����2020��������,ASCII�����ӦΪ2010
-    LCD_SetColor(0Xff2D248A);    // ���û���
-    LCD_DisplayText(28, 335, "2020�������壺���ͿƼ�");
+    LCD_SetTextFont(&CH_Font20); // 设置2020中文字体,ASCII字体对应为2010
+    LCD_SetColor(0Xff2D248A);    // 设置画笔
+    LCD_DisplayText(28, 335, "2020中文字体：反客科技");
 
-    LCD_SetTextFont(&CH_Font24); // ����2424��������,ASCII�����ӦΪ2412
-    LCD_SetColor(0XffFF585D);    // ���û���
-    LCD_DisplayText(28, 365, "2424�������壺���ͿƼ�");
+    LCD_SetTextFont(&CH_Font24); // 设置2424中文字体,ASCII字体对应为2412
+    LCD_SetColor(0XffFF585D);    // 设置画笔
+    LCD_DisplayText(28, 365, "2424中文字体：反客科技");
 
-    LCD_SetTextFont(&CH_Font32); // ����3232��������,ASCII�����ӦΪ3216
-    LCD_SetColor(0XffF6003C);    // ���û���
-    LCD_DisplayText(28, 405, "3232�������壺���ͿƼ�");
+    LCD_SetTextFont(&CH_Font32); // 设置3232中文字体,ASCII字体对应为3216
+    LCD_SetColor(0XffF6003C);    // 设置画笔
+    LCD_DisplayText(28, 405, "3232中文字体：反客科技");
 
-    HAL_Delay(2000); // ��ʱ�ȴ�
+    HAL_Delay(2000); // 延时等待
 }
 
 /*************************************************************************************************
- *	�� �� ��:	LCD_Test_Variable
+ *	函 数 名:	LCD_Test_Variable
  *
- *	��������:	������ʾ������������С��
+ *	函数功能:	变量显示，包括整数和小数
  *
- *	˵    ��:	��
+ *	说    明:	无
  *************************************************************************************************/
-void LCD_Test_Variable (void)
+void LCD_Test_Variable(void)
 {
 
-	uint16_t i;					// ��������
+    uint16_t i; // 计数变量
 
-	int32_t	a = 0;			// �����������������ڲ���
-	int32_t	b = 0;			// �����������������ڲ���
-	int32_t	c = 0;			// �����������������ڲ���
+    int32_t a = 0; // 定义整数变量，用于测试
+    int32_t b = 0; // 定义整数变量，用于测试
+    int32_t c = 0; // 定义整数变量，用于测试
 
-	double p = 3.1415926;	// ���帡�������������ڲ���
-	double f = -1234.1234;	// ���帡�������������ڲ���
+    double p = 3.1415926;  // 定义浮点数变量，用于测试
+    double f = -1234.1234; // 定义浮点数变量，用于测试
 
-// ��ʾ����������������С��>>>>>	
-	
-	LCD_SetBackColor(LCD_BLACK); 			//	���ñ���ɫ
-	LCD_Clear(); 								// ����
-	
-	LCD_SetTextFont(&CH_Font32);					// ����2424��������,ASCII�����ӦΪ2412
-	LCD_SetColor(LCD_WHITE);						// ���û���,��ɫ
-	
-	LCD_DisplayText(28, 20,"����λ���ո�");	// ��ʾ�ı�	
-	LCD_DisplayText(400,20,"����λ���0");		// ��ʾ�ı�		
-	
-	LCD_SetColor(LIGHT_CYAN);					// ���û��ʣ�����ɫ
-	LCD_DisplayText(28, 60,"��������");				
-	LCD_DisplayText(28,100,"��������");				
-	LCD_DisplayText(28,140,"��������");					
-				
-	LCD_SetColor(LIGHT_YELLOW);				// ���û��ʣ�����ɫ		
-	LCD_DisplayText(400, 60,"��������");	
-	LCD_DisplayText(400,100,"��������");	
-	LCD_DisplayText(400,140,"��������");	
-			
-	LCD_SetColor(LIGHT_RED);					// ���û���	������ɫ		
-	LCD_DisplayText(28, 200,"��С����");	
-	LCD_DisplayText(28, 240,"��С����");		
-	
-	for(i=0;i<100;i++)
-   {
-		LCD_SetColor(LIGHT_CYAN);									// ���û���	������ɫ	
-		LCD_ShowNumMode(Fill_Space);								// ����λ���ո�
-		LCD_DisplayNumber( 160, 60, a+i*125, 8) ;				// ��ʾ����		
-		LCD_DisplayNumber( 160,100, b+i, 	 6) ;				// ��ʾ����			
-		LCD_DisplayNumber( 160,140, c-i,     6) ;				// ��ʾ����			
-		
-		LCD_SetColor(LIGHT_YELLOW);								// ���û��ʣ�����ɫ	
-		LCD_ShowNumMode(Fill_Zero);								// ����λ���0
-		LCD_DisplayNumber( 560, 60, a+i*125, 8) ;				// ��ʾ����		
-		LCD_DisplayNumber( 560,100, b+i, 	 6) ;				// ��ʾ����			
-		LCD_DisplayNumber( 560,140, c-i,     6) ;				// ��ʾ����				
-		
-		LCD_SetColor(LIGHT_RED);									// ���û��ʣ�����ɫ			
-		LCD_ShowNumMode(Fill_Space);								// ����λ���ո�		
-		LCD_DisplayDecimals( 160, 200, p+i*0.1,  6,3);		// ��ʾС��	
-		LCD_DisplayDecimals( 160, 240, f+i*0.01, 11,4);		// ��ʾС��		
-		
-		HAL_Delay(30);				
-   }
-	HAL_Delay(2500);		
-	
+    // 显示正整数、负整数、小数>>>>>
+
+    LCD_SetBackColor(LCD_BLACK); //	设置背景色
+    LCD_Clear();                 // 清屏
+
+    LCD_SetTextFont(&CH_Font32); // 设置2424中文字体,ASCII字体对应为2412
+    LCD_SetColor(LCD_WHITE);     // 设置画笔,白色
+
+    LCD_DisplayText(28, 20, "多余位填充空格"); // 显示文本
+    LCD_DisplayText(400, 20, "多余位填充0");   // 显示文本
+
+    LCD_SetColor(LIGHT_CYAN); // 设置画笔，蓝绿色
+    LCD_DisplayText(28, 60, "正整数：");
+    LCD_DisplayText(28, 100, "正整数：");
+    LCD_DisplayText(28, 140, "负整数：");
+
+    LCD_SetColor(LIGHT_YELLOW); // 设置画笔，亮黄色
+    LCD_DisplayText(400, 60, "正整数：");
+    LCD_DisplayText(400, 100, "正整数：");
+    LCD_DisplayText(400, 140, "负整数：");
+
+    LCD_SetColor(LIGHT_RED); // 设置画笔	，亮红色
+    LCD_DisplayText(28, 200, "正小数：");
+    LCD_DisplayText(28, 240, "负小数：");
+
+    for (i = 0; i < 100; i++) {
+        LCD_SetColor(LIGHT_CYAN);                   // 设置画笔	，蓝绿色
+        LCD_ShowNumMode(Fill_Space);                // 多余位填充空格
+        LCD_DisplayNumber(160, 60, a + i * 125, 8); // 显示变量
+        LCD_DisplayNumber(160, 100, b + i, 6);      // 显示变量
+        LCD_DisplayNumber(160, 140, c - i, 6);      // 显示变量
+
+        LCD_SetColor(LIGHT_YELLOW);                 // 设置画笔，亮黄色
+        LCD_ShowNumMode(Fill_Zero);                 // 多余位填充0
+        LCD_DisplayNumber(560, 60, a + i * 125, 8); // 显示变量
+        LCD_DisplayNumber(560, 100, b + i, 6);      // 显示变量
+        LCD_DisplayNumber(560, 140, c - i, 6);      // 显示变量
+
+        LCD_SetColor(LIGHT_RED);                            // 设置画笔，亮红色
+        LCD_ShowNumMode(Fill_Space);                        // 多余位填充空格
+        LCD_DisplayDecimals(160, 200, p + i * 0.1, 6, 3);   // 显示小数
+        LCD_DisplayDecimals(160, 240, f + i * 0.01, 11, 4); // 显示小数
+
+        HAL_Delay(30);
+    }
+    HAL_Delay(2500);
 }
 
 /*************************************************************************************************
- *	�� �� ��:	LCD_Test_FillRect
+ *	函 数 名:	LCD_Test_FillRect
  *
- *	��������:	����������
+ *	函数功能:	矩形填充测试
  *
- *	˵    ��:	��
+ *	说    明:	无
  *************************************************************************************************/
 
 void LCD_Test_FillRect(void)
 {
-    uint16_t i; // ��������
+    uint16_t i; // 计数变量
 
-    // ���Ƴ�ʼ���棬�������⡢LOGO�Լ�������>>>>>
+    // 绘制初始界面，包括标题、LOGO以及进度条>>>>>
 
-    LCD_SetBackColor(0xffB9EDF8); //	���ñ���ɫ��ʹ���Զ�����ɫ
-    LCD_Clear();                  //	������ˢ����ɫ
+    LCD_SetBackColor(0xffB9EDF8); //	设置背景色，使用自定义颜色
+    LCD_Clear();                  //	清屏，刷背景色
 
-    LCD_SetTextFont(&CH_Font32); // ����3232��������,ASCII�����ӦΪ3216
-    LCD_SetColor(0xff333333);    //	���û���ɫ��ʹ���Զ�����ɫ
-    LCD_DisplayText(334, 160, "���λ���"); // ��ʾ�ı�
+    LCD_SetTextFont(&CH_Font32); // 设置3232中文字体,ASCII字体对应为3216
+    LCD_SetColor(0xff333333);    //	设置画笔色，使用自定义颜色
+    LCD_DisplayText(334, 160, "矩形绘制"); // 显示文本
 
-    LCD_SetColor(0xfffd7923); //	���û���ɫ��ʹ���Զ�����ɫ
-    LCD_DrawImage(280, 218, 240, 83, Image_FANKE_240x83); // ��ʾLOGOͼƬ
+    LCD_SetColor(0xfffd7923); //	设置画笔色，使用自定义颜色
+    LCD_DrawImage(280, 218, 240, 83, Image_FANKE_240x83); // 显示LOGO图片
 
-    LCD_SetColor(LIGHT_YELLOW); //	���û���ɫ
+    LCD_SetColor(LIGHT_YELLOW); //	设置画笔色
     for (i = 0; i < 150; i++) {
-        LCD_FillRect(100, 330, 4 * i, 6); // ���ƾ��Σ�ʵ�ּ��׽�������Ч��
+        LCD_FillRect(100, 330, 4 * i, 6); // 绘制矩形，实现简易进度条的效果
         HAL_Delay(10);
     }
 
-    // �������>>>>>
+    // 矩形填充>>>>>
 
-    LCD_SetBackColor(LCD_BLACK); // ���ñ���ɫ
-    LCD_Clear();                 // ������ˢ����ɫ
+    LCD_SetBackColor(LCD_BLACK); // 设置背景色
+    LCD_Clear();                 // 清屏，刷背景色
 
     LCD_SetFont(&Font16);
     LCD_SetColor(LCD_BLUE);
@@ -570,48 +568,48 @@ void LCD_Test_FillRect(void)
 }
 
 /*************************************************************************************************
- *	�� �� ��:	LCD_Test_Color
+ *	函 数 名:	LCD_Test_Color
  *
- *	��������:	��ɫ����
+ *	函数功能:	颜色测试
  *
- *	˵    ��:	��
+ *	说    明:	无
  *************************************************************************************************/
 
 void LCD_Test_Color(void)
 {
     uint16_t i;
 
-    // ���Ƴ�ʼ���棬�������⡢LOGO�Լ�������>>>>>
+    // 绘制初始界面，包括标题、LOGO以及进度条>>>>>
 
-    LCD_SetBackColor(0xffB9EDF8); //	���ñ���ɫ��ʹ���Զ�����ɫ
-    LCD_Clear();                  //	������ˢ����ɫ
+    LCD_SetBackColor(0xffB9EDF8); //	设置背景色，使用自定义颜色
+    LCD_Clear();                  //	清屏，刷背景色
 
-    LCD_SetTextFont(&CH_Font32); // ����3232��������,ASCII�����ӦΪ3216
-    LCD_SetColor(0xff333333);    //	���û���ɫ��ʹ���Զ�����ɫ
-    LCD_DisplayText(334, 160, "��ɫ����"); // ��ʾ�ı�
+    LCD_SetTextFont(&CH_Font32); // 设置3232中文字体,ASCII字体对应为3216
+    LCD_SetColor(0xff333333);    //	设置画笔色，使用自定义颜色
+    LCD_DisplayText(334, 160, "颜色绘制"); // 显示文本
 
-    LCD_SetColor(0xfffd7923); //	���û���ɫ��ʹ���Զ�����ɫ
-    LCD_DrawImage(280, 218, 240, 83, Image_FANKE_240x83); // ��ʾLOGOͼƬ
+    LCD_SetColor(0xfffd7923); //	设置画笔色，使用自定义颜色
+    LCD_DrawImage(280, 218, 240, 83, Image_FANKE_240x83); // 显示LOGO图片
 
-    LCD_SetColor(LIGHT_YELLOW); //	���û���ɫ
+    LCD_SetColor(LIGHT_YELLOW); //	设置画笔色
     for (i = 0; i < 150; i++) {
-        LCD_FillRect(100, 330, 4 * i, 6); // ���ƾ��Σ�ʵ�ּ��׽�������Ч��
+        LCD_FillRect(100, 330, 4 * i, 6); // 绘制矩形，实现简易进度条的效果
         HAL_Delay(10);
     }
 
-    // ��ɫ����>>>>>
+    // 颜色测试>>>>>
 
-    LCD_SetBackColor(LCD_BLACK); // ���ñ���ɫ
-    LCD_Clear();                 // ������ˢ����ɫ
+    LCD_SetBackColor(LCD_BLACK); // 设置背景色
+    LCD_Clear();                 // 清屏，刷背景色
 
-    LCD_SetTextFont(&CH_Font32); // ����2424��������,ASCII�����ӦΪ2412
-    LCD_SetColor(LCD_WHITE);     // ���û�����ɫ
+    LCD_SetTextFont(&CH_Font32); // 设置2424中文字体,ASCII字体对应为2412
+    LCD_SetColor(LCD_WHITE);     // 设置画笔颜色
 
-    LCD_DisplayText(42, 70, "���İ��ͺţ�FK743M2");
-    LCD_DisplayText(42, 110, "��Ļ�ֱ��ʣ�800*480");
-    LCD_DisplayText(42, 150, "RGB����ɫɫ�ײ���");
+    LCD_DisplayText(42, 70, "核心板型号：FK743M2");
+    LCD_DisplayText(42, 110, "屏幕分辨率：800*480");
+    LCD_DisplayText(42, 150, "RGB三基色色阶测试");
 
-    // ʹ�û��ߺ�����������ɫɫ��
+    // 使用画线函数绘制三基色色条
     for (i = 0; i < 255; i++) {
         LCD_SetColor(LCD_RED - (i << 16));
         LCD_DrawLine(30 + 2 * i, 240, 30 + 2 * i, 280);
@@ -631,49 +629,49 @@ void LCD_Test_Color(void)
 }
 
 /*************************************************************************************************
- *	�� �� ��:	LCD_Test_GrahicTest
+ *	函 数 名:	LCD_Test_GrahicTest
  *
- *	��������:	2Dͼ�λ���
+ *	函数功能:	2D图形绘制
  *
- *	˵    ��:	��
+ *	说    明:	无
  *************************************************************************************************/
 
 void LCD_Test_GrahicTest(void)
 {
-    uint16_t time = 80; // ��ʱʱ��
-    uint16_t i;         // ��������
+    uint16_t time = 80; // 延时时间
+    uint16_t i;         // 计数变量
 
-    // ���Ƴ�ʼ���棬�������⡢LOGO�Լ�������>>>>>
+    // 绘制初始界面，包括标题、LOGO以及进度条>>>>>
 
-    LCD_SetBackColor(0xffB9EDF8); //	���ñ���ɫ��ʹ���Զ�����ɫ
-    LCD_Clear();                  //	������ˢ����ɫ
+    LCD_SetBackColor(0xffB9EDF8); //	设置背景色，使用自定义颜色
+    LCD_Clear();                  //	清屏，刷背景色
 
-    LCD_SetTextFont(&CH_Font32); // ����3232��������,ASCII�����ӦΪ3216
-    LCD_SetColor(0xff333333);    //	���û���ɫ��ʹ���Զ�����ɫ
-    LCD_DisplayText(334, 160, "��ͼ����"); // ��ʾ�ı�
+    LCD_SetTextFont(&CH_Font32); // 设置3232中文字体,ASCII字体对应为3216
+    LCD_SetColor(0xff333333);    //	设置画笔色，使用自定义颜色
+    LCD_DisplayText(334, 160, "绘图测试"); // 显示文本
 
-    LCD_SetColor(0xfffd7923); //	���û���ɫ��ʹ���Զ�����ɫ
-    LCD_DrawImage(280, 218, 240, 83, Image_FANKE_240x83); // ��ʾLOGOͼƬ
+    LCD_SetColor(0xfffd7923); //	设置画笔色，使用自定义颜色
+    LCD_DrawImage(280, 218, 240, 83, Image_FANKE_240x83); // 显示LOGO图片
 
-    LCD_SetColor(LIGHT_YELLOW); //	���û���ɫ
+    LCD_SetColor(LIGHT_YELLOW); //	设置画笔色
     for (i = 0; i < 150; i++) {
-        LCD_FillRect(100, 330, 4 * i, 6); // ���ƾ��Σ�ʵ�ּ��׽�������Ч��
+        LCD_FillRect(100, 330, 4 * i, 6); // 绘制矩形，实现简易进度条的效果
         HAL_Delay(10);
     }
 
-    // 2Dͼ�λ���>>>>>>>
+    // 2D图形绘制>>>>>>>
 
-    LCD_SetBackColor(LCD_BLACK); // ���ñ���ɫ
-    LCD_Clear();                 // ������ˢ����ɫ
+    LCD_SetBackColor(LCD_BLACK); // 设置背景色
+    LCD_Clear();                 // 清屏，刷背景色
 
     LCD_SetColor(LCD_WHITE);
-    LCD_DrawLine(0, 0, 799, 0); // ����Ļ�ı߽续��
+    LCD_DrawLine(0, 0, 799, 0); // 在屏幕的边界画线
     LCD_DrawLine(0, 479, 799, 479);
     LCD_DrawLine(0, 0, 0, 479);
     LCD_DrawLine(799, 0, 799, 479);
 
     LCD_SetColor(LCD_RED);
-    LCD_FillCircle(120, 350, 80); // ���Բ��
+    LCD_FillCircle(120, 350, 80); // 填充圆形
     LCD_SetColor(LCD_GREEN);
     LCD_FillCircle(170, 350, 80);
     LCD_SetColor(LCD_BLUE);
@@ -681,7 +679,7 @@ void LCD_Test_GrahicTest(void)
 
     LCD_SetColor(LIGHT_GREY);
     LCD_DrawLine(5, 5, 400, 5);
-    HAL_Delay(time); // ��ֱ��
+    HAL_Delay(time); // 画直线
     LCD_DrawLine(5, 10, 300, 10);
     HAL_Delay(time);
     LCD_DrawLine(5, 15, 200, 15);
@@ -691,7 +689,7 @@ void LCD_Test_GrahicTest(void)
 
     LCD_SetColor(LIGHT_CYAN);
     LCD_DrawCircle(600, 120, 100);
-    HAL_Delay(time); // ����Բ��
+    HAL_Delay(time); // 绘制圆形
     LCD_DrawCircle(600, 120, 80);
     HAL_Delay(time);
     LCD_DrawCircle(600, 120, 60);
@@ -701,7 +699,7 @@ void LCD_Test_GrahicTest(void)
 
     LCD_SetColor(LCD_RED);
     LCD_DrawRect(5, 35, 400, 150);
-    HAL_Delay(time); // ���ƾ���
+    HAL_Delay(time); // 绘制矩形
     LCD_DrawRect(30, 50, 350, 120);
     HAL_Delay(time);
     LCD_DrawRect(55, 65, 300, 90);
@@ -711,7 +709,7 @@ void LCD_Test_GrahicTest(void)
 
     LCD_SetColor(LIGHT_MAGENTA);
     LCD_DrawEllipse(590, 350, 200, 100);
-    HAL_Delay(time); // ������Բ
+    HAL_Delay(time); // 绘制椭圆
     LCD_DrawEllipse(590, 350, 170, 80);
     HAL_Delay(time);
     LCD_DrawEllipse(590, 350, 140, 60);
@@ -722,72 +720,72 @@ void LCD_Test_GrahicTest(void)
     HAL_Delay(2000);
 }
 /*************************************************************************************************
- *	�� �� ��:	LCD_Test_Image
+ *	函 数 名:	LCD_Test_Image
  *
- *	��������:	ͼƬ��ʾ����
+ *	函数功能:	图片显示测试
  *
- *	˵    ��:	��
+ *	说    明:	无
  *************************************************************************************************/
 
 void LCD_Test_Image(void)
 {
-    uint16_t i; // ��������
+    uint16_t i; // 计数变量
 
-    // ���Ƴ�ʼ���棬�������⡢LOGO�Լ�������>>>>>
+    // 绘制初始界面，包括标题、LOGO以及进度条>>>>>
 
-    LCD_SetBackColor(0xffB9EDF8); //	���ñ���ɫ��ʹ���Զ�����ɫ
-    LCD_Clear();                  //	������ˢ����ɫ
+    LCD_SetBackColor(0xffB9EDF8); //	设置背景色，使用自定义颜色
+    LCD_Clear();                  //	清屏，刷背景色
 
-    LCD_SetTextFont(&CH_Font32); // ����3232��������,ASCII�����ӦΪ3216
-    LCD_SetColor(0xff333333);    //	���û���ɫ��ʹ���Զ�����ɫ
-    LCD_DisplayText(334, 160, "ͼƬ����"); // ��ʾ�ı�
+    LCD_SetTextFont(&CH_Font32); // 设置3232中文字体,ASCII字体对应为3216
+    LCD_SetColor(0xff333333);    //	设置画笔色，使用自定义颜色
+    LCD_DisplayText(334, 160, "图片绘制"); // 显示文本
 
-    LCD_SetColor(0xfffd7923); //	���û���ɫ��ʹ���Զ�����ɫ
-    LCD_DrawImage(280, 218, 240, 83, Image_FANKE_240x83); // ��ʾLOGOͼƬ
+    LCD_SetColor(0xfffd7923); //	设置画笔色，使用自定义颜色
+    LCD_DrawImage(280, 218, 240, 83, Image_FANKE_240x83); // 显示LOGO图片
 
-    LCD_SetColor(LIGHT_YELLOW); //	���û���ɫ
+    LCD_SetColor(LIGHT_YELLOW); //	设置画笔色
     for (i = 0; i < 150; i++) {
-        LCD_FillRect(100, 330, 4 * i, 6); // ���ƾ��Σ�ʵ�ּ��׽�������Ч��
+        LCD_FillRect(100, 330, 4 * i, 6); // 绘制矩形，实现简易进度条的效果
         HAL_Delay(10);
     }
-    // ͼƬ����>>>>>>>
+    // 图片绘制>>>>>>>
 
-    LCD_SetBackColor(LCD_BLACK); //	���ñ���ɫ
-    LCD_Clear();                 // ����
+    LCD_SetBackColor(LCD_BLACK); //	设置背景色
+    LCD_Clear();                 // 清屏
 
     LCD_SetColor(0xffF6E58D);
-    LCD_DrawImage(185, 116, 83, 83, Image_Android_83x83); // ��ʾͼƬ
+    LCD_DrawImage(185, 116, 83, 83, Image_Android_83x83); // 显示图片
 
     LCD_SetColor(0xffFFAB91);
-    LCD_DrawImage(359, 124, 83, 83, Image_Cloud_83x83); // ��ʾͼƬ
+    LCD_DrawImage(359, 124, 83, 83, Image_Cloud_83x83); // 显示图片
 
     LCD_SetColor(0xff8AC6D1);
-    LCD_DrawImage(533, 124, 83, 83, Image_Folder_83x83); // ��ʾͼƬ
+    LCD_DrawImage(533, 124, 83, 83, Image_Folder_83x83); // 显示图片
 
     LCD_SetColor(0xffDFF9FB);
-    LCD_DrawImage(185, 270, 83, 83, Image_Message_83x83); // ��ʾͼƬ
+    LCD_DrawImage(185, 270, 83, 83, Image_Message_83x83); // 显示图片
 
     LCD_SetColor(0xff9DD3A8);
-    LCD_DrawImage(359, 270, 83, 83, Image_Toys_83x83); // ��ʾͼƬ
+    LCD_DrawImage(359, 270, 83, 83, Image_Toys_83x83); // 显示图片
 
     LCD_SetColor(0xffFF8753);
-    LCD_DrawImage(533, 270, 83, 83, Image_Video_83x83); // ��ʾͼƬ
+    LCD_DrawImage(533, 270, 83, 83, Image_Video_83x83); // 显示图片
 
     HAL_Delay(2000);
 
-    LCD_SetBackColor(LCD_WHITE);                            //	���ñ���ɫ
-    LCD_Clear();                                            // ����
-    LCD_SetColor(LCD_BLACK);                                // ���û���
-    LCD_DrawImage(159, 120, 480, 239, Image_FANKE_480x239); // ��ʾͼƬ
+    LCD_SetBackColor(LCD_WHITE);                            //	设置背景色
+    LCD_Clear();                                            // 清屏
+    LCD_SetColor(LCD_BLACK);                                // 设置画笔
+    LCD_DrawImage(159, 120, 480, 239, Image_FANKE_480x239); // 显示图片
     HAL_Delay(2000);
 }
 
 /*************************************************************************************************
- *	�� �� ��:	LCD_Test_Vertical
+ *	函 数 名:	LCD_Test_Vertical
  *
- *	��������:	��������
+ *	函数功能:	竖屏测试
  *
- *	˵    ��:	��
+ *	说    明:	无
  *************************************************************************************************/
 
 void LCD_Test_Vertical(void)
@@ -795,30 +793,30 @@ void LCD_Test_Vertical(void)
     uint16_t i;
     uint16_t time = 100;
 
-    LCD_DisplayDirection(Direction_V); // �л���������ʾ
+    LCD_DisplayDirection(Direction_V); // 切换到竖屏显示
 
-    // ���Ƴ�ʼ���棬�������⡢LOGO�Լ�������>>>>>
+    // 绘制初始界面，包括标题、LOGO以及进度条>>>>>
 
-    LCD_SetBackColor(0xffB9EDF8); //	���ñ���ɫ
-    LCD_Clear();                  //	������ˢ����ɫ
+    LCD_SetBackColor(0xffB9EDF8); //	设置背景色
+    LCD_Clear();                  //	清屏，刷背景色
 
-    LCD_SetTextFont(&CH_Font32); // ����3232��������,ASCII�����ӦΪ3216
-    LCD_SetColor(0xff333333);    //	���û���ɫ
-    LCD_DisplayText(180, 260, "������ʾ"); // ��ʾ�ı�
+    LCD_SetTextFont(&CH_Font32); // 设置3232中文字体,ASCII字体对应为3216
+    LCD_SetColor(0xff333333);    //	设置画笔色
+    LCD_DisplayText(180, 260, "竖屏显示"); // 显示文本
 
-    LCD_SetColor(0xfffd7923);                             //	���û���ɫ
-    LCD_DrawImage(120, 320, 240, 83, Image_FANKE_240x83); // ��ʾLOGOͼƬ
+    LCD_SetColor(0xfffd7923);                             //	设置画笔色
+    LCD_DrawImage(120, 320, 240, 83, Image_FANKE_240x83); // 显示LOGO图片
 
-    LCD_SetColor(LIGHT_YELLOW); //	���û���ɫ
+    LCD_SetColor(LIGHT_YELLOW); //	设置画笔色
     for (i = 0; i < 130; i++) {
-        LCD_FillRect(45, 450, 3 * i, 6); // ���ƾ��Σ�ʵ�ּ��׽�������Ч��
+        LCD_FillRect(45, 450, 3 * i, 6); // 绘制矩形，实现简易进度条的效果
         HAL_Delay(10);
     }
 
-    // ������������>>>>>>>
+    // 绘制其它内容>>>>>>>
 
-    LCD_SetBackColor(LCD_BLACK); // ���ñ���ɫ
-    LCD_Clear();                 // ������ˢ����ɫ
+    LCD_SetBackColor(LCD_BLACK); // 设置背景色
+    LCD_Clear();                 // 清屏，刷背景色
 
     LCD_SetColor(LCD_WHITE);
     LCD_SetFont(&Font32);
@@ -854,46 +852,46 @@ void LCD_Test_Vertical(void)
     LCD_DisplayString(0, 176, "!#$%&'()*+,-.0123456789:;<=>");
     HAL_Delay(time);
 
-    LCD_SetTextFont(&CH_Font24); // ����2424��������,ASCII�����ӦΪ2412
-    LCD_SetColor(LCD_YELLOW);    // ���û��ʣ���ɫ
-    LCD_DisplayText(0, 230, "�ı���ʾ������ʾ���ĺ�ASCII�ַ���");
-    LCD_DisplayText(0, 260, "�û��ɸ������󣬶��ֿ����������ɾ��");
+    LCD_SetTextFont(&CH_Font24); // 设置2424中文字体,ASCII字体对应为2412
+    LCD_SetColor(LCD_YELLOW);    // 设置画笔，黄色
+    LCD_DisplayText(0, 230, "文本显示，可显示中文和ASCII字符集");
+    LCD_DisplayText(0, 260, "用户可根据需求，对字库进行增添和删减");
 
-    LCD_SetTextFont(&CH_Font12); // ����1212��������,ASCII�����ӦΪ1206
-    LCD_SetColor(0Xff8AC6D1);    // ���û���
-    LCD_DisplayText(28, 310, "1212�������壺���ͿƼ�");
+    LCD_SetTextFont(&CH_Font12); // 设置1212中文字体,ASCII字体对应为1206
+    LCD_SetColor(0Xff8AC6D1);    // 设置画笔
+    LCD_DisplayText(28, 310, "1212中文字体：反客科技");
 
-    LCD_SetTextFont(&CH_Font16); // ����1616��������,ASCII�����ӦΪ1608
-    LCD_SetColor(0XffC5E1A5);    // ���û���
-    LCD_DisplayText(28, 330, "1616�������壺���ͿƼ�");
+    LCD_SetTextFont(&CH_Font16); // 设置1616中文字体,ASCII字体对应为1608
+    LCD_SetColor(0XffC5E1A5);    // 设置画笔
+    LCD_DisplayText(28, 330, "1616中文字体：反客科技");
 
-    LCD_SetTextFont(&CH_Font20); // ����2020��������,ASCII�����ӦΪ2010
-    LCD_SetColor(0Xff2D248A);    // ���û���
-    LCD_DisplayText(28, 355, "2020�������壺���ͿƼ�");
+    LCD_SetTextFont(&CH_Font20); // 设置2020中文字体,ASCII字体对应为2010
+    LCD_SetColor(0Xff2D248A);    // 设置画笔
+    LCD_DisplayText(28, 355, "2020中文字体：反客科技");
 
-    LCD_SetTextFont(&CH_Font24); // ����2424��������,ASCII�����ӦΪ2412
-    LCD_SetColor(0XffFF585D);    // ���û���
-    LCD_DisplayText(28, 385, "2424�������壺���ͿƼ�");
+    LCD_SetTextFont(&CH_Font24); // 设置2424中文字体,ASCII字体对应为2412
+    LCD_SetColor(0XffFF585D);    // 设置画笔
+    LCD_DisplayText(28, 385, "2424中文字体：反客科技");
 
-    LCD_SetTextFont(&CH_Font32); // ����3232��������,ASCII�����ӦΪ3216
-    LCD_SetColor(0XffF6003C);    // ���û���
-    LCD_DisplayText(28, 425, "3232�������壺���ͿƼ�");
+    LCD_SetTextFont(&CH_Font32); // 设置3232中文字体,ASCII字体对应为3216
+    LCD_SetColor(0XffF6003C);    // 设置画笔
+    LCD_DisplayText(28, 425, "3232中文字体：反客科技");
 
-    LCD_SetTextFont(&CH_Font32); // ����3232��������,ASCII�����ӦΪ3216
+    LCD_SetTextFont(&CH_Font32); // 设置3232中文字体,ASCII字体对应为3216
     LCD_SetColor(0xff587058);
-    LCD_DisplayText(40, 500, "STM32H743 LTDC ����");
-    LCD_DisplayText(40, 500 + 40, "���İ��ͺţ�FK743M2");
-    LCD_DisplayText(40, 500 + 80, "��Ļ�ֱ��ʣ�800*480");
+    LCD_DisplayText(40, 500, "STM32H743 LTDC 测试");
+    LCD_DisplayText(40, 500 + 40, "核心板型号：FK743M2");
+    LCD_DisplayText(40, 500 + 80, "屏幕分辨率：800*480");
 
     HAL_Delay(2000);
 
     time = 80;
 
-    LCD_SetBackColor(LCD_BLACK); // ���ñ���ɫ
-    LCD_Clear();                 // ������ˢ����ɫ
+    LCD_SetBackColor(LCD_BLACK); // 设置背景色
+    LCD_Clear();                 // 清屏，刷背景色
 
     LCD_SetColor(LCD_RED);
-    LCD_FillCircle(120, 285, 80); // ���Բ
+    LCD_FillCircle(120, 285, 80); // 填充圆
     LCD_SetColor(LCD_GREEN);
     LCD_FillCircle(170, 285, 80);
     LCD_SetColor(LCD_BLUE);
@@ -901,7 +899,7 @@ void LCD_Test_Vertical(void)
 
     LCD_SetColor(LCD_RED);
     LCD_DrawRect(5, 35, 350, 150);
-    HAL_Delay(time); // ������
+    HAL_Delay(time); // 画矩形
     LCD_DrawRect(30, 50, 300, 120);
     HAL_Delay(time);
     LCD_DrawRect(55, 65, 250, 90);
@@ -911,7 +909,7 @@ void LCD_Test_Vertical(void)
 
     LCD_SetColor(LIGHT_GREY);
     LCD_DrawLine(5, 5, 400, 5);
-    HAL_Delay(time); // ����
+    HAL_Delay(time); // 画线
     LCD_DrawLine(5, 10, 300, 10);
     HAL_Delay(time);
     LCD_DrawLine(5, 15, 200, 15);
@@ -921,7 +919,7 @@ void LCD_Test_Vertical(void)
 
     LCD_SetColor(LCD_YELLOW);
     LCD_DrawCircle(100, 480, 80);
-    HAL_Delay(time); // ��Բ
+    HAL_Delay(time); // 画圆
     LCD_SetColor(LCD_CYAN);
     LCD_DrawCircle(150, 480, 80);
     HAL_Delay(time);
@@ -934,7 +932,7 @@ void LCD_Test_Vertical(void)
 
     LCD_SetColor(LIGHT_MAGENTA);
     LCD_DrawEllipse(200, 680, 200, 100);
-    HAL_Delay(time); // ����Բ
+    HAL_Delay(time); // 画椭圆
     LCD_DrawEllipse(200, 680, 170, 80);
     HAL_Delay(time);
     LCD_DrawEllipse(200, 680, 140, 60);
@@ -944,8 +942,8 @@ void LCD_Test_Vertical(void)
 
     HAL_Delay(2000);
 
-    LCD_SetBackColor(LCD_BLACK); // ���ñ���ɫ
-    LCD_Clear();                 // ������ˢ����ɫ
+    LCD_SetBackColor(LCD_BLACK); // 设置背景色
+    LCD_Clear();                 // 清屏，刷背景色
 
     LCD_SetFont(&Font16);
     LCD_SetColor(LCD_BLUE);
@@ -1014,7 +1012,7 @@ void LCD_Test_Vertical(void)
     LCD_FillRect(150, 443, 250, 16);
     LCD_DisplayString(0, 443, "DARK_GREY");
 
-    // ˢ��ɫ��
+    // 刷颜色条
     for (i = 0; i < 255; i++) {
         LCD_SetColor(LCD_RED - (i << 16));
         LCD_DrawLine(150 + i, 465, 150 + i, 481);
@@ -1089,5 +1087,5 @@ void LCD_Test_Vertical(void)
     LCD_DisplayString(0, 773, "0x800080");
 
     HAL_Delay(3000);
-    LCD_DisplayDirection(Direction_H); // �л��غ�����ʾ
+    LCD_DisplayDirection(Direction_H); // 切换回横屏显示
 }

@@ -1,0 +1,228 @@
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "D:/ARM_Toolchain/cmake/share/cmake-4.0/Modules/CMakeDetermineSystem.cmake:200 (message)"
+      - "CMakeLists.txt:31 (project)"
+    message: |
+      The target system is: Generic -  - arm
+      The host system is: Windows - 10.0.26100 - AMD64
+  -
+    kind: "message-v1"
+    backtrace:
+      - "D:/ARM_Toolchain/cmake/share/cmake-4.0/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "D:/ARM_Toolchain/cmake/share/cmake-4.0/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "D:/ARM_Toolchain/cmake/share/cmake-4.0/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:31 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+      Compiler: D:/ARM_Toolchain/ATfE-20.1.0/bin/clang 
+      Build flags: --target=armv7m-none-eabi;-mfpu=fpv5-d16;-mfloat-abi=hard;-Wall;-fdata-sections;-ffunction-sections
+      Id flags:  
+      
+      The output was:
+      1
+      ld.lld: error: undefined symbol: __arm32_tls_tcb_offset
+      >>> referenced by tls.c
+      >>>               libc_picolib_machine_arm_tls.c.o:(_set_tls) in archive D:\\ARM_Toolchain\\ATfE-20.1.0\\bin\\..\\lib\\clang-runtimes/arm-none-eabi/armv7m_hard_fpv5_d16_exn_rtti\\lib\\libc.a
+      
+      ld.lld: error: undefined symbol: __stack
+      >>> referenced by interrupt.c
+      >>>               libc_picolib_machine_arm_interrupt.c.o:(__weak_interrupt_vector) in archive D:\\ARM_Toolchain\\ATfE-20.1.0\\bin\\..\\lib\\clang-runtimes/arm-none-eabi/armv7m_hard_fpv5_d16_exn_rtti\\lib\\libc.a
+      
+      ld.lld: error: undefined symbol: __data_start
+      >>> referenced by crt0.c
+      >>>               D:\\ARM_Toolchain\\ATfE-20.1.0\\bin\\..\\lib\\clang-runtimes/arm-none-eabi/armv7m_hard_fpv5_d16_exn_rtti\\lib\\crt0.o:(_start)
+      
+      ld.lld: error: undefined symbol: __data_source
+      >>> referenced by crt0.c
+      >>>               D:\\ARM_Toolchain\\ATfE-20.1.0\\bin\\..\\lib\\clang-runtimes/arm-none-eabi/armv7m_hard_fpv5_d16_exn_rtti\\lib\\crt0.o:(_start)
+      
+      ld.lld: error: undefined symbol: __data_size
+      >>> referenced by crt0.c
+      >>>               D:\\ARM_Toolchain\\ATfE-20.1.0\\bin\\..\\lib\\clang-runtimes/arm-none-eabi/armv7m_hard_fpv5_d16_exn_rtti\\lib\\crt0.o:(_start)
+      
+      ld.lld: error: undefined symbol: __bss_size
+      >>> referenced by crt0.c
+      >>>               D:\\ARM_Toolchain\\ATfE-20.1.0\\bin\\..\\lib\\clang-runtimes/arm-none-eabi/armv7m_hard_fpv5_d16_exn_rtti\\lib\\crt0.o:(_start)
+      
+      ld.lld: error: undefined symbol: __tls_base
+      >>> referenced by crt0.c
+      >>>               D:\\ARM_Toolchain\\ATfE-20.1.0\\bin\\..\\lib\\clang-runtimes/arm-none-eabi/armv7m_hard_fpv5_d16_exn_rtti\\lib\\crt0.o:(_start)
+      clang: error: ld.lld command failed with exit code 1 (use -v to see invocation)
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "D:/ARM_Toolchain/cmake/share/cmake-4.0/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "D:/ARM_Toolchain/cmake/share/cmake-4.0/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "D:/ARM_Toolchain/cmake/share/cmake-4.0/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:31 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+      Compiler: D:/ARM_Toolchain/ATfE-20.1.0/bin/clang 
+      Build flags: --target=armv7m-none-eabi;-mfpu=fpv5-d16;-mfloat-abi=hard;-Wall;-fdata-sections;-ffunction-sections
+      Id flags: -c 
+      
+      The output was:
+      0
+      
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.o"
+      
+      The C compiler identification is Clang, found in:
+        D:/STM32/CMake_Project/ATfE_test/CMakeFiles/4.0.2/CompilerIdC/CMakeCCompilerId.o
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "D:/ARM_Toolchain/cmake/share/cmake-4.0/Modules/CMakeDetermineCompilerId.cmake:1284 (message)"
+      - "D:/ARM_Toolchain/cmake/share/cmake-4.0/Modules/CMakeDetermineASMCompiler.cmake:139 (CMAKE_DETERMINE_COMPILER_ID_VENDOR)"
+      - "CMakeLists.txt:31 (project)"
+    message: |
+      Checking whether the ASM compiler is GNU using "--version" did not match "(GNU assembler)|(GCC)|(Free Software Foundation)":
+      clang version 20.1.0
+      Target: aarch64-unknown-linux-gnu
+      Thread model: posix
+      InstalledDir: D:\\ARM_Toolchain\\ATfE-20.1.0\\bin
+      Arm Toolchain ID: E0077 (c9a8373c)
+  -
+    kind: "message-v1"
+    backtrace:
+      - "D:/ARM_Toolchain/cmake/share/cmake-4.0/Modules/CMakeDetermineCompilerId.cmake:1284 (message)"
+      - "D:/ARM_Toolchain/cmake/share/cmake-4.0/Modules/CMakeDetermineASMCompiler.cmake:139 (CMAKE_DETERMINE_COMPILER_ID_VENDOR)"
+      - "CMakeLists.txt:31 (project)"
+    message: |
+      Checking whether the ASM compiler is AppleClang using "--version" did not match "(Apple (clang|LLVM) version)":
+      clang version 20.1.0
+      Target: aarch64-unknown-linux-gnu
+      Thread model: posix
+      InstalledDir: D:\\ARM_Toolchain\\ATfE-20.1.0\\bin
+      Arm Toolchain ID: E0077 (c9a8373c)
+  -
+    kind: "message-v1"
+    backtrace:
+      - "D:/ARM_Toolchain/cmake/share/cmake-4.0/Modules/CMakeDetermineCompilerId.cmake:1271 (message)"
+      - "D:/ARM_Toolchain/cmake/share/cmake-4.0/Modules/CMakeDetermineASMCompiler.cmake:139 (CMAKE_DETERMINE_COMPILER_ID_VENDOR)"
+      - "CMakeLists.txt:31 (project)"
+    message: |
+      Checking whether the ASM compiler is Clang using "--version" matched "(clang version)":
+      clang version 20.1.0
+      Target: aarch64-unknown-linux-gnu
+      Thread model: posix
+      InstalledDir: D:\\ARM_Toolchain\\ATfE-20.1.0\\bin
+      Arm Toolchain ID: E0077 (c9a8373c)
+...
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "D:/ARM_Toolchain/cmake/share/cmake-4.0/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "D:/ARM_Toolchain/cmake/share/cmake-4.0/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "D:/ARM_Toolchain/cmake/share/cmake-4.0/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:31 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+      Compiler: D:/ARM_Toolchain/ATfE-20.1.0/bin/clang 
+      Build flags: --target=armv7m-none-eabi;-mfpu=fpv5-d16;-mfloat-abi=hard;-Wall;-fdata-sections;-ffunction-sections
+      Id flags:  
+      
+      The output was:
+      1
+      ld.lld: error: undefined symbol: __stack
+      >>> referenced by interrupt.c
+      >>>               libc_picolib_machine_arm_interrupt.c.o:(__weak_interrupt_vector) in archive D:\\ARM_Toolchain\\ATfE-20.1.0\\bin\\..\\lib\\clang-runtimes/arm-none-eabi/armv7m_hard_fpv5_d16_exn_rtti\\lib\\libc.a
+      
+      ld.lld: error: undefined symbol: __data_start
+      >>> referenced by crt0.c
+      >>>               D:\\ARM_Toolchain\\ATfE-20.1.0\\bin\\..\\lib\\clang-runtimes/arm-none-eabi/armv7m_hard_fpv5_d16_exn_rtti\\lib\\crt0.o:(_start)
+      
+      ld.lld: error: undefined symbol: __data_source
+      >>> referenced by crt0.c
+      >>>               D:\\ARM_Toolchain\\ATfE-20.1.0\\bin\\..\\lib\\clang-runtimes/arm-none-eabi/armv7m_hard_fpv5_d16_exn_rtti\\lib\\crt0.o:(_start)
+      
+      ld.lld: error: undefined symbol: __data_size
+      >>> referenced by crt0.c
+      >>>               D:\\ARM_Toolchain\\ATfE-20.1.0\\bin\\..\\lib\\clang-runtimes/arm-none-eabi/armv7m_hard_fpv5_d16_exn_rtti\\lib\\crt0.o:(_start)
+      
+      ld.lld: error: undefined symbol: __bss_size
+      >>> referenced by crt0.c
+      >>>               D:\\ARM_Toolchain\\ATfE-20.1.0\\bin\\..\\lib\\clang-runtimes/arm-none-eabi/armv7m_hard_fpv5_d16_exn_rtti\\lib\\crt0.o:(_start)
+      
+      ld.lld: error: undefined symbol: __tls_base
+      >>> referenced by crt0.c
+      >>>               D:\\ARM_Toolchain\\ATfE-20.1.0\\bin\\..\\lib\\clang-runtimes/arm-none-eabi/armv7m_hard_fpv5_d16_exn_rtti\\lib\\crt0.o:(_start)
+      
+      ld.lld: error: undefined symbol: __arm32_tls_tcb_offset
+      >>> referenced by tls.c
+      >>>               libc_picolib_machine_arm_tls.c.o:(_set_tls) in archive D:\\ARM_Toolchain\\ATfE-20.1.0\\bin\\..\\lib\\clang-runtimes/arm-none-eabi/armv7m_hard_fpv5_d16_exn_rtti\\lib\\libc.a
+      clang: error: ld.lld command failed with exit code 1 (use -v to see invocation)
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "D:/ARM_Toolchain/cmake/share/cmake-4.0/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "D:/ARM_Toolchain/cmake/share/cmake-4.0/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "D:/ARM_Toolchain/cmake/share/cmake-4.0/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:31 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+      Compiler: D:/ARM_Toolchain/ATfE-20.1.0/bin/clang 
+      Build flags: --target=armv7m-none-eabi;-mfpu=fpv5-d16;-mfloat-abi=hard;-Wall;-fdata-sections;-ffunction-sections
+      Id flags: -c 
+      
+      The output was:
+      0
+      
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.o"
+      
+      The C compiler identification is Clang, found in:
+        D:/STM32/CMake_Project/ATfE_test/CMakeFiles/4.0.2/CompilerIdC/CMakeCCompilerId.o
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "D:/ARM_Toolchain/cmake/share/cmake-4.0/Modules/CMakeDetermineCompilerId.cmake:1284 (message)"
+      - "D:/ARM_Toolchain/cmake/share/cmake-4.0/Modules/CMakeDetermineASMCompiler.cmake:139 (CMAKE_DETERMINE_COMPILER_ID_VENDOR)"
+      - "CMakeLists.txt:31 (project)"
+    message: |
+      Checking whether the ASM compiler is GNU using "--version" did not match "(GNU assembler)|(GCC)|(Free Software Foundation)":
+      clang version 20.1.0
+      Target: aarch64-unknown-linux-gnu
+      Thread model: posix
+      InstalledDir: D:\\ARM_Toolchain\\ATfE-20.1.0\\bin
+      Arm Toolchain ID: E0077 (c9a8373c)
+  -
+    kind: "message-v1"
+    backtrace:
+      - "D:/ARM_Toolchain/cmake/share/cmake-4.0/Modules/CMakeDetermineCompilerId.cmake:1284 (message)"
+      - "D:/ARM_Toolchain/cmake/share/cmake-4.0/Modules/CMakeDetermineASMCompiler.cmake:139 (CMAKE_DETERMINE_COMPILER_ID_VENDOR)"
+      - "CMakeLists.txt:31 (project)"
+    message: |
+      Checking whether the ASM compiler is AppleClang using "--version" did not match "(Apple (clang|LLVM) version)":
+      clang version 20.1.0
+      Target: aarch64-unknown-linux-gnu
+      Thread model: posix
+      InstalledDir: D:\\ARM_Toolchain\\ATfE-20.1.0\\bin
+      Arm Toolchain ID: E0077 (c9a8373c)
+  -
+    kind: "message-v1"
+    backtrace:
+      - "D:/ARM_Toolchain/cmake/share/cmake-4.0/Modules/CMakeDetermineCompilerId.cmake:1271 (message)"
+      - "D:/ARM_Toolchain/cmake/share/cmake-4.0/Modules/CMakeDetermineASMCompiler.cmake:139 (CMAKE_DETERMINE_COMPILER_ID_VENDOR)"
+      - "CMakeLists.txt:31 (project)"
+    message: |
+      Checking whether the ASM compiler is Clang using "--version" matched "(clang version)":
+      clang version 20.1.0
+      Target: aarch64-unknown-linux-gnu
+      Thread model: posix
+      InstalledDir: D:\\ARM_Toolchain\\ATfE-20.1.0\\bin
+      Arm Toolchain ID: E0077 (c9a8373c)
+...

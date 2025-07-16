@@ -21,7 +21,7 @@ endif()
 set(CMAKE_PROJECT_NAME STM32H743IIT6)
 
 # Include toolchain file
-include("cmake/ATfE.cmake")
+# include("cmake/ATfE.cmake")
 
 # Enable compile command to ease indexing with e.g. clangd
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -42,30 +42,29 @@ add_subdirectory(Drivers)
 
 # Link directories setup
 target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
-					# Add user defined library search paths
+	# Add user defined library search paths
 )
 
 # Add sources to executable
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
-					# Add user sources here
+	# Add user sources here
 )
 
 # Add include paths
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
-					# Add user defined include paths
+	# Add user defined include paths
 )
 
 # Add project symbols (macros)
 target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
-					# Add user defined symbols
+	# Add user defined symbols
 )
 
 # Add linked libraries
 target_link_libraries(${CMAKE_PROJECT_NAME}
-				core
-				user_drivers
-				drivers
-					#lvgl
-
-					# Add user defined libraries
+	core
+	user_drivers
+	drivers
+	#lvgl
+	# Add user defined libraries
 )

@@ -14,6 +14,7 @@
 4. Clang+llvm: LSP、提供函数跳转等功能;
 
 编译器为：ATfE(Arm Toolchain for Embeded)，Github 仓库地址：<https://github.com/arm/arm-toolchain>
+在仓库页面可找到 ATfE 的 README。
 
 在使用前务必确定已经安装上述工具以及编译器，同时，还需要修改 cmake/ATfE.cmake 文件中的 ATfE 路径。
 
