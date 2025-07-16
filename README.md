@@ -1,4 +1,4 @@
-# ATfE_test
+# STM32H743IIT6_template_ATfE
 
 基于 ATfE 编译器的 STM32H743IIT6 测试项目，源文件由 CubeMX 生成的 CMake、starm-clang 的项目移植而来。 \
 由于学业问题，并未进行全方位测试（例如 RTOS 下的使用情况），如果在使用过程中发现任何问题，欢迎提交 issue 或通过 email 联系。\
