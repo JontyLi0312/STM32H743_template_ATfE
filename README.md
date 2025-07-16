@@ -1,16 +1,16 @@
 # ATfE_test
 
-基于 ATfE 编译器的 STM32H743IIT6 测试项目，基于CubeMX 生成的 CMake、starm-clang 的项目移植而来。 \
-由于学业问题，并未进行全方位测试（例如 RTOS 下的使用情况），如果在使用过程中发现任何问题，欢迎提交 issue 或者通过 email 联系。\
+基于 ATfE 编译器的 STM32H743IIT6 测试项目，源文件由 CubeMX 生成的 CMake、starm-clang 的项目移植而来。 \
+由于学业问题，并未进行全方位测试（例如 RTOS 下的使用情况），如果在使用过程中发现任何问题，欢迎提交 issue 或通过 email 联系。\
 主控为 STM32H743IIT6，使用的是反客科技的最小系统板，显示设备为 RGB 接口的 TFT 屏幕，相关引脚请通过工程下的 CubeMx 文件查看，工程默认使用 CMSIS-Dap 进行烧录。
 
 ## 工具链
 
-此工程使用的工具有：CMake、Ninja、Openocd、Clang+llvm。 \
+此工程使用的工具有：CMake、Ninja、OpenOCD、Clang+llvm。 \
 
 1. CMake: 构建系统生成器，用于管理项目构建过程、抽象构建细节、生成原生构建文件、处理交叉编译;
 2. Ninja: 构建系统生成器，相比 make 可以更快解析输入文件;
-3. Openocd: 开源调试、烧录软件;
+3. OpenOCD: 开源调试、烧录软件;
 4. Clang+llvm: LSP、提供函数跳转等功能;
 
 使用的编译器为：ATfE(Arm Toolchain for Embeded)，Github 仓库地址：<https://github.com/arm/arm-toolchain>
