@@ -19,9 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "dma2d.h"
-#include "lcd_fonts.h"
 #include "ltdc.h"
-#include "stm32h7xx_hal.h"
 #include "usart.h"
 #include "gpio.h"
 #include "fmc.h"
@@ -30,7 +28,7 @@
 /* USER CODE BEGIN Includes */
 #include "sdram.h"
 #include "lcd_show.h"
-#include "lcd_test.h" // IWYU pragma: keep
+#include "lcd_test.h"
 #include "touch_800x480.h"
 /* USER CODE END Includes */
 
@@ -239,7 +237,6 @@ void Error_Handler(void)
     while (1) {}
     /* USER CODE END Error_Handler_Debug */
 }
-
 #ifdef USE_FULL_ASSERT
 /**
  * @brief  Reports the name of the source file and the source line number

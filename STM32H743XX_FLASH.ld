@@ -67,8 +67,8 @@ FLASH (rx)      : ORIGIN = 0x8000000, LENGTH = 2048K
 _estack = ALIGN(ORIGIN(DTCMRAM) + LENGTH(DTCMRAM) - 8, 8);
 __StackTop = _estack;
 /* Generate a link error if heap and stack don't fit into RAM */
-_Min_Heap_Size = 0x200;
-_Min_Stack_Size = 0x400;
+_Min_Heap_Size = 0x200;      /* required amount of heap  */
+_Min_Stack_Size = 0x400; /* required amount of stack */
 
 /* Define output sections */
 SECTIONS

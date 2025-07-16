@@ -1,14 +1,14 @@
 {
 	"version": "2.0.0",
-	"tasks": [
+	"tasks":
+	[
 		{
-			"label": "CMake Configure",
+			"label": "CMake: Configure Debug",
 			"type": "shell",
 			"command": "cmake",
 			"args": [
-				"-DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE",
-				"-GNinja",
-				"-Bbuild"
+				"--preset",
+				"Debug",
 			],
 			"group": {
 				"kind": "build",
@@ -16,14 +16,25 @@
 			}
 		},
 		{
-			"label": "CMake Build",
+			"label": "CMake: Configure Release",
+			"type": "shell",
+			"command": "cmake",
+			"args": [
+				"--preset",
+				"Release",
+			],
+			"group": {
+				"kind": "build",
+			}
+		},
+		{
+			"label": "CMake: Build Debug",
 			"type": "shell",
 			"command": "cmake",
 			"args": [
 				"--build",
-				"build",
-				"--target",
-				"all"
+				"--preset",
+				"Debug",
 			],
 			"group": {
 				"kind": "build",
@@ -31,12 +42,25 @@
 			}
 		},
 		{
-			"label": "CMake Clean Build",
+			"label": "CMake: Build Release",
 			"type": "shell",
 			"command": "cmake",
 			"args": [
 				"--build",
-				"build",
+				"--preset",
+				"Release",
+			],
+			"group": {
+				"kind": "build",
+			}
+		},
+		{
+			"label": "CMake: Clean Debug",
+			"type": "shell",
+			"command": "cmake",
+			"args": [
+				"--build",
+				"build/Debug",
 				"--target",
 				"clean"
 			],
@@ -47,7 +71,23 @@
 			}
 		},
 		{
-			"label": "Flash",
+			"label": "CMake: Clean Release",
+			"type": "shell",
+			"command": "cmake",
+			"args": [
+				"--build",
+				"build/Release",
+				"--target",
+				"clean"
+			],
+			"problemMatcher": [],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"label": "Flash Debug",
 			"type": "shell",
 			"command": "openocd",
 			"args": [
@@ -56,12 +96,28 @@
 				"-f",
 				"target/stm32h7x.cfg",
 				"-c",
-				"program ./build/STM32H743IIT6.elf verify reset exit"
+				"program ./build/Debug/STM32H743IIT6.elf verify reset exit"
 			],
 			"group": {
 				"kind": "build",
 				"isDefault": true
 			}
-		}
+		},
+		{
+			"label": "Flash Release",
+			"type": "shell",
+			"command": "openocd",
+			"args": [
+				"-f",
+				"interface/cmsis-dap.cfg",
+				"-f",
+				"target/stm32h7x.cfg",
+				"-c",
+				"program ./build/Release/STM32H743IIT6.elf verify reset exit"
+			],
+			"group": {
+				"kind": "build",
+			}
+		},
 	]
 }
