@@ -1,123 +1,158 @@
 {
-	"version": "2.0.0",
-	"tasks":
-	[
-		{
-			"label": "CMake: Configure Debug",
-			"type": "shell",
-			"command": "cmake",
-			"args": [
-				"--preset",
-				"Debug",
-			],
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
-		},
-		{
-			"label": "CMake: Configure Release",
-			"type": "shell",
-			"command": "cmake",
-			"args": [
-				"--preset",
-				"Release",
-			],
-			"group": {
-				"kind": "build",
-			}
-		},
-		{
-			"label": "CMake: Build Debug",
-			"type": "shell",
-			"command": "cmake",
-			"args": [
-				"--build",
-				"--preset",
-				"Debug",
-			],
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
-		},
-		{
-			"label": "CMake: Build Release",
-			"type": "shell",
-			"command": "cmake",
-			"args": [
-				"--build",
-				"--preset",
-				"Release",
-			],
-			"group": {
-				"kind": "build",
-			}
-		},
-		{
-			"label": "CMake: Clean Debug",
-			"type": "shell",
-			"command": "cmake",
-			"args": [
-				"--build",
-				"build/Debug",
-				"--target",
-				"clean"
-			],
-			"problemMatcher": [],
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
-		},
-		{
-			"label": "CMake: Clean Release",
-			"type": "shell",
-			"command": "cmake",
-			"args": [
-				"--build",
-				"build/Release",
-				"--target",
-				"clean"
-			],
-			"problemMatcher": [],
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
-		},
-		{
-			"label": "Flash Debug",
-			"type": "shell",
-			"command": "openocd",
-			"args": [
-				"-f",
-				"interface/cmsis-dap.cfg",
-				"-f",
-				"target/stm32h7x.cfg",
-				"-c",
-				"program ./build/Debug/STM32H743IIT6.elf verify reset exit"
-			],
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
-		},
-		{
-			"label": "Flash Release",
-			"type": "shell",
-			"command": "openocd",
-			"args": [
-				"-f",
-				"interface/cmsis-dap.cfg",
-				"-f",
-				"target/stm32h7x.cfg",
-				"-c",
-				"program ./build/Release/STM32H743IIT6.elf verify reset exit"
-			],
-			"group": {
-				"kind": "build",
-			}
-		},
-	]
+    "version": "2.0.0",
+    "tasks": [
+        // ==================== Debug Configuration ====================
+        {
+            "label": "🔧 Debug: Configure",
+            "detail": "Configure CMake Debug build environment",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--preset",
+                "Debug"
+            ],
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "🔨 Debug: Build",
+            "detail": "Build Debug version",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "--preset",
+                "Debug"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "dependsOn": "🔧 Debug: Configure",
+            "problemMatcher": "$clang"
+        },
+        {
+            "label": "🧹 Debug: Clean",
+            "detail": "Clean Debug build files",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "build/Debug",
+                "--target",
+                "clean"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "📥 Debug: Flash",
+            "detail": "Flash Debug firmware to STM32H743",
+            "type": "shell",
+            "command": "openocd",
+            "args": [
+                "-f",
+                "interface/cmsis-dap.cfg",
+                "-f",
+                "target/stm32h7x.cfg",
+                "-c",
+                "program ./build/Debug/STM32H743IIT6.elf verify reset exit"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "dependsOn": "🔨 Debug: Build",
+            "problemMatcher": []
+        },
+        // ==================== Release Configuration ====================
+        {
+            "label": "🔧 Release: Configure",
+            "detail": "Configure CMake Release build environment",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--preset",
+                "Release"
+            ],
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "🔨 Release: Build",
+            "detail": "Build Release version (optimized)",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "--preset",
+                "Release"
+            ],
+            "group": "build",
+            "dependsOn": "🔧 Release: Configure",
+            "problemMatcher": "$clang"
+        },
+        {
+            "label": "🧹 Release: Clean",
+            "detail": "Clean Release build files",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "build/Release",
+                "--target",
+                "clean"
+            ],
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "📥 Release: Flash",
+            "detail": "Flash Release firmware to STM32H743",
+            "type": "shell",
+            "command": "openocd",
+            "args": [
+                "-f",
+                "interface/cmsis-dap.cfg",
+                "-f",
+                "target/stm32h7x.cfg",
+                "-c",
+                "program ./build/Release/STM32H743IIT6.elf verify reset exit"
+            ],
+            "group": "build",
+            "dependsOn": "🔨 Release: Build",
+            "problemMatcher": []
+        },
+        // ==================== Composite Tasks ====================
+        {
+            "label": "🚀 Debug: Clean + Build + Flash",
+            "detail": "Clean, build and flash Debug version",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "🧹 Debug: Clean",
+                "🔨 Debug: Build",
+                "📥 Debug: Flash"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+			"problemMatcher": []
+        },
+        {
+            "label": "🚀 Release: Clean + Build + Flash",
+            "detail": "Clean, build and flash Release version",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "🧹 Release: Clean",
+                "🔨 Release: Build",
+                "📥 Release: Flash"
+            ],
+            "group": "build",
+            "problemMatcher": []
+        }
+    ]
 }
