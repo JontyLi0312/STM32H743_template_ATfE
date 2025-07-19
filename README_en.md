@@ -63,7 +63,7 @@ STM32H743IIT6_template_ATfE/ \
 ├── .vscode/ # VS Code configuration \
 │ └── tasks.json # Build task definitions \
 ├── CMakeLists.txt # Main CMake file \
-└── STM32H743IIT6.ioc # STM32CubeMX configuration \
+└── STM32H743IIT6.ioc # STM32CubeMX configuration
 
 ## 📧 Contact
 
