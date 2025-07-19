@@ -56,13 +56,14 @@ The project provides two build presets:
 To switch presets: `Ctrl+Shift+P` → Type `Tasks: Run Task` → Select the corresponding task
 
 ## 📁 Project Structure
-STM32H743IIT6_template_ATfE/
-├── cmake/ # CMake configuration files
-│ └── ATfE.cmake # ATfE toolchain configuration
-├── .vscode/ # VS Code configuration
-│ └── tasks.json # Build task definitions
-├── CMakeLists.txt # Main CMake file
-└── STM32H743IIT6.ioc # STM32CubeMX configuration
+
+STM32H743IIT6_template_ATfE/ \
+├── cmake/ # CMake configuration files \
+│ └── ATfE.cmake # ATfE toolchain configuration \
+├── .vscode/ # VS Code configuration \
+│ └── tasks.json # Build task definitions \
+├── CMakeLists.txt # Main CMake file \
+└── STM32H743IIT6.ioc # STM32CubeMX configuration \
 
 ## 📧 Contact
 

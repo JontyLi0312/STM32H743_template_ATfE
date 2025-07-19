@@ -56,14 +56,13 @@
 
 ## 📁 项目结构
 
-STM32H743IIT6_template_ATfE/
-├── cmake/ # CMake 配置文件
-│ └── ATfE.cmake # ATfE 工具链配置
-├── .vscode/ # VS Code 配置
-│ └── tasks.json # 构建任务定义
-├── CMakeLists.txt # 主 CMake 文件
-└── STM32H743IIT6.ioc # STM32CubeMX 配置
-
+STM32H743IIT6_template_ATfE/ \
+├── cmake/ # CMake 配置文件 \
+│ └── ATfE.cmake # ATfE 工具链配置 \
+├── .vscode/ # VS Code 配置 \
+│ └── tasks.json # 构建任务定义 \
+├── CMakeLists.txt # 主 CMake 文件 \
+└── STM32H743IIT6.ioc # STM32CubeMX 配置 \
 
 ## 📧 联系方式
 
