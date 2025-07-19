@@ -1,35 +1,76 @@
-# STM32H743IIT6_template_ATfE
+# STM32H743IIT6 Template for ATfE
 
-基于 ATfE 编译器的 STM32H743IIT6 测试项目，源文件由 CubeMX 生成的 CMake、starm-clang 的项目移植而来。 \
-由于学业问题，并未进行全方位测试（例如 RTOS 下的使用情况），如果在使用过程中发现任何问题，欢迎提交 issue 或通过 email 联系。\
-主控为 STM32H743IIT6，使用的是反客科技的最小系统板，显示设备为 RGB 接口的 TFT 屏幕，引脚配置请通过工程下的 CubeMx 文件查看，工程默认使用 CMSIS-Dap 进行烧录。
+基于 ATfE (Arm Toolchain for Embedded) 编译器的 STM32H743IIT6 项目模板
 
-## 工具链
+## 📋 概述
 
-此工程使用的工具有：CMake、Ninja、OpenOCD、Clang+llvm。 \
+本项目是一个基于 ATfE 编译器的 STM32H743IIT6 测试模板，源文件由 STM32CubeMX 生成的 CMake + arm-clang 项目移植而来。
 
-1. CMake: 构建系统生成器，用于管理项目构建过程、抽象构建细节、生成原生构建文件、处理交叉编译;
-2. Ninja: 构建系统生成器，相比 make 可以更快解析输入文件;
-3. OpenOCD: 开源调试、烧录软件;
-4. Clang+llvm: LSP、提供函数跳转等功能;
+### 硬件平台
+- **开发板**: 反客科技 STM32H743IIT6 最小系统板
+- **显示屏**: RGB 接口 TFT 屏幕
+- **引脚配置**: 详见工程目录下的 `.ioc` 文件
 
-使用的编译器为：ATfE(Arm Toolchain for Embeded)，Github 仓库地址：<https://github.com/arm/arm-toolchain>
-在仓库页面可找到 ATfE 的 README。
+> ⚠️ **注意**: 本项目尚未进行全面测试（如 RTOS 环境下的使用），如遇到问题欢迎提交 Issue 或通过邮件联系。
 
-在使用前务必确定已经安装上述工具以及编译器，同时，还需要修改 cmake/ATfE.cmake 文件中的 ATfE 路径。
+## 🛠️ 开发环境
 
-## 使用方法
+### 必需工具
 
-关于构建、flash 指令请参考 .vscode/tasks.json。 \
 
-如果对 CMake 构建项目不熟悉，建议执行步骤为(可在 VS Code 上按 Ctrl-Shift-b 唤出默认任务列表)：
-1. 🧹 Debug: Clean -- 清除已经构建的文件，clone 工程后首次执行可能会报错(可忽略)，因为当前并没有 build 目录；
-3. 🔨 Debug: Build -- 构建、编译工程（此任务依赖于 🔧 Debug: Configure，执行时会自动执行 configure）；
-4. 📥 Debug: Flash -- 烧录，如果需要更改烧录器或烧录工具，请修改 tasks.json 下的 Flash 任务。
-5. 也可以使用组合任务 🚀 Debug: Clean + Build + Flash，快速完成 Clean、build、flsh 操作。
-上述步骤使用 Debug 预设，此工程提供了 Debug 预设以及 Release 预设，两者仅有优化等级的不同，前者为 g3，后者为 g0。
-若要使用 Release 预设的任务，在 vscode 中按下 Ctrl+Shift+P 唤出命令面板，输入 Tasks: Run Task 来选择对应任务。
+| 工具 | 说明 | 链接 |
+|------|------|------|
+| **CMake** | 跨平台构建系统生成器 | [cmake.org](https://cmake.org/) |
+| **Ninja** | 高性能构建系统 | [GitHub](https://github.com/ninja-build/ninja) |
+| **OpenOCD** | 开源调试和烧录工具 | [GitHub](https://github.com/openocd-org/openocd) |
+| **Clang+LLVM** | 语言服务器和代码导航 | [GitHub](https://github.com/llvm/llvm-project) |
+| **ATfE** | Arm 官方嵌入式工具链 | [GitHub](https://github.com/arm/arm-toolchain) |
 
-## 联系方式
+### 环境配置
 
-<ljt20030312@Outlook.com>
+1. 安装上述所有工具
+2. 修改 `cmake/ATfE.cmake` 文件中的 ATfE 路径
+
+## 🚀 快速开始
+
+### VS Code 用户（推荐）
+
+使用 `Ctrl+Shift+B` 打开任务列表，按顺序执行：
+
+1. **🧹 Debug: Clean** - 清理构建文件
+2. **🔨 Debug: Build** - 构建项目（自动执行 Configure）
+3. **📥 Debug: Flash** - 烧录程序
+
+或使用一键操作：
+- **🚀 Debug: Clean + Build + Flash** - 一键完成所有步骤
+
+### 构建配置
+
+项目提供两种构建预设：
+
+
+| 预设 | 优化等级 | 用途 |
+|------|----------|------|
+| **Debug** | -Og | 调试开发 |
+| **Release** | -O3 | 生产部署 |
+
+
+切换预设：`Ctrl+Shift+P` → 输入 `Tasks: Run Task` → 选择对应任务
+
+## 📁 项目结构
+STM32H743IIT6_template_ATfE/
+├── cmake/ # CMake 配置文件
+│ └── ATfE.cmake # ATfE 工具链配置
+├── .vscode/ # VS Code 配置
+│ └── tasks.json # 构建任务定义
+├── CMakeLists.txt # 主 CMake 文件
+└── STM32H743IIT6.ioc # STM32CubeMX 配置
+
+## 🤝 贡献
+
+欢迎提交 Issue 和 Pull Request！
+
+## 📧 联系方式
+
+- **Email**: ljt20030312@outlook.com
+
