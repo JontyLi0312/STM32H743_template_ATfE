@@ -29,7 +29,6 @@
                 "isDefault": true
             },
             "dependsOn": "🔧 Debug: Configure",
-            "problemMatcher": "$clang"
         },
         {
             "label": "🧹 Debug: Clean",
@@ -93,7 +92,6 @@
             ],
             "group": "build",
             "dependsOn": "🔧 Release: Configure",
-            "problemMatcher": "$clang"
         },
         {
             "label": "🧹 Release: Clean",
@@ -140,7 +138,7 @@
                 "kind": "build",
                 "isDefault": true
             },
-			"problemMatcher": []
+            "problemMatcher": []
         },
         {
             "label": "🚀 Release: Clean + Build + Flash",

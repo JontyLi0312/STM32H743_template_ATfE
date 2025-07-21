@@ -1,0 +1,30 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "probe-rs-debug",
+            "request": "launch",
+            "name": "probe-rs",
+            "probe": "0483:3748",
+            "wireProtocol": "Swd",
+            "chip": "STM32H743IIT6",
+            "flashingConfig": {
+                "flashingEnabled": true,
+                "formatOptions": {},
+                "haltAfterReset": false
+            },
+            "runtimeArgs": [
+                "dap-server"
+            ],
+            "coreConfigs": [
+                {
+                    "coreIndex": 0,
+                    "programBinary": "build\\Debug\\STM32H743IIT6.elf"
+                }
+            ],
+            "env": {
+                "RUST_LOG": "Debug"
+            }
+        }
+    ]
+}
