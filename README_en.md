@@ -1,4 +1,3 @@
-
 # STM32H743IIT6 Template for ATfE
 
 STM32H743IIT6 project template based on ATfE (Arm Toolchain for Embedded) compiler
@@ -18,18 +17,18 @@ This is a test template for STM32H743IIT6 using the ATfE compiler. The source fi
 
 ### Required Tools
 
-| Tool | Description | Link |
-|------|-------------|------|
-| **CMake** | Cross-platform build system generator | [cmake.org](https://cmake.org/) |
-| **Ninja** | High-performance build system | [GitHub](https://github.com/ninja-build/ninja) |
-| **OpenOCD** | Open-source debugging and flashing tool | [GitHub](https://github.com/openocd-org/openocd) |
-| **Clang+LLVM** | Language server and code navigation | [GitHub](https://github.com/llvm/llvm-project) |
-| **ATfE** | Official Arm toolchain for embedded(base on LLVM) | [GitHub](https://github.com/arm/arm-toolchain) |
+| Tool           | Description                                       | Link                                             |
+| -------------- | ------------------------------------------------- | ------------------------------------------------ |
+| **CMake**      | Cross-platform build system generator             | [cmake.org](https://cmake.org/)                  |
+| **Ninja**      | High-performance build system                     | [GitHub](https://github.com/ninja-build/ninja)   |
+| **OpenOCD**    | Open-source debugging and flashing tool           | [GitHub](https://github.com/openocd-org/openocd) |
+| **Clang+LLVM** | Language server and code navigation               | [GitHub](https://github.com/llvm/llvm-project)   |
+| **ATfE**       | Official Arm toolchain for embedded(base on LLVM) | [GitHub](https://github.com/arm/arm-toolchain)   |
 
 ### Environment Setup
 
-1. Install all the tools mentioned above
-2. Modify the ATfE path in `cmake/ATfE.cmake`
+1. Install all the tools mentioned above and add them to 'PATH',
+2. Modify the ATfE path in `cmake/ATfE.cmake`.
 
 ## 🚀 Quick Start
 
@@ -48,10 +47,10 @@ Or use the all-in-one task:
 
 The project provides two build presets:
 
-| Preset | Optimization | Use Case |
-|--------|--------------|----------|
-| **Debug** | -g3 | Development & Debugging |
-| **Release** | -g0 | Production Deployment |
+| Preset      | Optimization | Use Case                |
+| ----------- | ------------ | ----------------------- |
+| **Debug**   | -g3          | Development & Debugging |
+| **Release** | -g0          | Production Deployment   |
 
 To switch presets: `Ctrl+Shift+P` → Type `Tasks: Run Task` → Select the corresponding task
 

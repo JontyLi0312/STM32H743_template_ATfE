@@ -17,17 +17,17 @@
 
 ### 必需工具
 
-| 工具 | 说明 | 链接 |
-|------|------|------|
-| **CMake** | 跨平台构建系统生成器 | [cmake.org](https://cmake.org/) |
-| **Ninja** | 高性能构建系统 | [GitHub](https://github.com/ninja-build/ninja) |
-| **OpenOCD** | 开源调试和烧录工具 | [GitHub](https://github.com/openocd-org/openocd) |
-| **Clang+LLVM** | 语言服务器和代码导航 | [GitHub](https://github.com/llvm/llvm-project) |
-| **ATfE** | Arm 官方嵌入式工具链（基于 LLVM） | [GitHub](https://github.com/arm/arm-toolchain) |
+| 工具           | 说明                              | 链接                                             |
+| -------------- | --------------------------------- | ------------------------------------------------ |
+| **CMake**      | 跨平台构建系统生成器              | [cmake.org](https://cmake.org/)                  |
+| **Ninja**      | 高性能构建系统                    | [GitHub](https://github.com/ninja-build/ninja)   |
+| **OpenOCD**    | 开源调试和烧录工具                | [GitHub](https://github.com/openocd-org/openocd) |
+| **Clang+LLVM** | 语言服务器和代码导航              | [GitHub](https://github.com/llvm/llvm-project)   |
+| **ATfE**       | Arm 官方嵌入式工具链（基于 LLVM） | [GitHub](https://github.com/arm/arm-toolchain)   |
 
 ### 环境配置
 
-1. 安装上述所有工具；
+1. 安装上述所有工具并添加到 'PATH' 中；
 2. 修改 `cmake/ATfE.cmake` 文件中 ATfE 路径。
 
 ## 🚀 快速开始
@@ -47,10 +47,10 @@
 
 项目提供两种构建预设：
 
-| 预设 | 优化等级 | 用途 |
-|------|----------|------|
-| **Debug** | -g3 | 调试开发 |
-| **Release** | -g0 | 生产部署 |
+| 预设        | 优化等级 | 用途     |
+| ----------- | -------- | -------- |
+| **Debug**   | -g3      | 调试开发 |
+| **Release** | -g0      | 生产部署 |
 
 切换预设：`Ctrl+Shift+P` → 输入 `Tasks: Run Task` → 选择对应任务
 
