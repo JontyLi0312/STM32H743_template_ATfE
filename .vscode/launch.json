@@ -30,19 +30,33 @@
             "cwd": "${workspaceRoot}",
             "type": "cortex-debug",
             "request": "launch",
-            "name": "OpenOCD",
+            "name": "OpenOCD_cmsis-dap",
             "servertype": "openocd",
             "executable": "./build/Debug/STM32H743IIT6.elf",
             "runToEntryPoint": "main",
             "showDevDebugOutput": "raw",
-            // "svdFile": "./src/driver/target/stm32h7/svd/STM32H7B0x.svd",
+            "svdFile": ".STM32H743.svd",
             "configFiles": [
-                // "interface/cmsis-dap.cfg",
+                "interface/cmsis-dap.cfg",
+                "target/stm32h7x.cfg"
+            ],
+            "toolchainPrefix": "arm-none-eabi"
+        },
+        {
+            "cwd": "${workspaceRoot}",
+            "type": "cortex-debug",
+            "request": "launch",
+            "name": "OpenOCD_stlink",
+            "servertype": "openocd",
+            "executable": "./build/Debug/STM32H743IIT6.elf",
+            "runToEntryPoint": "main",
+            "showDevDebugOutput": "raw",
+            "svdFile": ".STM32H743.svd",
+            "configFiles": [
                 "interface/stlink-v2.cfg",
                 "target/stm32h7x.cfg"
             ],
             "toolchainPrefix": "arm-none-eabi"
-            // "toolchainPrefix": "LLVM"
         }
     ]
 }
