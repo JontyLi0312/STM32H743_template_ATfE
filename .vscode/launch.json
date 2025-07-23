@@ -7,7 +7,7 @@
             "name": "probe-rs",
             "probe": "0483:3748",
             "wireProtocol": "Swd",
-            "chip": "STM32H743IIT6",
+            "chip": "STM32H743II",
             "flashingConfig": {
                 "flashingEnabled": true,
                 "formatOptions": {},
