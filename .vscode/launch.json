@@ -5,12 +5,12 @@
             "type": "probe-rs-debug",
             "request": "launch",
             "name": "probe-rs",
-            "probe": "0483:3748",
+            // "probe": "0483:3748",
+            "chip": "STM32H743IITx",
+            "connectUnderReset": false,
             "wireProtocol": "Swd",
-            "chip": "STM32H743II",
             "flashingConfig": {
                 "flashingEnabled": true,
-                "formatOptions": {},
                 "haltAfterReset": false
             },
             "runtimeArgs": [
@@ -19,7 +19,8 @@
             "coreConfigs": [
                 {
                     "coreIndex": 0,
-                    "programBinary": "build\\Debug\\STM32H743IIT6.elf"
+                    "programBinary": "build\\Debug\\STM32H743IIT6.elf",
+                    "svdFile": "STM32H743.svd",
                 }
             ],
             "env": {
@@ -35,7 +36,7 @@
             "executable": "./build/Debug/STM32H743IIT6.elf",
             "runToEntryPoint": "main",
             "showDevDebugOutput": "raw",
-            "svdFile": ".STM32H743.svd",
+            "svdFile": "STM32H743.svd",
             "configFiles": [
                 "interface/cmsis-dap.cfg",
                 "target/stm32h7x.cfg"
@@ -51,7 +52,7 @@
             "executable": "./build/Debug/STM32H743IIT6.elf",
             "runToEntryPoint": "main",
             "showDevDebugOutput": "raw",
-            "svdFile": ".STM32H743.svd",
+            "svdFile": "STM32H743.svd",
             "configFiles": [
                 "interface/stlink-v2.cfg",
                 "target/stm32h7x.cfg"
