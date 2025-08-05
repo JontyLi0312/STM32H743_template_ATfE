@@ -535,9 +535,9 @@ void LCD_DisplayNumber(uint16_t x, uint16_t y, int32_t number, uint8_t len)
     char Number_Buffer[15];
 
     if (LCD.ShowNum_Mode == Fill_Zero) {
-        sprintf(Number_Buffer, "%.*ld", len, number);
+        sprintf(Number_Buffer, "%.*d", len, number);
     } else {
-        sprintf(Number_Buffer, "%*ld", len, number);
+        sprintf(Number_Buffer, "%*d", len, number);
     }
 
     LCD_DisplayString(x, y, (char *)Number_Buffer);
