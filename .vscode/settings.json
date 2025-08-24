@@ -3,16 +3,7 @@
     "todo-tree.tree.disableCompactFolders": false,
     "todo-tree.tree.showBadges": true,
     "todo-tree.tree.showCountsInTree": false,
-    "cmake.cmakePath": "cube-cmake",
-    "cmake.configureArgs": [
-        "-DCMAKE_COMMAND=cube-cmake"
-    ],
     "cmake.preferredGenerators": [
         "Ninja"
     ],
-    "stm32cube-ide-clangd.path": "cube",
-    "stm32cube-ide-clangd.arguments": [
-        "starm-clangd",
-        "--query-driver=${env:CUBE_BUNDLE_PATH}/st-arm-clang/19.1.6+st.8/bin/starm-clang.exe"
-    ]
 }
