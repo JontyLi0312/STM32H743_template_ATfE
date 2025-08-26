@@ -25,6 +25,8 @@
 | **Clang+LLVM** | 语言服务器和代码导航              | [GitHub](https://github.com/llvm/llvm-project)   |
 | **ATfE**       | Arm 官方嵌入式工具链（基于 LLVM） | [GitHub](https://github.com/arm/arm-toolchain)   |
 
+确保上述工具已经添加至 PATH 环境变量中，以保证 vscode 能正确调用。
+
 ### 环境配置
 
 1. 安装上述所有工具并添加到 'PATH' 中；
@@ -53,6 +55,12 @@
 | **Release** | -g0      | 生产部署 |
 
 切换预设：`Ctrl+Shift+P` → 输入 `Tasks: Run Task` → 选择对应任务
+
+## Debug
+
+项目通过 OpenOCD 调试器进行调试，需要安装 Cortex-Debug 插件。
+在调试页面可以选择使用 daplink 或者 stlink。
+launch.json 配置中有 Probe-RS 的调试配置，但是无法正常工作，不推荐使用，但是使用 Probe-RS 进行烧录是可行的。
 
 ## 📁 项目结构
 
