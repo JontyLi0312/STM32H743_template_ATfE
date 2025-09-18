@@ -23,6 +23,7 @@ set(Core_Inc
 
 set(Core_Src
 				${CMAKE_CURRENT_SOURCE_DIR}/Src/dma2d.c
+                ${CMAKE_CURRENT_SOURCE_DIR}/Src/dma.c
 				${CMAKE_CURRENT_SOURCE_DIR}/Src/fmc.c
 				${CMAKE_CURRENT_SOURCE_DIR}/Src/gpio.c
 				${CMAKE_CURRENT_SOURCE_DIR}/Src/ltdc.c
