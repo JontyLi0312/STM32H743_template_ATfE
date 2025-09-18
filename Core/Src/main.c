@@ -21,7 +21,6 @@
 #include "dma.h"
 #include "dma2d.h"
 #include "ltdc.h"
-#include "stm32h7xx_hal.h"
 #include "usart.h"
 #include "gpio.h"
 #include "fmc.h"
@@ -65,8 +64,7 @@ static void MPU_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-uint8_t test[]  = "uart";
-uint8_t test2[] = "dma";
+
 /* USER CODE END 0 */
 
 /**
@@ -119,19 +117,15 @@ int main(void)
     MX_LTDC_Init();
     /* USER CODE BEGIN 2 */
     SDRAM_Initialization_Sequence(&hsdram1);
+    LCD_RGB_Init();
+    Touch_Init();
     /* USER CODE END 2 */
 
     /* Infinite loop */
     /* USER CODE BEGIN WHILE */
 
     while (1) {
-        HAL_UART_Transmit(&huart1, test, sizeof(test), HAL_MAX_DELAY);
-        HAL_Delay(500);
 
-        if (HAL_UART_Transmit_DMA(&huart1, test2, sizeof(test2)) != HAL_OK) {
-            Error_Handler();
-        }
-        HAL_Delay(500);
         /* USER CODE END WHILE */
 
         /* USER CODE BEGIN 3 */
