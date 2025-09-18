@@ -64,7 +64,6 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "dependsOn": "🔨 Debug: Build",
             "problemMatcher": []
         },
         // ==================== Release Configuration ====================
