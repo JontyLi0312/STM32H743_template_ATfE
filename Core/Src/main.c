@@ -22,8 +22,6 @@
 #include "dma2d.h"
 #include "ltdc.h"
 #include "stm32h7xx_hal.h"
-#include "stm32h7xx_hal_def.h"
-#include "stm32h7xx_hal_uart.h"
 #include "usart.h"
 #include "gpio.h"
 #include "fmc.h"
@@ -34,6 +32,7 @@
 #include "lcd_show.h"
 #include "lcd_test.h"
 #include "touch_800x480.h"
+#include <stdint.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -66,13 +65,9 @@ static void MPU_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+uint8_t test[]  = "uart";
+uint8_t test2[] = "dma";
 /* USER CODE END 0 */
-volatile uint8_t uart_tx_complete = 0;
-void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
-{
-    if (huart->Instance == USART1) { uart_tx_complete = 1; }
-}
 
 /**
  * @brief  The application entry point.
@@ -124,36 +119,19 @@ int main(void)
     MX_LTDC_Init();
     /* USER CODE BEGIN 2 */
     SDRAM_Initialization_Sequence(&hsdram1);
-    // LCD_RGB_Init();
-    // Touch_Init();
-
-    // LCD_SetBackColor(LCD_BLACK);
-    // LCD_Clear();
-    // LCD_SetTextFont(&Font12);
-    // LCD_DisplayText(0, 0, "value: ");
     /* USER CODE END 2 */
 
     /* Infinite loop */
     /* USER CODE BEGIN WHILE */
-    uint8_t test[]  = {'1', '2', '3', '4'};
-    uint8_t test2[] = {'t', 'e', 's', 't'};
+
     while (1) {
-        // Touch_Scan();
-        // LCD_SetTextFont(&Font12);
-        // LCD_DisplayDecimals(160, 200, 98765.1234, 11, 5);
-        // LCD_Test_Variable();
+        HAL_UART_Transmit(&huart1, test, sizeof(test), HAL_MAX_DELAY);
+        HAL_Delay(500);
 
-        HAL_UART_Transmit(&huart1, test2, 4, HAL_MAX_DELAY);
-        HAL_Delay(1000);
-
-        uart_tx_complete = 0;
-        if (HAL_UART_Transmit_DMA(&huart1, test, 4) != HAL_OK) {
+        if (HAL_UART_Transmit_DMA(&huart1, test2, sizeof(test2)) != HAL_OK) {
             Error_Handler();
         }
-
-        // 等待DMA传输完成
-        // while (!uart_tx_complete);
-
+        HAL_Delay(500);
         /* USER CODE END WHILE */
 
         /* USER CODE BEGIN 3 */
