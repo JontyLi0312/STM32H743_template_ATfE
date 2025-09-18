@@ -120,7 +120,6 @@
                 "program ./build/Release/STM32H743IIT6.elf verify reset exit"
             ],
             "group": "build",
-            "dependsOn": "🔨 Release: Build",
             "problemMatcher": []
         },
         // ==================== Composite Tasks ====================
