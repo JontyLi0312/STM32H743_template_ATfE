@@ -5,7 +5,7 @@
             "type": "probe-rs-debug",
             "request": "launch",
             "name": "probe-rs",
-            // "probe": "0483:3748",
+            "probe": "04d8:000df",
             "chip": "STM32H743IITx",
             "connectUnderReset": false,
             "wireProtocol": "Swd",
@@ -19,7 +19,7 @@
             "coreConfigs": [
                 {
                     "coreIndex": 0,
-                    "programBinary": "build\\Debug\\STM32H743IIT6.elf",
+                    "programBinary": "build/Debug/STM32H743IIT6.elf",
                     "svdFile": "STM32H743.svd",
                 }
             ],
