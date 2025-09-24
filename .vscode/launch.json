@@ -58,6 +58,20 @@
                 "target/stm32h7x.cfg"
             ],
             "toolchainPrefix": "arm-none-eabi"
+        },
+        {
+            "name": "PyOCD",
+            "svdFile": "STM32H743.svd",
+            "cwd": "${workspaceFolder}",
+            "executable": "./build/Debug/STM32H743IIT6.elf",
+            "request": "launch",
+            "showDevDebugOutput": "raw",
+            "type": "cortex-debug",
+            "runToEntryPoint": "main",
+            "servertype": "pyocd",
+            "interface": "swd",
+            "targetId": "STM32H743IITx",
+            "device": "STM32H743IIT6",
         }
     ]
 }
