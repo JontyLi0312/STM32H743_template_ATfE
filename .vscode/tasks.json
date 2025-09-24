@@ -48,7 +48,7 @@
             "problemMatcher": []
         },
         {
-            "label": "📥 Debug: Flash",
+            "label": "📥 Debug: Flash_by_openocd",
             "detail": "Flash Debug firmware to STM32H743",
             "type": "shell",
             "command": "openocd",
@@ -59,6 +59,23 @@
                 "target/stm32h7x.cfg",
                 "-c",
                 "program ./build/Debug/STM32H743IIT6.elf verify reset exit"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "📥 Debug: Flash_by_pyocd",
+            "detail": "Flash Debug firmware to STM32H743",
+            "type": "shell",
+            "command": "pyocd",
+            "args": [
+                "flash",
+                "-t",
+                "stm32h743xx",
+                "build/Debug/STM32H743IIT6.elf"
             ],
             "group": {
                 "kind": "build",
