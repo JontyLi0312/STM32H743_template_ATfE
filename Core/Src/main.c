@@ -21,6 +21,7 @@
 #include "dma.h"
 #include "dma2d.h"
 #include "ltdc.h"
+#include "quadspi.h"
 #include "usart.h"
 #include "gpio.h"
 #include "fmc.h"
@@ -65,7 +66,7 @@ static void MPU_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-uint8_t test = 0;
+uint8_t test[] = "test";
 /* USER CODE END 0 */
 
 /**
@@ -113,6 +114,7 @@ int main(void)
   MX_FMC_Init();
   MX_DMA2D_Init();
   MX_LTDC_Init();
+  MX_QUADSPI_Init();
   /* USER CODE BEGIN 2 */
     SDRAM_Initialization_Sequence(&hsdram1);
     LCD_RGB_Init();
@@ -123,7 +125,8 @@ int main(void)
   /* USER CODE BEGIN WHILE */
 
     while (1) {
-
+        // HAL_UART_Transmit(&huart1, test, sizeof(test), HAL_MAX_DELAY);
+        HAL_Delay(1000);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
