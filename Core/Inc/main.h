@@ -59,14 +59,6 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define FDC2214_SD_Pin GPIO_PIN_6
 #define FDC2214_SD_GPIO_Port GPIOC
-#define FDC2214_INTB_Pin GPIO_PIN_8
-#define FDC2214_INTB_GPIO_Port GPIOC
-#define FDC2214_SDA_Pin GPIO_PIN_10
-#define FDC2214_SDA_GPIO_Port GPIOC
-#define FDC2214_SCL_Pin GPIO_PIN_11
-#define FDC2214_SCL_GPIO_Port GPIOC
-#define FDC2214_ADDR_Pin GPIO_PIN_2
-#define FDC2214_ADDR_GPIO_Port GPIOD
 
 /* USER CODE BEGIN Private defines */
 
