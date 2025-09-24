@@ -5,7 +5,7 @@ set(CMAKE_C_COMPILER_ID 		Clang)
 set(CMAKE_CXX_COMPILER_ID 		Clang)
 
 # ATfE path must be set in here.
-set(TOOLCHAIN_PREFIX	"D:/ARM_Toolchain/ATfE-20.1.0/bin/")
+set(TOOLCHAIN_PREFIX	"D:/ARM_Toolchain/ATfE-21.1.1/bin/")
 
 set(CMAKE_C_COMPILER 	${TOOLCHAIN_PREFIX}/clang.exe)
 set(CMAKE_ASM_COMPILER 	${CMAKE_C_COMPILER})
