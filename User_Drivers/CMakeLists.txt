@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.22)
 
-project(user_drivers LANGUAGES C ASM)
+project(User_Drivers LANGUAGES C ASM)
 
 set(User_Drivers_Inc
 				${CMAKE_SOURCE_DIR}/Core/Inc
@@ -19,8 +19,8 @@ set(User_Drivers_Src
 				${CMAKE_CURRENT_SOURCE_DIR}/Src/touch_iic.c
 )
 
-add_library(user_drivers INTERFACE)
+add_library(User_Drivers INTERFACE)
 
-target_include_directories(user_drivers INTERFACE ${User_Drivers_Inc})
+target_include_directories(User_Drivers INTERFACE ${User_Drivers_Inc})
 
-target_sources(user_drivers INTERFACE ${User_Drivers_Src})
+target_sources(User_Drivers INTERFACE ${User_Drivers_Src})

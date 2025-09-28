@@ -60,8 +60,8 @@ RAM (xrw)      : ORIGIN = 0x24000000, LENGTH = 512K
 RAM_D2 (xrw)      : ORIGIN = 0x30000000, LENGTH = 288K
 RAM_D3 (xrw)      : ORIGIN = 0x38000000, LENGTH = 64K
 ITCMRAM (xrw)      : ORIGIN = 0x00000000, LENGTH = 64K
-/* FLASH (rx)      : ORIGIN = 0x8000000, LENGTH = 2048K */
-FLASH (rx)      : ORIGIN = 0x90000000, LENGTH = 8M
+FLASH (rx)      : ORIGIN = 0x8000000, LENGTH = 2048K
+/* FLASH (rx)      : ORIGIN = 0x90000000, LENGTH = 8M */
 }
 
 /* Highest address of the user mode stack */
@@ -166,7 +166,7 @@ SECTIONS
     *(.RamFunc*)       /* .RamFunc* sections */
 
     . = ALIGN(4);
-  } >RAM AT> FLASH
+  } >DTCMRAM AT> FLASH
 
  /* Initialized TLS data section */
   .tdata : ALIGN(4)
@@ -176,7 +176,7 @@ SECTIONS
     _edata = .;        /* define a global symbol at data end */
     PROVIDE(__data_end = .);
     PROVIDE(__tdata_end = .);
-  } >RAM AT> FLASH
+  } >DTCMRAM AT> FLASH
 
   PROVIDE( __tdata_start = ADDR(.tdata) );
   PROVIDE( __tdata_size = __tdata_end - __tdata_start );
@@ -200,7 +200,7 @@ SECTIONS
     *(.tbss .tbss.*)
     . = ALIGN(4);
     PROVIDE( __tbss_end = . );
-  } >RAM
+  } >DTCMRAM
 
   PROVIDE( __tbss_start = ADDR(.tbss) );
   PROVIDE( __tbss_size = __tbss_end - __tbss_start );
@@ -224,7 +224,7 @@ SECTIONS
     _ebss = .;         /* define a global symbol at bss end */
     __bss_end__ = _ebss;
       PROVIDE( __bss_end = .);
-  } >RAM
+  } >DTCMRAM
   PROVIDE( __non_tls_bss_start = ADDR(.bss) );
 
   PROVIDE( __bss_start = __tbss_start );
@@ -239,7 +239,7 @@ SECTIONS
     . = . + _Min_Heap_Size;
     . = . + _Min_Stack_Size;
     . = ALIGN(8);
-  } >RAM
+  } >DTCMRAM
 
   /* Remove information from the standard libraries */
   /DISCARD/ :

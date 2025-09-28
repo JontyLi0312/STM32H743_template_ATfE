@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.22)
 
-project(drivers LANGUAGES C ASM)
+project(Drivers LANGUAGES C ASM)
 
-set(Defines_Syms
+set(Drivers_Defines_Syms
     USE_HAL_DRIVER
     STM32H743xx
 )
@@ -56,10 +56,10 @@ set(Drivers_Src
     ${CMAKE_CURRENT_SOURCE_DIR}/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.c
 )
 
-add_library(drivers OBJECT)
+add_library(Drivers OBJECT)
 
-target_compile_definitions(drivers PRIVATE ${Defines_Syms})
+target_compile_definitions(Drivers PRIVATE ${Drivers_Defines_Syms})
 
-target_include_directories(drivers PRIVATE ${Drivers_Inc})
+target_include_directories(Drivers PRIVATE ${Drivers_Inc})
 
-target_sources(drivers PRIVATE ${Drivers_Src})
+target_sources(Drivers PRIVATE ${Drivers_Src})

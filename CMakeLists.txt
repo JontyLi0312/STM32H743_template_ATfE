@@ -38,6 +38,7 @@ add_executable(${CMAKE_PROJECT_NAME})
 add_subdirectory(Core)
 add_subdirectory(User_Drivers)
 add_subdirectory(Drivers)
+add_subdirectory(App)
 #add_subdirectory(lvgl-8.3.10)
 
 # Link directories setup
@@ -62,11 +63,20 @@ target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
 
 # Add linked libraries
 target_link_libraries(${CMAKE_PROJECT_NAME}
-	core
-	user_drivers
-	drivers
+	Core
+	User_Drivers
+	Drivers
+    App
 	#lvgl
 	# Add user defined libraries
+)
+
+# Add file to the list of files to be removed with 'clean' target
+set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES 
+    ADDITIONAL_CLEAN_FILES 
+    "${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/${CMAKE_PROJECT_NAME}.map;
+     ${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/${CMAKE_PROJECT_NAME}.hex;
+     ${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/${CMAKE_PROJECT_NAME}.bin"
 )
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
