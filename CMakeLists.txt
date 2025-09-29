@@ -33,6 +33,11 @@ message("Build type: " ${CMAKE_BUILD_TYPE})
 # Create an executable object type
 add_executable(${CMAKE_PROJECT_NAME})
 
+set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/STM32H743XX_FLASH.ld)
+set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
+    LINK_DEPENDS ${LINKER_SCRIPT}
+)
+
 # Add STM32CubeMX generated sources
 #add_subdirectory(cmake/stm32cubemx)
 add_subdirectory(Core)
@@ -71,13 +76,8 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
 	# Add user defined libraries
 )
 
-# Add file to the list of files to be removed with 'clean' target
-set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES 
-    ADDITIONAL_CLEAN_FILES 
-    "${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/${CMAKE_PROJECT_NAME}.map;
-     ${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/${CMAKE_PROJECT_NAME}.hex;
-     ${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/${CMAKE_PROJECT_NAME}.bin"
-)
+# Add the map file to the list of files to be removed with 'clean' target
+set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES ADDITIONAL_CLEAN_FILES ${CMAKE_PROJECT_NAME}.map)
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_OBJCOPY} -Oihex ${PROJECT_NAME}.elf ${PROJECT_NAME}.hex
