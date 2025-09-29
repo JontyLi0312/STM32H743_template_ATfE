@@ -230,6 +230,18 @@ SECTIONS
   PROVIDE( __bss_start = __tbss_start );
   PROVIDE( __bss_size = __bss_end - __bss_start );
 
+  /* Define the .buffer section */
+  .buffer :
+  {
+    . = ALIGN(4);
+    __buffer_start__ = .;
+    KEEP(*(.buffer))
+    KEEP(*(.buffer*))
+    . = ALIGN(4);
+    __buffer_end__ = .;
+  } >RAM AT> FLASH
+  __buffer_load_start__ = LOADADDR(.buffer);
+  
   /* User_heap_stack section, used to check that there is enough RAM left */
   ._user_heap_stack (NOLOAD) :
   {
@@ -248,5 +260,4 @@ SECTIONS
     libm.a:* ( * )
     libgcc.a:* ( * )
   }
-
 }
