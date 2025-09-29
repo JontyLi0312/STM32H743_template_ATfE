@@ -82,7 +82,6 @@ LoopCopyDataInit:
   cmp r4, r1
   bcc CopyDataInit
 
-/* --- 这是您要插入的完整代码块 --- */
 /* Copy the buffer segment initializers from flash to SRAM */
   ldr r0, =__buffer_start__       /* 加载 .buffer 的 RAM 起始地址到 r0 */
   ldr r1, =__buffer_end__         /* 加载 .buffer 的 RAM 结束地址到 r1 */
@@ -99,7 +98,6 @@ LoopCopyBufferInit:
   adds r4, r0, r3                 /* 计算下一个要写入的地址 */
   cmp r4, r1                      /* 检查是否已到达结束地址 */
   bcc CopyBufferInit            /* 如果还没到，继续复制 */
-/* --- 插入代码块结束 --- */
 
 /* Zero fill the bss segment. */
   ldr r2, =_sbss
