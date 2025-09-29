@@ -79,7 +79,31 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
 # Add the map file to the list of files to be removed with 'clean' target
 set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES ADDITIONAL_CLEAN_FILES ${CMAKE_PROJECT_NAME}.map)
 
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND ${CMAKE_OBJCOPY} -Oihex ${PROJECT_NAME}.elf ${PROJECT_NAME}.hex
-    COMMAND ${CMAKE_OBJCOPY} -Obinary ${PROJECT_NAME}.elf ${PROJECT_NAME}.bin
+# Define paths for the output artifacts. Using CMAKE_BINARY_DIR ensures they are
+# placed in the build directory.
+set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)
+set(BIN_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.bin)
+
+# Add a post-build step to generate the .hex file from the .elf output.
+# This command is triggered by the custom target below.
+add_custom_command(
+    OUTPUT ${HEX_FILE}
+    COMMAND ${CMAKE_OBJCOPY} -O ihex $<TARGET_FILE:${PROJECT_NAME}> ${HEX_FILE}
+    DEPENDS ${PROJECT_NAME}
+)
+
+# Add a post-build step to generate the .bin file from the .elf output.
+add_custom_command(
+    OUTPUT ${BIN_FILE}
+    COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${PROJECT_NAME}> ${BIN_FILE}
+    DEPENDS ${PROJECT_NAME}
+)
+
+# Create a custom target to execute the file generation commands.
+# By adding this target to 'ALL', these commands are automatically run after
+# a successful build of the main target, making it part of the default build process.
+add_custom_target(${PROJECT_NAME}_post_build ALL
+    DEPENDS
+        ${HEX_FILE}
+        ${BIN_FILE}
 )
