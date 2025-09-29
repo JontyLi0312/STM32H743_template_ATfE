@@ -72,90 +72,51 @@ static void MPU_Config(void);
 /* USER CODE BEGIN PFP */
 int8_t QSPI_W25Qxx_Test(void) // Flash读写测试
 {
-    uint32_t i = 0;               // 计数变量
-    uint32_t ExecutionTime_Begin; // 开始时间
-    uint32_t ExecutionTime_End;   // 结束时间
-    uint32_t ExecutionTime;       // 执行时间
-    // float ExecutionSpeed;         // 执行速度
+    uint32_t i = 0; // 计数变量
 
     // 擦除
-    // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-    ExecutionTime_Begin = HAL_GetTick(); // 获取 systick 当前时间，单位ms
     QSPI_Status = QSPI_W25Qxx_BlockErase_32K(W25Qxx_TestAddr); // 擦除32K字节
-    ExecutionTime_End = HAL_GetTick(); // 获取 systick 当前时间，单位ms
-
-    ExecutionTime =
-        ExecutionTime_End - ExecutionTime_Begin; // 计算擦除时间，单位ms
 
     if (QSPI_Status == QSPI_W25Qxx_OK) {
-        // printf("\r\nW25Q64 擦除成功, 擦除32K字节所需时间: %d ms\r\n",
-        //        ExecutionTime);
         uint8_t erase_success[] = "\r\nerase success";
         HAL_UART_Transmit(&huart1, erase_success, sizeof(erase_success),
                           HAL_MAX_DELAY);
     } else {
         uint8_t erase_failed[] = "\r\nerase failed";
-        // printf("\r\n 擦除失败!!!!!  错误代码:%d\r\n", QSPI_Status);
         HAL_UART_Transmit(&huart1, erase_failed, sizeof(erase_failed),
                           HAL_MAX_DELAY);
         while (1);
     }
 
     // 写入
-    // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
     for (i = 0; i < W25Qxx_NumByteToTest; i++) // 先将数据写入数组
     {
         W25Qxx_WriteBuffer[i] = i;
     }
-    ExecutionTime_Begin = HAL_GetTick(); // 获取 systick 当前时间，单位ms
+
     QSPI_Status = QSPI_W25Qxx_WriteBuffer(W25Qxx_WriteBuffer, W25Qxx_TestAddr,
                                           W25Qxx_NumByteToTest); // 写入数据
-    ExecutionTime_End = HAL_GetTick(); // 获取 systick 当前时间，单位ms
 
-    ExecutionTime =
-        ExecutionTime_End - ExecutionTime_Begin; // 计算擦除时间，单位ms
-    // ExecutionSpeed = (float)W25Qxx_NumByteToTest / 1024 / ExecutionTime
-    // *1000; // 计算写入速度，单位 KB/S
     if (QSPI_Status == QSPI_W25Qxx_OK) {
         uint8_t write_success[] = "\r\nwrite success";
-        // printf("\r\n写入成功,数据大小：%d KB, 耗时: %d ms, 写入速度：%.2f "
-        //        "KB/s\r\n",
-        //        W25Qxx_NumByteToTest / 1024, ExecutionTime, ExecutionSpeed);
         HAL_UART_Transmit(&huart1, write_success, sizeof(write_success),
                           HAL_MAX_DELAY);
     } else {
         uint8_t write_failed[] = "\r\nwrite failed";
-        // printf("\r\n写入错误!!!!!  错误代码:%d\r\n", QSPI_Status);
         HAL_UART_Transmit(&huart1, write_failed, sizeof(write_failed),
                           HAL_MAX_DELAY);
         while (1);
     }
 
     // 读取
-    // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-    ExecutionTime_Begin = HAL_GetTick(); // 获取 systick 当前时间，单位ms
     QSPI_Status = QSPI_W25Qxx_ReadBuffer(W25Qxx_ReadBuffer, W25Qxx_TestAddr,
                                          W25Qxx_NumByteToTest); // 读取数据
-    ExecutionTime_End = HAL_GetTick(); // 获取 systick 当前时间，单位ms
-
-    ExecutionTime =
-        ExecutionTime_End - ExecutionTime_Begin; // 计算擦除时间，单位ms
-    // ExecutionSpeed = (float)W25Qxx_NumByteToTest / 1024 / 1024 /
-    // ExecutionTime *1000; // 计算读取速度，单位 MB/S
 
     if (QSPI_Status == QSPI_W25Qxx_OK) {
-        // printf("\r\n读取成功,数据大小：%d KB, 耗时: %d ms, 读取速度：%.2f
-        // MB/s "
-        //        "\r\n",
-        //        W25Qxx_NumByteToTest / 1024, ExecutionTime, ExecutionSpeed);
         uint8_t read_success[] = "\r\nread success";
         HAL_UART_Transmit(&huart1, read_success, sizeof(read_success),
                           HAL_MAX_DELAY);
     } else {
-        // printf("\r\n读取错误!!!!!  错误代码:%d\r\n", QSPI_Status);
         uint8_t read_failed[] = "\r\nread failed";
         HAL_UART_Transmit(&huart1, read_failed, sizeof(read_failed),
                           HAL_MAX_DELAY);
@@ -163,38 +124,23 @@ int8_t QSPI_W25Qxx_Test(void) // Flash读写测试
     }
 
     // 数据校验
-    // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
     for (i = 0; i < W25Qxx_NumByteToTest;
          i++) // 验证读出的数据是否等于写入的数据
     {
         if (W25Qxx_WriteBuffer[i] !=
             W25Qxx_ReadBuffer[i]) // 如果数据不相等，则返回0
         {
-            // printf("\r\n数据校验失败!!!!!\r\n");
             uint8_t data_error[] = "\r\ndata error";
             HAL_UART_Transmit(&huart1, data_error, sizeof(data_error),
                               HAL_MAX_DELAY);
             while (1);
         }
     }
-    // printf("\r\n校验通过!!!!! QSPI驱动W25Q64测试正常\r\n");
     uint8_t qspi_test_result[] = "\r\nQSPI_W25Qxx_Test success";
     HAL_UART_Transmit(&huart1, qspi_test_result, sizeof(qspi_test_result),
                       HAL_MAX_DELAY);
 
-    // 读取整片Flash的数据，用以测试速度
-    // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-    // printf("\r\n***************************************************************"
-    //        "**************************************\r\n");
-    // printf("\r\n上面的测试中，读取的数据比较小，耗时很短，加之测量的最小单位为m"
-    //        "s，计算出的读取速度误差较大\r\n");
-    // printf("\r\n接下来读取整片flash的数据用以测试速度，这样得出的速度误差比较小"
-    //        "\r\n");
-    // printf("\r\n开始读取>>>>\r\n");
-    ExecutionTime_Begin = HAL_GetTick(); // 获取 systick 当前时间，单位ms
-
+    // 读取整片Flash的数据0x20020000
     for (i = 0; i < W25Qxx_FlashSize / (W25Qxx_NumByteToTest);
          i++) // 每次读取 W25Qxx_NumByteToTest 字节的数据
     {
@@ -202,24 +148,12 @@ int8_t QSPI_W25Qxx_Test(void) // Flash读写测试
                                              W25Qxx_NumByteToTest);
         W25Qxx_TestAddr = W25Qxx_TestAddr + W25Qxx_NumByteToTest;
     }
-    ExecutionTime_End = HAL_GetTick(); // 获取 systick 当前时间，单位ms
-
-    ExecutionTime =
-        ExecutionTime_End - ExecutionTime_Begin; // 计算擦除时间，单位ms
-    // ExecutionSpeed = (float)W25Qxx_FlashSize / 1024 / 1024 / ExecutionTime
-    // *1000; // 计算读取速度，单位 MB/S
 
     if (QSPI_Status == QSPI_W25Qxx_OK) {
-        // printf("\r\n读取成功,数据大小：%d MB, 耗时: %d ms, 读取速度：%.2f
-        // MB/s "
-        //        "\r\n",
-        //        W25Qxx_FlashSize / 1024 / 1024, ExecutionTime,
-        //        ExecutionSpeed);
         uint8_t read_success[] = "\r\nread success";
         HAL_UART_Transmit(&huart1, read_success, sizeof(read_success),
                           HAL_MAX_DELAY);
     } else {
-        // printf("\r\n读取错误!!!!!  错误代码:%d\r\n", QSPI_Status);
         uint8_t read_failed[] = "\r\nread failed";
         HAL_UART_Transmit(&huart1, read_failed, sizeof(read_failed),
                           HAL_MAX_DELAY);
@@ -232,7 +166,8 @@ int8_t QSPI_W25Qxx_Test(void) // Flash读写测试
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-uint8_t test[] = "\r\ntest";
+__attribute__((section(".buffer"))) __attribute__((aligned(4))) uint8_t test[] =
+    "0";
 /* USER CODE END 0 */
 
 /**
@@ -283,22 +218,25 @@ int main(void)
     MX_FMC_Init();
     MX_DMA2D_Init();
     MX_LTDC_Init();
-    // MX_QUADSPI_Init();
-    MX_SDMMC1_SD_Init();
+    MX_QUADSPI_Init();
+    // MX_SDMMC1_SD_Init();
     MX_RTC_Init();
     /* USER CODE BEGIN 2 */
     // SDRAM_Initialization_Sequence(&hsdram1);
     LCD_RGB_Init();
     Touch_Init();
-    // QSPI_W25Qxx_Init(); // 初始化W25Q64
+    QSPI_W25Qxx_Init(); // 初始化W25Q64
     // QSPI_W25Qxx_Test(); // Flash读写测试
+
     /* USER CODE END 2 */
 
     /* Infinite loop */
     /* USER CODE BEGIN WHILE */
 
     while (1) {
-        HAL_UART_Transmit(&huart1, test, sizeof(test), HAL_MAX_DELAY);
+        SCB_CleanDCache_by_Addr((uint32_t*)test, 1);
+        HAL_UART_Transmit_DMA(&huart1, test, sizeof(test));
+        test[0] += 1;
         HAL_Delay(1000);
         /* USER CODE END WHILE */
 
