@@ -1,55 +1,60 @@
 {
     "version": "2.0.0",
+    "inputs": [
+        {
+            "id": "buildType",
+            "type": "pickString",
+            "description": "Please select the build type to use",
+            "options": [
+                "Debug",
+                "Release"
+            ],
+            "default": "Debug"
+        }
+    ],
     "tasks": [
-        // ==================== Debug Configuration ====================
+        // ==================== Basic Tasks (Driven by Input) ====================
         {
-            "label": "🔧 Debug: Configure",
-            "detail": "Configure CMake Debug build environment",
+            "label": "🔧 Configure",
+            "detail": "Configure CMake build environment (${input:buildType})",
             "type": "shell",
             "command": "cmake",
             "args": [
                 "--preset",
-                "Debug"
+                "${input:buildType}"
             ],
             "group": "build",
             "problemMatcher": []
         },
         {
-            "label": "🔨 Debug: Build",
-            "detail": "Build Debug version",
+            "label": "🔨 Build",
+            "detail": "Build the project (${input:buildType})",
             "type": "shell",
             "command": "cmake",
             "args": [
                 "--build",
                 "--preset",
-                "Debug"
+                "${input:buildType}"
             ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "dependsOn": "🔧 Debug: Configure",
+            "group": "build"
         },
         {
-            "label": "🧹 Debug: Clean",
-            "detail": "Clean Debug build files",
+            "label": "🧹 Clean",
+            "detail": "Clean the build files (${input:buildType})",
             "type": "shell",
             "command": "cmake",
             "args": [
                 "--build",
-                "build/Debug",
+                "build/${input:buildType}",
                 "--target",
                 "clean"
             ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
+            "group": "build",
             "problemMatcher": []
         },
         {
-            "label": "📥 Debug: Flash_openocd",
-            "detail": "Flash Debug firmware to STM32H743",
+            "label": "📥 Flash (OpenOCD)",
+            "detail": "Flash firmware using OpenOCD (${input:buildType})",
             "type": "shell",
             "command": "openocd",
             "args": [
@@ -58,127 +63,34 @@
                 "-f",
                 "target/stm32h7x.cfg",
                 "-c",
-                "program ./build/Debug/STM32H743IIT6.elf verify reset exit"
+                "program ./build/${input:buildType}/STM32H743IIT6.elf verify reset exit"
             ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
+            "group": "build",
             "problemMatcher": []
         },
         {
-            "label": "📥 Debug: Flash_pyOCD",
-            "detail": "Flash Debug firmware to STM32H743",
+            "label": "📥 Flash (pyOCD)",
+            "detail": "Flash firmware using pyOCD (${input:buildType})",
             "type": "shell",
             "command": "pyocd",
             "args": [
                 "flash",
                 "-t",
                 "stm32h743xx",
-                "build/Debug/STM32H743IIT6.elf"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "problemMatcher": []
-        },
-        // ==================== Release Configuration ====================
-        {
-            "label": "🔧 Release: Configure",
-            "detail": "Configure CMake Release build environment",
-            "type": "shell",
-            "command": "cmake",
-            "args": [
-                "--preset",
-                "Release"
+                "build/${input:buildType}/STM32H743IIT6.elf"
             ],
             "group": "build",
             "problemMatcher": []
         },
+        // ==================== Composite Workflow Tasks ====================
         {
-            "label": "🔨 Release: Build",
-            "detail": "Build Release version (optimized)",
-            "type": "shell",
-            "command": "cmake",
-            "args": [
-                "--build",
-                "--preset",
-                "Release"
-            ],
-            "group": "build",
-            "dependsOn": "🔧 Release: Configure",
-        },
-        {
-            "label": "🧹 Release: Clean",
-            "detail": "Clean Release build files",
-            "type": "shell",
-            "command": "cmake",
-            "args": [
-                "--build",
-                "build/Release",
-                "--target",
-                "clean"
-            ],
-            "group": "build",
-            "problemMatcher": []
-        },
-        {
-            "label": "📥 Release: Flash_openocd",
-            "detail": "Flash Release firmware to STM32H743",
-            "type": "shell",
-            "command": "openocd",
-            "args": [
-                "-f",
-                "interface/cmsis-dap.cfg",
-                "-f",
-                "target/stm32h7x.cfg",
-                "-c",
-                "program ./build/Release/STM32H743IIT6.elf verify reset exit"
-            ],
-            "group": "build",
-            "problemMatcher": []
-        },
-        {
-            "label": "📥 Release: Flash_pyOCD",
-            "detail": "Flash Debug firmware to STM32H743",
-            "type": "shell",
-            "command": "pyocd",
-            "args": [
-                "flash",
-                "-t",
-                "stm32h743xx",
-                "build/Release/STM32H743IIT6.elf"
-            ],
-            "group": {
-                "kind": "build",
-            },
-            "problemMatcher": []
-        },
-        // ==================== Composite Tasks ====================
-        {
-            "label": "🚀 Debug: Clean + Build + Flash",
-            "detail": "Clean, build and flash Debug version",
+            "label": "🚀 Clean + Build + Flash (OpenOCD)",
+            "detail": "Full Workflow: Clean, Build and Flash using OpenOCD",
             "dependsOrder": "sequence",
             "dependsOn": [
-                "🧹 Debug: Clean",
-                "🔨 Debug: Build",
-                "📥 Debug: Flash_openocd"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "problemMatcher": []
-        },
-        {
-            "label": "🚀 Release: Clean + Build + Flash",
-            "detail": "Clean, build and flash Release version",
-            "dependsOrder": "sequence",
-            "dependsOn": [
-                "🧹 Release: Clean",
-                "🔨 Release: Build",
-                "📥 Release: Flash_openocd"
+                "🧹 Clean",
+                "🔨 Build",
+                "📥 Flash (OpenOCD)"
             ],
             "group": "build",
             "problemMatcher": []
