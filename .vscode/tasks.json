@@ -140,7 +140,7 @@
             "problemMatcher": []
         },
         {
-            "label": "📥 Debug: Flash_pyOCD",
+            "label": "📥 Release: Flash_pyOCD",
             "detail": "Flash Debug firmware to STM32H743",
             "type": "shell",
             "command": "pyocd",
@@ -152,7 +152,6 @@
             ],
             "group": {
                 "kind": "build",
-                "isDefault": true
             },
             "problemMatcher": []
         },
@@ -179,7 +178,7 @@
             "dependsOn": [
                 "🧹 Release: Clean",
                 "🔨 Release: Build",
-                "📥 Release: Flash"
+                "📥 Release: Flash_openocd"
             ],
             "group": "build",
             "problemMatcher": []
