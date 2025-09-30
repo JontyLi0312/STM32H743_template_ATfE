@@ -57,21 +57,27 @@
 3.  修改 `TOOLCHAIN_PREFIX` 变量，使其指向你的 **ATfE** 工具链的实际安装路径。
 
 ### 🏃‍♀️ 编译与烧录
+本项目已预置了 VS Code 任务，以简化开发流程。使用快捷键 `Ctrl+Shift+B` 唤出任务面板，从列表中选择你想要执行的任务。
 
-在 VS Code 中打开项目后，使用快捷键 `Ctrl+Shift+B` 调出任务列表：
+可用任务列表如下：
 
-1.  **🧹 Clean**: 清理旧的构建文件。
-2.  **🔨 Build**: 编译项目 (首次运行时会自动执行 CMake 配置)。
-3.  **📥 Flash (OpenOCD)**: 使用 CMSIS-DAP 通过 OpenOCD 将固件烧录到目标设备。
-4.  **📥 Flash (PyOCD)**: 通过 PyOCD 将固件烧录到目标设备 (自动检测烧录器)。
+基础任务 (Basic Tasks): 执行单一操作的基本任务。
 
-你也可以直接运行一键式任务以简化流程：
+1.  **🔧 Configure**: 配置 CMake 环境。Build 任务会自动调用它，通常无需手动执行。
+2.  **🔨 Build**: 编译项目。
+3.  **🧹 Clean**: 清理所有构建生成的文件。
+4.  **📥 Flash (OpenOCD)**: 使用 OpenOCD （默认为CMSIS-DAP）将固件烧录到目标设备。 
+5.  **📥 Flash (pyOCD)**: 使用 pyOCD （任意受 pyOCD 支持的烧录器）将固件烧录到目标设备。
 
-  * **🚀 Clean, Build & Flash**: 自动完成清理、配置、编译和烧录所有步骤 (默认使用 OpenOCD 烧录)。
+组合工作流 (Composite Workflows): 按顺序执行多个基础任务的便捷工作流。
 
-如果你希望使用 `Release` 预设，请使用 `Ctrl+Shift+P` 唤出命令面板，输入 `Task: Run Task` 并选择 `Release` 相关任务。
+1.  **🚀 Clean + Build**: 自动完成清理和编译两个步骤。
 
-> 所有任务均定义在 `.vscode/tasks.json` 文件中。
+2. **🚀🚀 Clean + Build + Flash (OpenOCD)**: (推荐) 全自动工作流，依次执行清理、编译，并使用 OpenOCD 进行烧录。
+
+3. **🚀🚀 Clean + Build + Flash (pyOCD)**: 全自动工作流，依次执行清理、编译，并使用 pyOCD 进行烧录。
+
+所有任务的详细定义均可在 `.vscode/tasks.json` 文件中查看和修改。
 
 -----
 
