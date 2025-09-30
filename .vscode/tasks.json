@@ -48,7 +48,7 @@
             "problemMatcher": []
         },
         {
-            "label": "📥 Debug: Flash_by_openocd",
+            "label": "📥 Debug: Flash_openocd",
             "detail": "Flash Debug firmware to STM32H743",
             "type": "shell",
             "command": "openocd",
@@ -67,7 +67,7 @@
             "problemMatcher": []
         },
         {
-            "label": "📥 Debug: Flash_by_pyocd",
+            "label": "📥 Debug: Flash_pyOCD",
             "detail": "Flash Debug firmware to STM32H743",
             "type": "shell",
             "command": "pyocd",
@@ -124,7 +124,7 @@
             "problemMatcher": []
         },
         {
-            "label": "📥 Release: Flash",
+            "label": "📥 Release: Flash_openocd",
             "detail": "Flash Release firmware to STM32H743",
             "type": "shell",
             "command": "openocd",
@@ -139,6 +139,23 @@
             "group": "build",
             "problemMatcher": []
         },
+        {
+            "label": "📥 Debug: Flash_pyOCD",
+            "detail": "Flash Debug firmware to STM32H743",
+            "type": "shell",
+            "command": "pyocd",
+            "args": [
+                "flash",
+                "-t",
+                "stm32h743xx",
+                "build/Release/STM32H743IIT6.elf"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        },
         // ==================== Composite Tasks ====================
         {
             "label": "🚀 Debug: Clean + Build + Flash",
@@ -147,7 +164,7 @@
             "dependsOn": [
                 "🧹 Debug: Clean",
                 "🔨 Debug: Build",
-                "📥 Debug: Flash"
+                "📥 Debug: Flash_openocd"
             ],
             "group": {
                 "kind": "build",

@@ -31,7 +31,7 @@
             "cwd": "${workspaceRoot}",
             "type": "cortex-debug",
             "request": "launch",
-            "name": "OpenOCD_cmsis-dap",
+            "name": "openocd_CMSIS-DAP",
             "servertype": "openocd",
             "executable": "./build/Debug/STM32H743IIT6.elf",
             "runToEntryPoint": "main",
@@ -47,7 +47,7 @@
             "cwd": "${workspaceRoot}",
             "type": "cortex-debug",
             "request": "launch",
-            "name": "OpenOCD_stlink",
+            "name": "openocd_ST-Link",
             "servertype": "openocd",
             "executable": "./build/Debug/STM32H743IIT6.elf",
             "runToEntryPoint": "main",
@@ -60,7 +60,7 @@
             "toolchainPrefix": "arm-none-eabi"
         },
         {
-            "name": "PyOCD",
+            "name": "pyOCD",
             "svdFile": "STM32H743.svd",
             "cwd": "${workspaceFolder}",
             "executable": "./build/Debug/STM32H743IIT6.elf",
