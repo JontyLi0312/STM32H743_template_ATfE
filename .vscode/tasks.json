@@ -16,7 +16,7 @@
         // ==================== Basic Tasks (Driven by Input) ====================
         {
             "label": "🔧 Configure",
-            "detail": "Configure CMake build environment (${input:buildType})",
+            "detail": "Configure CMake build environment",
             "type": "shell",
             "command": "cmake",
             "args": [
@@ -28,7 +28,7 @@
         },
         {
             "label": "🔨 Build",
-            "detail": "Build the project (${input:buildType})",
+            "detail": "Build the project",
             "type": "shell",
             "command": "cmake",
             "args": [
@@ -36,11 +36,12 @@
                 "--preset",
                 "${input:buildType}"
             ],
+            "dependsOn": "🔧 Configure",
             "group": "build"
         },
         {
             "label": "🧹 Clean",
-            "detail": "Clean the build files (${input:buildType})",
+            "detail": "Clean the build files",
             "type": "shell",
             "command": "cmake",
             "args": [
@@ -54,7 +55,7 @@
         },
         {
             "label": "📥 Flash (OpenOCD)",
-            "detail": "Flash firmware using OpenOCD (${input:buildType})",
+            "detail": "Flash firmware using OpenOCD",
             "type": "shell",
             "command": "openocd",
             "args": [
@@ -70,7 +71,7 @@
         },
         {
             "label": "📥 Flash (pyOCD)",
-            "detail": "Flash firmware using pyOCD (${input:buildType})",
+            "detail": "Flash firmware using pyOCD",
             "type": "shell",
             "command": "pyocd",
             "args": [
@@ -84,7 +85,18 @@
         },
         // ==================== Composite Workflow Tasks ====================
         {
-            "label": "🚀 Clean + Build + Flash (OpenOCD)",
+            "label": "🚀 Clean + Build",
+            "detail": "Full Workflow: Clean, Build",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "🧹 Clean",
+                "🔨 Build",
+            ],
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "🚀🚀 Clean + Build + Flash (OpenOCD)",
             "detail": "Full Workflow: Clean, Build and Flash using OpenOCD",
             "dependsOrder": "sequence",
             "dependsOn": [
@@ -94,6 +106,18 @@
             ],
             "group": "build",
             "problemMatcher": []
-        }
+        },
+        {
+            "label": "🚀🚀 Clean + Build + Flash (pyOCD)",
+            "detail": "Full Workflow: Clean, Build and Flash using pyOCD",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "🧹 Clean",
+                "🔨 Build",
+                "📥 Flash (pyOCD)"
+            ],
+            "group": "build",
+            "problemMatcher": []
+        },
     ]
 }
