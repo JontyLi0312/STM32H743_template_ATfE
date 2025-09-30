@@ -1,6 +1,6 @@
 # STM32H743IIT6 Project Template (Based on ATfE)
 
-[**English**](https://www.google.com/search?q=./README_en.md) | [中文](https://www.google.com/search?q=./README.md)
+**English** | [中文](./README.md)
 
 A modern project template for the STM32H743IIT6, built upon the official Arm Toolchain for Embedded (ATfE), designed to be efficient, clean, and easily extensible.
 
@@ -32,15 +32,15 @@ This guide will walk you through setting up the development environment and runn
 
 Ensure the following tools are correctly installed and their paths have been added to your system's `PATH` environment variable.
 
-| Tool                         | Description                                                          | Link                                                                                                   |
-| :--------------------------- | :------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------- |
-| **CMake** | Cross-platform build system generator                                | [cmake.org](https://cmake.org/)                                                                        |
-| **Ninja** | A small build system with a focus on speed                           | [github.com/ninja-build/ninja](https://github.com/ninja-build/ninja)                                     |
-| **OpenOCD** | Open-source on-chip debugger and programmer                          | [github.com/openocd-org/openocd](https://github.com/openocd-org/openocd)                                 |
-| **pyOCD** | Python library for programming and debugging MCUs via USB            | [github.com/pyocd/pyOCD](https://github.com/pyocd/pyOCD)                                                 |
-| **ATfE** | Arm Toolchain for Embedded (LLVM-based)                              | [arm.com/toolchain](https://www.google.com/search?q=https://developer.arm.com/downloads/-/arm-toolchain-for-embedded)                    |
-| **GNU Arm Embedded Toolchain** | Provides the GDB debugger                                            | [arm.com/gnu-toolchain](https://developer.arm.com/downloads/-/gnu-rm)                                    |
-| **LLVM** | Provides `clangd` for language services (autocomplete, navigation, etc.) | [github.com/llvm/llvm-project](https://github.com/llvm/llvm-project)                                     |
+| Tool                           | Description                                                              | Link                                                                                                                  |
+| :----------------------------- | :----------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------- |
+| **CMake**                      | Cross-platform build system generator                                    | [cmake.org](https://cmake.org/)                                                                                       |
+| **Ninja**                      | A small build system with a focus on speed                               | [github.com/ninja-build/ninja](https://github.com/ninja-build/ninja)                                                  |
+| **OpenOCD**                    | Open-source on-chip debugger and programmer                              | [github.com/openocd-org/openocd](https://github.com/openocd-org/openocd)                                              |
+| **pyOCD**                      | Python library for programming and debugging MCUs via USB                | [github.com/pyocd/pyOCD](https://github.com/pyocd/pyOCD)                                                              |
+| **ATfE**                       | Arm Toolchain for Embedded (LLVM-based)                                  | [arm.com/toolchain](https://www.google.com/search?q=https://developer.arm.com/downloads/-/arm-toolchain-for-embedded) |
+| **GNU Arm Embedded Toolchain** | Provides the GDB debugger                                                | [arm.com/gnu-toolchain](https://developer.arm.com/downloads/-/gnu-rm)                                                 |
+| **LLVM**                       | Provides `clangd` for language services (autocomplete, navigation, etc.) | [github.com/llvm/llvm-project](https://github.com/llvm/llvm-project)                                                  |
 
 ### 📦 VS Code Extensions
 
@@ -99,10 +99,10 @@ The detailed definitions for all tasks can be viewed and modified in the `.vscod
 
 The project is pre-configured with two build types to suit different development stages:
 
-| Profile   | Optimization | Usage                               |
-| :-------- | :----------- | :---------------------------------- |
-| **Debug** | `-g3`        | For daily development and debugging |
-| **Release** | `-g0`        | For the final product release     |
+| Profile     | Optimization | Usage                               |
+| :---------- | :----------- | :---------------------------------- |
+| **Debug**   | `-g3`        | For daily development and debugging |
+| **Release** | `-g0`        | For the final product release       |
 
 You can easily switch between build configurations using the VS Code CMake Tools extension or the status bar at the bottom of the window.
 
