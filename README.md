@@ -64,7 +64,7 @@
 基础任务 (Basic Tasks): 执行单一操作的基本任务。
 
 1.  **🔧 Configure**: 配置 CMake 环境。Build 任务会自动调用它，通常无需手动执行。
-2.  **🔨 Build**: 编译项目。
+2.  **🔨 Build**: 编译项目（依赖于 🔧 Configure）。
 3.  **🧹 Clean**: 清理所有构建生成的文件。
 4.  **📥 Flash (OpenOCD)**: 使用 OpenOCD （默认为CMSIS-DAP）将固件烧录到目标设备。 
 5.  **📥 Flash (pyOCD)**: 使用 pyOCD （任意受 pyOCD 支持的烧录器）将固件烧录到目标设备。

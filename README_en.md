@@ -66,7 +66,7 @@ Available tasks are listed below:
 
 1.  **🔧 Configure**: Configures the CMake environment. The Build task calls this automatically, so manual execution is usually not needed.
 2.  **🔨 Build**: Compiles the project.
-3.  **🧹 Clean**: Cleans all build-generated files.
+3.  **🧹 Clean**: Cleans all build-generated files (depends on 🔧 Configure).
 4.  **📥 Flash (OpenOCD)**: Flashes the firmware to the target device using OpenOCD (defaults to CMSIS-DAP).
 5.  **📥 Flash (pyOCD)**: Flashes the firmware to the target device using pyOCD (with any pyOCD-supported programmer).
 
