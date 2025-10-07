@@ -198,13 +198,13 @@ uint32_t QSPI_W25Qxx_ReadID(void)
     // 发送指令
     if (HAL_QSPI_Command(&hqspi, &s_command, HAL_QPSI_TIMEOUT_DEFAULT_VALUE) !=
         HAL_OK) {
-        //		return W25Qxx_ERROR_INIT;		//
+        return W25Qxx_ERROR_INIT; //
         // 如果发送失败，返回错误信息
     }
     // 接收数据
     if (HAL_QSPI_Receive(&hqspi, QSPI_ReceiveBuff,
                          HAL_QPSI_TIMEOUT_DEFAULT_VALUE) != HAL_OK) {
-        //		return W25Qxx_ERROR_TRANSMIT;  // 如果接收失败，返回错误信息
+        return W25Qxx_ERROR_TRANSMIT; // 如果接收失败，返回错误信息
     }
     // 将得到的数据组合成ID
     W25Qxx_ID = (QSPI_ReceiveBuff[0] << 16) | (QSPI_ReceiveBuff[1] << 8) |

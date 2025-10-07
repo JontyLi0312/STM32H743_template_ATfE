@@ -31,7 +31,6 @@ void MX_QUADSPI_Init(void)
 {
 
     /* USER CODE BEGIN QUADSPI_Init 0 */
-    HAL_QSPI_DeInit(&hqspi);
     /* USER CODE END QUADSPI_Init 0 */
 
     /* USER CODE BEGIN QUADSPI_Init 1 */
