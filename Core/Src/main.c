@@ -167,7 +167,7 @@ int8_t QSPI_W25Qxx_Test(void) // Flash读写测试
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 __attribute__((section(".buffer"))) __attribute__((aligned(4))) uint8_t test[] =
-    "0";
+    "hello";
 /* USER CODE END 0 */
 
 /**
@@ -219,14 +219,14 @@ int main(void)
     MX_DMA2D_Init();
     MX_LTDC_Init();
     MX_QUADSPI_Init();
-    // MX_SDMMC1_SD_Init();
     MX_RTC_Init();
+    // MX_SDMMC1_SD_Init();
     /* USER CODE BEGIN 2 */
     // SDRAM_Initialization_Sequence(&hsdram1);
     LCD_RGB_Init();
     Touch_Init();
     QSPI_W25Qxx_Init(); // 初始化W25Q64
-    // QSPI_W25Qxx_Test(); // Flash读写测试
+    QSPI_W25Qxx_Test(); // Flash读写测试
 
     /* USER CODE END 2 */
 
@@ -234,9 +234,8 @@ int main(void)
     /* USER CODE BEGIN WHILE */
 
     while (1) {
-        SCB_CleanDCache_by_Addr((uint32_t*)test, 1);
+        SCB_CleanDCache_by_Addr((uint32_t *)test, 1);
         HAL_UART_Transmit_DMA(&huart1, test, sizeof(test));
-        test[0] += 1;
         HAL_Delay(1000);
         /* USER CODE END WHILE */
 
