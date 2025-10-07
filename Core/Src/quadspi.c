@@ -87,34 +87,31 @@ void HAL_QSPI_MspInit(QSPI_HandleTypeDef *qspiHandle)
         GPIO_InitStruct.Pin       = GPIO_PIN_2;
         GPIO_InitStruct.Mode      = GPIO_MODE_AF_PP;
         GPIO_InitStruct.Pull      = GPIO_NOPULL;
-        GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_LOW;
+        GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_VERY_HIGH;
         GPIO_InitStruct.Alternate = GPIO_AF9_QUADSPI;
         HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
         GPIO_InitStruct.Pin       = GPIO_PIN_2;
         GPIO_InitStruct.Mode      = GPIO_MODE_AF_PP;
         GPIO_InitStruct.Pull      = GPIO_NOPULL;
-        GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_LOW;
+        GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_VERY_HIGH;
         GPIO_InitStruct.Alternate = GPIO_AF9_QUADSPI;
         HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
         GPIO_InitStruct.Pin       = GPIO_PIN_11 | GPIO_PIN_12 | GPIO_PIN_13;
         GPIO_InitStruct.Mode      = GPIO_MODE_AF_PP;
         GPIO_InitStruct.Pull      = GPIO_NOPULL;
-        GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_LOW;
+        GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_VERY_HIGH;
         GPIO_InitStruct.Alternate = GPIO_AF9_QUADSPI;
         HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
         GPIO_InitStruct.Pin       = GPIO_PIN_6;
         GPIO_InitStruct.Mode      = GPIO_MODE_AF_PP;
         GPIO_InitStruct.Pull      = GPIO_NOPULL;
-        GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_LOW;
+        GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_VERY_HIGH;
         GPIO_InitStruct.Alternate = GPIO_AF10_QUADSPI;
         HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-        /* QUADSPI interrupt Init */
-        HAL_NVIC_SetPriority(QUADSPI_IRQn, 0, 0);
-        HAL_NVIC_EnableIRQ(QUADSPI_IRQn);
         /* USER CODE BEGIN QUADSPI_MspInit 1 */
 
         /* USER CODE END QUADSPI_MspInit 1 */
@@ -145,8 +142,6 @@ void HAL_QSPI_MspDeInit(QSPI_HandleTypeDef *qspiHandle)
 
         HAL_GPIO_DeInit(GPIOD, GPIO_PIN_11 | GPIO_PIN_12 | GPIO_PIN_13);
 
-        /* QUADSPI interrupt Deinit */
-        HAL_NVIC_DisableIRQ(QUADSPI_IRQn);
         /* USER CODE BEGIN QUADSPI_MspDeInit 1 */
 
         /* USER CODE END QUADSPI_MspDeInit 1 */
