@@ -15,7 +15,6 @@ set(Core_Inc
 	${CMAKE_SOURCE_DIR}/Drivers/CMSIS/Device/ST/STM32H7xx/Include
 	${CMAKE_SOURCE_DIR}/Drivers/STM32H7xx_HAL_Driver/Inc
 	${CMAKE_SOURCE_DIR}/User_Drivers/Inc
-	${CMAKE_SOURCE_DIR}/lvgl-8.3.10/porting
     ${CMAKE_SOURCE_DIR}/App/Inc
 )
 

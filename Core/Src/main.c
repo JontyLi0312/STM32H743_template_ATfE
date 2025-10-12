@@ -24,6 +24,7 @@
 #include "quadspi.h"
 #include "rtc.h"
 #include "sdmmc.h"
+#include "stm32h7xx_hal.h"
 #include "usart.h"
 #include "gpio.h"
 #include "fmc.h"
@@ -34,9 +35,9 @@
 #include "lcd_show.h"
 #include "lcd_test.h"
 #include "touch_800x480.h"
-#include <complex.h>
 #include <stdint.h>
 #include "qspi_w25q64.h"
+#include "map.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -46,13 +47,6 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define W25Qxx_NumByteToTest 32 * 1024 // 测试数据的长度，64K
-
-int32_t QSPI_Status; // 检测标志位
-
-uint32_t W25Qxx_TestAddr = 0;                     // 测试地址
-uint8_t W25Qxx_WriteBuffer[W25Qxx_NumByteToTest]; //	写数据数组
-uint8_t W25Qxx_ReadBuffer[W25Qxx_NumByteToTest];
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -70,104 +64,15 @@ uint8_t W25Qxx_ReadBuffer[W25Qxx_NumByteToTest];
 void SystemClock_Config(void);
 static void MPU_Config(void);
 /* USER CODE BEGIN PFP */
-int8_t QSPI_W25Qxx_Test(void) // Flash读写测试
-{
-    uint32_t i = 0; // 计数变量
 
-    // 擦除
-    QSPI_Status = QSPI_W25Qxx_BlockErase_32K(W25Qxx_TestAddr); // 擦除32K字节
-
-    if (QSPI_Status == QSPI_W25Qxx_OK) {
-        uint8_t erase_success[] = "\r\nerase success";
-        HAL_UART_Transmit(&huart1, erase_success, sizeof(erase_success),
-                          HAL_MAX_DELAY);
-    } else {
-        uint8_t erase_failed[] = "\r\nerase failed";
-        HAL_UART_Transmit(&huart1, erase_failed, sizeof(erase_failed),
-                          HAL_MAX_DELAY);
-        while (1);
-    }
-
-    // 写入
-    for (i = 0; i < W25Qxx_NumByteToTest; i++) // 先将数据写入数组
-    {
-        W25Qxx_WriteBuffer[i] = i;
-    }
-
-    QSPI_Status = QSPI_W25Qxx_WriteBuffer(W25Qxx_WriteBuffer, W25Qxx_TestAddr,
-                                          W25Qxx_NumByteToTest); // 写入数据
-
-    if (QSPI_Status == QSPI_W25Qxx_OK) {
-        uint8_t write_success[] = "\r\nwrite success";
-        HAL_UART_Transmit(&huart1, write_success, sizeof(write_success),
-                          HAL_MAX_DELAY);
-    } else {
-        uint8_t write_failed[] = "\r\nwrite failed";
-        HAL_UART_Transmit(&huart1, write_failed, sizeof(write_failed),
-                          HAL_MAX_DELAY);
-        while (1);
-    }
-
-    // 读取
-    QSPI_Status = QSPI_W25Qxx_ReadBuffer(W25Qxx_ReadBuffer, W25Qxx_TestAddr,
-                                         W25Qxx_NumByteToTest); // 读取数据
-
-    if (QSPI_Status == QSPI_W25Qxx_OK) {
-        uint8_t read_success[] = "\r\nread success";
-        HAL_UART_Transmit(&huart1, read_success, sizeof(read_success),
-                          HAL_MAX_DELAY);
-    } else {
-        uint8_t read_failed[] = "\r\nread failed";
-        HAL_UART_Transmit(&huart1, read_failed, sizeof(read_failed),
-                          HAL_MAX_DELAY);
-        while (1);
-    }
-
-    // 数据校验
-    for (i = 0; i < W25Qxx_NumByteToTest;
-         i++) // 验证读出的数据是否等于写入的数据
-    {
-        if (W25Qxx_WriteBuffer[i] !=
-            W25Qxx_ReadBuffer[i]) // 如果数据不相等，则返回0
-        {
-            uint8_t data_error[] = "\r\ndata error";
-            HAL_UART_Transmit(&huart1, data_error, sizeof(data_error),
-                              HAL_MAX_DELAY);
-            while (1);
-        }
-    }
-    uint8_t qspi_test_result[] = "\r\nQSPI_W25Qxx_Test success";
-    HAL_UART_Transmit(&huart1, qspi_test_result, sizeof(qspi_test_result),
-                      HAL_MAX_DELAY);
-
-    // 读取整片Flash的数据0x20020000
-    for (i = 0; i < W25Qxx_FlashSize / (W25Qxx_NumByteToTest);
-         i++) // 每次读取 W25Qxx_NumByteToTest 字节的数据
-    {
-        QSPI_Status = QSPI_W25Qxx_ReadBuffer(W25Qxx_ReadBuffer, W25Qxx_TestAddr,
-                                             W25Qxx_NumByteToTest);
-        W25Qxx_TestAddr = W25Qxx_TestAddr + W25Qxx_NumByteToTest;
-    }
-
-    if (QSPI_Status == QSPI_W25Qxx_OK) {
-        uint8_t read_success[] = "\r\nread success";
-        HAL_UART_Transmit(&huart1, read_success, sizeof(read_success),
-                          HAL_MAX_DELAY);
-    } else {
-        uint8_t read_failed[] = "\r\nread failed";
-        HAL_UART_Transmit(&huart1, read_failed, sizeof(read_failed),
-                          HAL_MAX_DELAY);
-        while (1);
-    }
-
-    return QSPI_W25Qxx_OK; // 测试通过
-}
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 __attribute__((section(".buffer"))) __attribute__((aligned(4))) uint8_t test[] =
-    "hello";
+    "\r\ntest";
+PLACE_IN_QSPI_SECTION const uint8_t qspi[] = "\r\nqspi";
+
 /* USER CODE END 0 */
 
 /**
@@ -225,8 +130,9 @@ int main(void)
     // SDRAM_Initialization_Sequence(&hsdram1);
     LCD_RGB_Init();
     Touch_Init();
-    QSPI_W25Qxx_Init(); // 初始化W25Q64
-    QSPI_W25Qxx_Test(); // Flash读写测试
+    if (QSPI_W25Qxx_Init() != QSPI_W25Qxx_OK) { Error_Handler(); }
+    if (QSPI_W25Qxx_Reset() != QSPI_W25Qxx_OK) { Error_Handler(); }
+    if (QSPI_W25Qxx_MemoryMappedMode() != QSPI_W25Qxx_OK) { Error_Handler(); }
 
     /* USER CODE END 2 */
 
@@ -234,8 +140,10 @@ int main(void)
     /* USER CODE BEGIN WHILE */
 
     while (1) {
-        SCB_CleanDCache_by_Addr((uint32_t *)test, 1);
+        SCB_CleanDCache_by_Addr((uint32_t *)test, sizeof(test));
         HAL_UART_Transmit_DMA(&huart1, test, sizeof(test));
+        HAL_Delay(1000);
+        HAL_UART_Transmit_DMA(&huart1, qspi, sizeof(qspi));
         HAL_Delay(1000);
         /* USER CODE END WHILE */
 

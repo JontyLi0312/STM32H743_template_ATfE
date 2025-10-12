@@ -10,7 +10,7 @@ set(App_Inc
 )
 
 set(App_Src
-	${CMAKE_CURRENT_SOURCE_DIR}/Src/qspi_w25q64.c
+	
 )
 
 add_library(App INTERFACE)

@@ -61,14 +61,14 @@ RAM_D2 (xrw)      : ORIGIN = 0x30000000, LENGTH = 288K
 RAM_D3 (xrw)      : ORIGIN = 0x38000000, LENGTH = 64K
 ITCMRAM (xrw)      : ORIGIN = 0x00000000, LENGTH = 64K
 FLASH (rx)      : ORIGIN = 0x8000000, LENGTH = 2048K
-/* FLASH (rx)      : ORIGIN = 0x90000000, LENGTH = 8M */
+QSPI_FLASH (rx)      : ORIGIN = 0x90000000, LENGTH = 8M
 }
 
 /* Highest address of the user mode stack */
 _estack = ORIGIN(DTCMRAM) + LENGTH(DTCMRAM);    /* end of RAM */
 /* Generate a link error if heap and stack don't fit into RAM */
-_Min_Heap_Size = 0x200;      /* required amount of heap  */
-_Min_Stack_Size = 0x400; /* required amount of stack */
+_Min_Heap_Size = 0x2000;      /* required amount of heap  */
+_Min_Stack_Size = 0x1000; /* required amount of stack */
 
 /* Define output sections */
 SECTIONS
@@ -241,6 +241,14 @@ SECTIONS
     __buffer_end__ = .;
   } >RAM AT> FLASH
   __buffer_load_start__ = LOADADDR(.buffer);
+
+  .qspi_assets_section :
+  {
+   . = ALIGN(4);
+    KEEP(*(.qspi_lvgl_assets))     /* 收集所有标记为.qspi_lvgl_assets 的输入节 */
+    KEEP(*(.qspi_lvgl_assets*))    /* 同时收集子节 */
+   . = ALIGN(4);
+  } > QSPI_FLASH
   
   /* User_heap_stack section, used to check that there is enough RAM left */
   ._user_heap_stack (NOLOAD) :

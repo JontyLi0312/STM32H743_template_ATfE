@@ -17,6 +17,7 @@ set(User_Drivers_Src
 				${CMAKE_CURRENT_SOURCE_DIR}/Src/sdram.c
 				${CMAKE_CURRENT_SOURCE_DIR}/Src/touch_800x480.c
 				${CMAKE_CURRENT_SOURCE_DIR}/Src/touch_iic.c
+                ${CMAKE_CURRENT_SOURCE_DIR}/Src/qspi_w25q64.c
 )
 
 add_library(User_Drivers INTERFACE)
