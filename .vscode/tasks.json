@@ -24,7 +24,6 @@
                 "${input:buildType}"
             ],
             "group": "build",
-            "problemMatcher": []
         },
         {
             "label": "🔨 Build",
@@ -51,7 +50,6 @@
                 "clean"
             ],
             "group": "build",
-            "problemMatcher": []
         },
         {
             "label": "📥 Flash (OpenOCD)",
@@ -67,7 +65,6 @@
                 "program ./build/${input:buildType}/STM32H743IIT6.elf verify reset exit"
             ],
             "group": "build",
-            "problemMatcher": []
         },
         {
             "label": "📥 Flash (pyOCD)",
@@ -81,7 +78,6 @@
                 "build/${input:buildType}/STM32H743IIT6.elf"
             ],
             "group": "build",
-            "problemMatcher": []
         },
         // ==================== Composite Workflow Tasks ====================
         {
@@ -93,10 +89,9 @@
                 "🔨 Build",
             ],
             "group": "build",
-            "problemMatcher": []
         },
         {
-            "label": "🚀🚀 Clean + Build + Flash (OpenOCD)",
+            "label": "🚀📥 (OpenOCD)",
             "detail": "Full Workflow: Clean, Build and Flash using OpenOCD",
             "dependsOrder": "sequence",
             "dependsOn": [
@@ -105,10 +100,9 @@
                 "📥 Flash (OpenOCD)"
             ],
             "group": "build",
-            "problemMatcher": []
         },
         {
-            "label": "🚀🚀 Clean + Build + Flash (pyOCD)",
+            "label": "🚀📥 (pyOCD)",
             "detail": "Full Workflow: Clean, Build and Flash using pyOCD",
             "dependsOrder": "sequence",
             "dependsOn": [
@@ -117,7 +111,6 @@
                 "📥 Flash (pyOCD)"
             ],
             "group": "build",
-            "problemMatcher": []
         },
     ]
 }
