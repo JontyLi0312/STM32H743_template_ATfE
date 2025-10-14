@@ -83,7 +83,7 @@ set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES ADDITIONAL_CLEAN_FILES ${
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)
 # Define separate paths for internal and external flash binaries.
 set(INTERNAL_BIN_FILE ${CMAKE_BINARY_DIR}/internal_flash.bin)
-set(EXTERNAL_BIN_FILE ${CMAKE_BINARY_DIR}/qspi_assets.bin)
+set(EXTERNAL_BIN_FILE ${CMAKE_BINARY_DIR}/qspi_flash.bin)
 
 # Add a post-build step to generate the.hex file from the.elf output.
 add_custom_command(
