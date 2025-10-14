@@ -36,9 +36,15 @@ set(CMAKE_CXX_FLAGS			"${CMAKE_C_FLAGS} -fno-rtti -fno-exceptions -fno-threadsaf
 
 set(CMAKE_CXX_FLAGS "${TARGET_FLAGS}")
 
+if(ATFE_CMAKE_INCLUDED)
+  return()
+endif()
+
+# This content move to CMakelists.txt
 set(CMAKE_EXE_LINKER_FLAGS 	"${CMAKE_EXE_LINKER_FLAGS} -lcrt0-hosted")
 set(CMAKE_EXE_LINKER_FLAGS 	"${CMAKE_EXE_LINKER_FLAGS} -T \"${CMAKE_SOURCE_DIR}/STM32H743XX_FLASH.ld\"")
 set(CMAKE_EXE_LINKER_FLAGS 	"${CMAKE_EXE_LINKER_FLAGS} -Wl,-Map=${CMAKE_PROJECT_NAME}.map -Wl,--gc-sections")
 set(CMAKE_EXE_LINKER_FLAGS 	"${CMAKE_EXE_LINKER_FLAGS} -z noexecstack")
 set(CMAKE_EXE_LINKER_FLAGS 	"${CMAKE_EXE_LINKER_FLAGS} -Wl,--print-memory-usage ")
 
+set(ATFE_CMAKE_INCLUDED TRUE)
