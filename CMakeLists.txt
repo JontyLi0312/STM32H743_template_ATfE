@@ -79,31 +79,39 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
 # Add the map file to the list of files to be removed with 'clean' target
 set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES ADDITIONAL_CLEAN_FILES ${CMAKE_PROJECT_NAME}.map)
 
-# Define paths for the output artifacts. Using CMAKE_BINARY_DIR ensures they are
-# placed in the build directory.
+# Define paths for the output artifacts.
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)
-set(BIN_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.bin)
+# Define separate paths for internal and external flash binaries.
+set(INTERNAL_BIN_FILE ${CMAKE_BINARY_DIR}/internal_flash.bin)
+set(EXTERNAL_BIN_FILE ${CMAKE_BINARY_DIR}/qspi_assets.bin)
 
-# Add a post-build step to generate the .hex file from the .elf output.
-# This command is triggered by the custom target below.
+# Add a post-build step to generate the.hex file from the.elf output.
 add_custom_command(
     OUTPUT ${HEX_FILE}
     COMMAND ${CMAKE_OBJCOPY} -O ihex $<TARGET_FILE:${PROJECT_NAME}> ${HEX_FILE}
     DEPENDS ${PROJECT_NAME}
 )
 
-# Add a post-build step to generate the .bin file from the .elf output.
+# Generate the.bin file for the internal flash.
 add_custom_command(
-    OUTPUT ${BIN_FILE}
-    COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${PROJECT_NAME}> ${BIN_FILE}
+    OUTPUT ${INTERNAL_BIN_FILE}
+    COMMAND ${CMAKE_OBJCOPY} -O binary --remove-section=.qspi_assets_section
+            $<TARGET_FILE:${PROJECT_NAME}> ${INTERNAL_BIN_FILE}
     DEPENDS ${PROJECT_NAME}
 )
 
-# Create a custom target to execute the file generation commands.
-# By adding this target to 'ALL', these commands are automatically run after
-# a successful build of the main target, making it part of the default build process.
+# Generate the.bin file for the external QSPI flash.
+add_custom_command(
+    OUTPUT ${EXTERNAL_BIN_FILE}
+    COMMAND ${CMAKE_OBJCOPY} -O binary --only-section=.qspi_assets_section
+            $<TARGET_FILE:${PROJECT_NAME}> ${EXTERNAL_BIN_FILE}
+    DEPENDS ${PROJECT_NAME}
+)
+
+# Create a custom target to execute all file generation commands.  
 add_custom_target(${PROJECT_NAME}_post_build ALL
     DEPENDS
         ${HEX_FILE}
-        ${BIN_FILE}
+        ${INTERNAL_BIN_FILE}
+        ${EXTERNAL_BIN_FILE}
 )
