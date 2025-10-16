@@ -7,6 +7,6 @@
         "Ninja"
     ],
     "clangd.arguments": [
-        "--query-driver=D:/ARM_Toolchain/ATfE-21.1.1/bin/clang.exe"
+        "--query-driver=D:/ARM_Toolchain/ATfE-21.1.1/bin/clang.exe",
     ],
 }
