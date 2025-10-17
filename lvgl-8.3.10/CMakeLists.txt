@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.22)
 
-add_library(LVGL INTERFACE)
+add_library(LVGL-8.3.10 INTERFACE)
 
 set(LVGL_DIR "${CMAKE_SOURCE_DIR}/lvgl-8.3.10")
 file(GLOB_RECURSE LVGL_SUBDIRS ${LVGL_DIR} "${LVGL_DIR}/*")
@@ -34,10 +34,10 @@ file(GLOB LVGL_Src
     "${CMAKE_CURRENT_LIST_DIR}/porting/*.c"
 )
 
-target_include_directories(LVGL INTERFACE 
+target_include_directories(LVGL-8.3.10 INTERFACE 
     ${LVGL_INCLUDE_DIRS}
 )
 
-target_sources(LVGL INTERFACE 
+target_sources(LVGL-8.3.10 INTERFACE 
     ${LVGL_Src}
 )
