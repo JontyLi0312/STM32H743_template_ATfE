@@ -3,9 +3,6 @@ cmake_minimum_required(VERSION 3.22)
 project(User_Drivers LANGUAGES C ASM)
 
 set(User_Drivers_Inc
-				${CMAKE_SOURCE_DIR}/Core/Inc
-				${CMAKE_SOURCE_DIR}/App/Inc
-				${CMAKE_SOURCE_DIR}/Drivers/STM32H7xx_HAL_Driver/Inc
 				${CMAKE_CURRENT_SOURCE_DIR}/Inc
 )
 
@@ -20,8 +17,10 @@ set(User_Drivers_Src
                 ${CMAKE_CURRENT_SOURCE_DIR}/Src/qspi_w25q64.c
 )
 
-add_library(User_Drivers INTERFACE)
+add_library(User_Drivers STATIC)
 
-target_include_directories(User_Drivers INTERFACE ${User_Drivers_Inc})
+target_include_directories(User_Drivers PUBLIC ${User_Drivers_Inc})
 
-target_sources(User_Drivers INTERFACE ${User_Drivers_Src})
+target_sources(User_Drivers PRIVATE ${User_Drivers_Src})
+
+target_link_libraries(User_Drivers PRIVATE Core_Config Drivers)

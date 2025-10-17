@@ -4,17 +4,16 @@ project(App LANGUAGES C ASM)
 
 set(App_Inc
 	${CMAKE_CURRENT_SOURCE_DIR}/Inc
-	${CMAKE_SOURCE_DIR}/Drivers/CMSIS/Include
-	${CMAKE_SOURCE_DIR}/Drivers/CMSIS/Device/ST/STM32H7xx/Include
-	${CMAKE_SOURCE_DIR}/Drivers/STM32H7xx_HAL_Driver/Inc
 )
 
 set(App_Src
-	
+	${CMAKE_CURRENT_SOURCE_DIR}/Src/map.c
 )
 
-add_library(App INTERFACE)
+add_library(App STATIC)
 
-target_include_directories(App INTERFACE ${App_Inc})
+target_include_directories(App PUBLIC ${App_Inc})
 
-target_sources(App INTERFACE ${App_Src})
+target_sources(App PRIVATE ${App_Src})
+
+target_link_libraries(App PRIVATE Core_Config Drivers User_Drivers)

@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 3.22)
 project(Core LANGUAGES C ASM)
 
 set(Core_Defines_Syms
-	USE_HAL_DRIVER
 	STM32H743xx
 	USE_PWR_LDO_SUPPLY
 	$<$<CONFIG:Debug>:DEBUG>
@@ -11,11 +10,6 @@ set(Core_Defines_Syms
 
 set(Core_Inc
 	${CMAKE_CURRENT_SOURCE_DIR}/Inc
-	${CMAKE_SOURCE_DIR}/Drivers/CMSIS/Include
-	${CMAKE_SOURCE_DIR}/Drivers/CMSIS/Device/ST/STM32H7xx/Include
-	${CMAKE_SOURCE_DIR}/Drivers/STM32H7xx_HAL_Driver/Inc
-	${CMAKE_SOURCE_DIR}/User_Drivers/Inc
-    ${CMAKE_SOURCE_DIR}/App/Inc
 )
 
 set(Core_Src
@@ -35,10 +29,15 @@ set(Core_Src
 	${CMAKE_SOURCE_DIR}/startup_stm32h743xx.s
 )
 
-add_library(Core INTERFACE)
+add_library(Core STATIC)
+add_library(Core_Config INTERFACE)
 
-target_compile_definitions(Core INTERFACE ${Core_Defines_Syms})
+target_include_directories(Core_Config INTERFACE
+    ${CMAKE_CURRENT_SOURCE_DIR}/Inc
+)
 
-target_include_directories(Core INTERFACE ${Core_Inc})
+target_compile_definitions(Core PRIVATE ${Core_Defines_Syms})
 
-target_sources(Core INTERFACE ${Core_Src})
+target_sources(Core PUBLIC ${Core_Src})
+
+target_link_libraries(Core PRIVATE Core_Config Drivers User_Drivers App)
