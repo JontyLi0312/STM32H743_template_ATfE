@@ -40,4 +40,4 @@ target_compile_definitions(Core PRIVATE ${Core_Defines_Syms})
 
 target_sources(Core PUBLIC ${Core_Src})
 
-target_link_libraries(Core PRIVATE Core_Config Drivers User_Drivers App)
+target_link_libraries(Core PRIVATE Core_Config Drivers User_Drivers App LVGL-9.2.1)
