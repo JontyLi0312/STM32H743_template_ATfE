@@ -20,24 +20,29 @@
 #include "main.h"
 #include "dma.h"
 #include "dma2d.h"
+#include "fmc.h"
+#include "gpio.h"
 #include "ltdc.h"
 #include "quadspi.h"
 #include "rtc.h"
 #include "sdmmc.h"
 #include "stm32h7xx_hal.h"
 #include "usart.h"
-#include "gpio.h"
-#include "fmc.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "sdram.h"
 #include "lcd_show.h"
 #include "lcd_test.h"
+#include "lv_demo_music.h"
+#include "lv_port_disp.h"
+#include "lv_port_indev.h"
+#include "lvgl.h"
+#include "map.h"
+#include "qspi_w25q64.h"
+#include "sdram.h"
 #include "touch_800x480.h"
 #include <stdint.h>
-#include "qspi_w25q64.h"
-#include "map.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -133,18 +138,31 @@ int main(void)
     if (QSPI_W25Qxx_Init() != QSPI_W25Qxx_OK) { Error_Handler(); }
     if (QSPI_W25Qxx_Reset() != QSPI_W25Qxx_OK) { Error_Handler(); }
     if (QSPI_W25Qxx_MemoryMappedMode() != QSPI_W25Qxx_OK) { Error_Handler(); }
+    lv_init();
+    lv_port_disp_init();
+    lv_port_indev_init();
+
+    lv_demo_music();
 
     /* USER CODE END 2 */
 
     /* Infinite loop */
     /* USER CODE BEGIN WHILE */
-
+    uint8_t i = 0;
     while (1) {
         SCB_CleanDCache_by_Addr((uint32_t *)test, sizeof(test));
-        HAL_UART_Transmit_DMA(&huart1, test, sizeof(test));
-        HAL_Delay(1000);
-        HAL_UART_Transmit_DMA(&huart1, qspi, sizeof(qspi));
-        HAL_Delay(1000);
+        // HAL_UART_Transmit_DMA(&huart1, test, sizeof(test));
+        // HAL_Delay(1000);
+        if (i == 50) {
+            HAL_UART_Transmit_DMA(&huart1, qspi, sizeof(qspi));
+            i = 0;
+        }
+        i++;
+
+        // HAL_Delay(1000);
+        lv_task_handler();
+        Touch_Scan();
+        HAL_Delay(20);
         /* USER CODE END WHILE */
 
         /* USER CODE BEGIN 3 */
