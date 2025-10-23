@@ -44,7 +44,8 @@ add_subdirectory(Core)
 add_subdirectory(User_Drivers)
 add_subdirectory(Drivers)
 add_subdirectory(App)
-#add_subdirectory(lvgl-8.3.10)
+#add_subdirectory(LVGL-8.3.10)
+add_subdirectory(LVGL-9.2.1)
 
 # Link directories setup
 target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
@@ -73,7 +74,8 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
     Drivers
 	User_Drivers
     App
-	#lvgl
+	#lvgl-8.3.10
+    LVGL-9.2.1
 	# Add user defined libraries
 )
 
@@ -83,8 +85,8 @@ set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES ADDITIONAL_CLEAN_FILES ${
 # Define paths for the output artifacts.
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)
 # Define separate paths for internal and external flash binaries.
-set(INTERNAL_BIN_FILE ${CMAKE_BINARY_DIR}/internal_flash.bin)
-set(EXTERNAL_BIN_FILE ${CMAKE_BINARY_DIR}/qspi_flash.bin)
+set(INTERNAL_BIN_FILE ${CMAKE_BINARY_DIR}/internal.bin)
+set(EXTERNAL_BIN_FILE ${CMAKE_BINARY_DIR}/qspi.bin)
 
 # Add a post-build step to generate the.hex file from the.elf output.
 add_custom_command(
