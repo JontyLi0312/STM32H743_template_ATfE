@@ -4,7 +4,7 @@ from pyocd.core.memory_map import FlashRegion
 import logging
 
 # --- 定义外部 QSPI Flash 的参数 ---
-FLM_FILE = "FANKE_FK743M1_V0.FLM"
+FLM_FILE = ".conf/FANKE_FK743M1_V0.FLM"
 QSPI_FLASH_START = 0x90000000
 QSPI_FLASH_SIZE = 8 * 1024 * 1024
 QSPI_FLASH_BLOCKSIZE = 0x1000
