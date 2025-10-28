@@ -1,0 +1,121 @@
+# File:.conf/stm32h743_qspi.yaml
+# Description: Custom target definition for STM32H743IIT6 with an external W25Q64 QSPI flash.
+
+# Define the chip family and variant.
+name: STM32H743IIT6_QSPI
+
+variants:
+  - name: STM32H743IIT6_QSPI
+    # Inherit all properties from the built-in STM32H743IIT6 target.
+    base_target: STM32H743IIT6
+    
+    # Add the external QSPI flash to the memory map.
+    memory_map:
+      # Nvm (Non-Volatile Memory) region for the W25Q64.
+      -!Nvm
+        range:
+          start: 0x90000000 # QSPI memory-mapped start address
+          end: 0x90800000   # End address for an 8MB flash (0x90000000 + 8 * 1024 * 1024)
+        is_boot_memory: false
+        is_executable: true
+        
+    # Define the flash algorithm for the external memory.
+    flash_algorithms:
+      - name: W25Q64_STM32H743
+        description: "Flash algorithm for the external W25Q64 QSPI flash"
+        # This is not the default algorithm for the chip.
+        default: false
+        
+        # This sequence of register writes initializes the MCU to communicate with the QSPI flash.
+        # It configures clocks, GPIOs, and the QUADSPI peripheral itself.
+        init:
+          # --- Clock Configuration (25MHz HSE -> 400MHz SYSCLK, 100MHz QSPI_CLK) ---
+          # 1. Enable HSE and wait for it to be ready.
+          - { address: 0x58024400, value: 0x00010000 } # RCC_CR: Set HSEON
+          - { address: 0x58024400, value: 0x00030000, wait_for_set: 0x00020000 } # RCC_CR: Wait for HSERDY
+          
+          # 2. Configure PLL1: Source=HSE, M=5, N=160, P=2, Q=4.
+          #    VCO = (25MHz / 5) * 160 = 800MHz
+          #    sys_ck = VCO / P = 800MHz / 2 = 400MHz
+          #    pll1_q_ck = VCO / Q = 800MHz / 4 = 200MHz
+          - { address: 0x58024428, value: 0x02000004 } # RCC_PLLCKSELR: PLLSRC=HSE, DIVM1=5
+          - { address: 0x5802442C, value: 0x019F0301 } # RCC_PLL1DIVR: N1=159 (val+1), P1=1 (val+1), Q1=3 (val+1)
+          - { address: 0x58024434, value: 0x00000102 } # RCC_PLLCFGR: PLL1RGE=2 (8-16MHz), PLL1VCOSEL=0 (wide)
+          
+          # 3. Enable PLL1 and wait for it to be ready.
+          - { address: 0x58024400, value: 0x01030000 } # RCC_CR: Set PLL1ON
+          - { address: 0x58024400, value: 0x03030000, wait_for_set: 0x02000000 } # RCC_CR: Wait for PLL1RDY
+          
+          # 4. Configure system clock dividers and select PLL1 as system clock source.
+          - { address: 0x5802444C, value: 0x00000080 } # RCC_D1CFGR: HPRE=8 (div 2)
+          - { address: 0x58024450, value: 0x00000003 } # RCC_CFGR: SW=PLL1
+          - { address: 0x58024450, value: 0x0000000F, wait_for_set: 0x0000000C } # RCC_CFGR: Wait for SWS=PLL1
+          
+          # 5. Set QSPI clock source to pll1_q_ck (200MHz) and AHB3 prescaler to 2 (qspi_ker_ck = 100MHz).
+          - { address: 0x5802446C, value: 0x00000000 } # RCC_D2CCIP1R: QSPISRC=pll1_q_ck
+          - { address: 0x5802444C, value: 0x00000880 } # RCC_D1CFGR: D1PPRE=4 (div 2)
+          
+          # --- GPIO and QSPI Peripheral Clock Enable ---
+          # 6. Enable GPIO B, E, F, G clocks (AHB4) and QSPI clock (AHB3).
+          - { address: 0x580244E0, value: 0x0000007A } # RCC_AHB4ENR: GPIOBEN, GPIOEEN, GPIOFEN, GPIOGEN
+          - { address: 0x580244DC, value: 0x00004000 } # RCC_AHB3ENR: QSPIEN
+          
+          # --- GPIO Pin Configuration (AF=Alternate Function, Speed=Very High) ---
+          # PB2: QSPI_CLK (AF9)
+          - { address: 0x58020400, value: 0xFFFFFFCF } # GPIOB_MODER: PB2=AF
+          - { address: 0x58020408, value: 0x00000030 } # GPIOB_OSPEEDR: PB2=Very High
+          - { address: 0x58020420, value: 0x00000900 } # GPIOB_AFRL: AFRL2=AF9
+          
+          # PG6: QSPI_NCS (AF10)
+          - { address: 0x58021800, value: 0xFFFFCFFF } # GPIOG_MODER: PG6=AF
+          - { address: 0x58021808, value: 0x00003000 } # GPIOG_OSPEEDR: PG6=Very High
+          - { address: 0x58021820, value: 0x0A000000 } # GPIOG_AFRL: AFRL6=AF10
+          
+          # PF8: QSPI_BK1_IO0 (AF9)
+          - { address: 0x58021400, value: 0xFFFCFFFF } # GPIOF_MODER: PF8=AF
+          - { address: 0x58021408, value: 0x00030000 } # GPIOF_OSPEEDR: PF8=Very High
+          - { address: 0x58021424, value: 0x00000009 } # GPIOF_AFRH: AFRH8=AF9
+          
+          # PF9: QSPI_BK1_IO1 (AF9)
+          - { address: 0x58021400, value: 0xFFF3FFFF } # GPIOF_MODER: PF9=AF
+          - { address: 0x58021408, value: 0x000C0000 } # GPIOF_OSPEEDR: PF9=Very High
+          - { address: 0x58021424, value: 0x00000090 } # GPIOF_AFRH: AFRH9=AF9
+          
+          # PF7: QSPI_BK1_IO2 (AF9)
+          - { address: 0x58021400, value: 0xFFFF3FFF } # GPIOF_MODER: PF7=AF
+          - { address: 0x58021408, value: 0x0000C000 } # GPIOF_OSPEEDR: PF7=Very High
+          - { address: 0x58021420, value: 0x90000000 } # GPIOF_AFRL: AFRL7=AF9
+          
+          # PF6: QSPI_BK1_IO3 (AF9)
+          - { address: 0x58021400, value: 0xFFFFF3FF } # GPIOF_MODER: PF6=AF
+          - { address: 0x58021408, value: 0x00003000 } # GPIOF_OSPEEDR: PF6=Very High
+          - { address: 0x58021420, value: 0x09000000 } # GPIOF_AFRL: AFRL6=AF9
+          
+          # PE2: QSPI_BK2_NCS (AF9) - Note: This pin is configured but BK2 is not used in this algorithm.
+          - { address: 0x58021000, value: 0xFFFFFFCF } # GPIOE_MODER: PE2=AF
+          - { address: 0x58021008, value: 0x00000030 } # GPIOE_OSPEEDR: PE2=Very High
+          - { address: 0x58021020, value: 0x00000900 } # GPIOE_AFRL: AFRL2=AF9
+          
+          # --- QUADSPI Peripheral Configuration ---
+          # 7. Configure QSPI device properties.
+          #    FSIZE=25 (2^(25+1) bytes = 64Mbit), CSHT=1 (2 hclk cycles)
+          - { address: 0x52005008, value: 0x19010000 } # QUADSPI_DCR
+          
+          # 8. Configure QSPI control register.
+          #    PRESCALER=1 (qspi_clk = 100MHz / (1+1) = 50MHz), SSHIFT=1 (sample on half cycle)
+          - { address: 0x52005004, value: 0x01000010 } # QUADSPI_CR
+          
+          # 9. Enable QSPI peripheral.
+          - { address: 0x52005004, value: 0x01000011 } # QUADSPI_CR: Set EN bit
+          
+        # Define the properties of the W25Q64 flash chip.
+        flash_properties:
+          address_range:
+            start: 0x90000000
+            end: 0x90800000
+          page_size: 256
+          erased_state: 0xFF
+          # Define the sector layout. W25Q64 has uniform 4KB sectors.
+          sectors:
+            - size: 4096 # 4 KiB
+              address: 0x90000000
