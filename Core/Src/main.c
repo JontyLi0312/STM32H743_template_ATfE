@@ -35,10 +35,10 @@
 /* USER CODE BEGIN Includes */
 #include "lcd_show.h"
 #include "lcd_test.h"
-#include "lv_demo_music.h"
-#include "lv_port_disp.h"
-#include "lv_port_indev.h"
-#include "lvgl.h"
+// #include "lv_demo_music.h"
+// #include "lv_port_disp.h"
+// #include "lv_port_indev.h"
+// #include "lvgl.h"
 #include "map.h"
 #include "qspi_w25q64.h"
 #include "sdram.h"
@@ -140,9 +140,7 @@ int main(void)
     if (QSPI_W25Qxx_Init() != QSPI_W25Qxx_OK) { Error_Handler(); }
     if (QSPI_W25Qxx_Reset() != QSPI_W25Qxx_OK) { Error_Handler(); }
     if (QSPI_W25Qxx_MemoryMappedMode() != QSPI_W25Qxx_OK) { Error_Handler(); }
-    // lv_init();
-    // lv_port_disp_init();
-    // lv_port_indev_init();
+    //  lv_init(); lv_port_disp_init(); lv_port_indev_init();
 
     // lv_demo_music();
 
@@ -182,8 +180,8 @@ void SystemClock_Config(void)
 
     while (!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY)) {}
 
-    /** Initializes the RCC Oscillators according to the specified parameters
-     * in the RCC_OscInitTypeDef structure.
+    /** Initializes the RCC Oscillators according to the specified
+     * parameters in the RCC_OscInitTypeDef structure.
      */
     RCC_OscInitStruct.OscillatorType =
         RCC_OSCILLATORTYPE_LSI | RCC_OSCILLATORTYPE_HSE;
@@ -263,7 +261,8 @@ void MPU_Config(void)
 void Error_Handler(void)
 {
     /* USER CODE BEGIN Error_Handler_Debug */
-    /* User can add his own implementation to report the HAL error return state
+    /* User can add his own implementation to report the HAL error return
+     * state
      */
     __disable_irq();
     while (1) {}

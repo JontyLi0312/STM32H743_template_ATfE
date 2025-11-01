@@ -42,6 +42,9 @@
 | **GNU Arm Embedded Toolchain** | 提供 GDB 调试器                               | [arm.com/gnu-toolchain](https://developer.arm.com/downloads/-/gnu-rm)                                                 |
 | **LLVM**                       | 提供 `clangd` 用于语言服务 (代码补全、跳转等) | [github.com/llvm/llvm-project](https://github.com/llvm/llvm-project)                                                  |
 
+有关 ATfE 的更多细节，建议仔细阅读 ARM 官方关于 ATfEP 的文档：https://developer.arm.com/documentation/107976/20-1-0/Get-started
+ATfEP 与 ATfE 有相同功能，但是 ATfEP 提供了官方支持，因此无法保证该文档对于 ATfE 完全适用。
+
 ### 📦 VS Code 插件
 
 请在 VS Code 插件市场中安装以下插件：
