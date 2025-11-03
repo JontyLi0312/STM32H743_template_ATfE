@@ -56,12 +56,13 @@ ENTRY(Reset_Handler)
 MEMORY
 {
 DTCMRAM (xrw)      : ORIGIN = 0x20000000, LENGTH = 128K
-RAM (xrw)      : ORIGIN = 0x24000000, LENGTH = 512K
-RAM_D2 (xrw)      : ORIGIN = 0x30000000, LENGTH = 288K
-RAM_D3 (xrw)      : ORIGIN = 0x38000000, LENGTH = 64K
+RAM (xrw)          : ORIGIN = 0x24000000, LENGTH = 512K
+RAM_D2 (xrw)       : ORIGIN = 0x30000000, LENGTH = 288K
+RAM_D3 (xrw)       : ORIGIN = 0x38000000, LENGTH = 64K
 ITCMRAM (xrw)      : ORIGIN = 0x00000000, LENGTH = 64K
-FLASH (rx)      : ORIGIN = 0x8000000, LENGTH = 2048K
-QSPI_FLASH (rx)      : ORIGIN = 0x90000000, LENGTH = 8M
+FLASH (rx)         : ORIGIN = 0x08000000, LENGTH = 2048K
+SDRAM (xrw)        : ORIGIN = 0x0C000000, LENGTH = 32M
+QSPI_FLASH (rx)    : ORIGIN = 0x90000000, LENGTH = 8M
 }
 
 /* Highest address of the user mode stack */
@@ -74,14 +75,13 @@ _Min_Stack_Size = 0x1000; /* required amount of stack */
 SECTIONS
 {
   /* The startup code goes first into FLASH */
-  .isr_vector :
-  {
-    . = ALIGN(4);
-    KEEP(*(.isr_vector)) /* Startup code */
-    . = ALIGN(4);
-  } >FLASH
-
-  /* The program code and other data goes into FLASH */
+.isr_vector :
+{
+. = ALIGN(8);
+KEEP(*(.isr_vector)) /* Startup code */
+. = ALIGN(8);
+} >FLASH
+/* The program code and other data goes into FLASH */
   .text :
   {
     . = ALIGN(4);
@@ -230,7 +230,6 @@ SECTIONS
   PROVIDE( __bss_start = __tbss_start );
   PROVIDE( __bss_size = __bss_end - __bss_start );
 
-  /* Define the .buffer section */
   .buffer :
   {
     . = ALIGN(4);
@@ -242,13 +241,23 @@ SECTIONS
   } >RAM AT> FLASH
   __buffer_load_start__ = LOADADDR(.buffer);
 
-  .qspi_assets_section :
+  .qspi_section :
   {
    . = ALIGN(4);
-    KEEP(*(.qspi_lvgl_assets))     /* 收集所有标记为.qspi_lvgl_assets 的输入节 */
-    KEEP(*(.qspi_lvgl_assets*))    /* 同时收集子节 */
+    KEEP(*(.qspi_lvgl_assets))
+    KEEP(*(.qspi_lvgl_assets*))
    . = ALIGN(4);
   } > QSPI_FLASH
+
+   .lvgl_buffers (NOLOAD) :
+  {
+   . = ALIGN(32);
+    __LVGL_BUFFERS_START__ =.;
+    *(.lvgl_buffers)
+    *(.lvgl_buffers*)
+   . = ALIGN(32);
+    __LVGL_BUFFERS_END__ =.;
+  } > SDRAM
   
   /* User_heap_stack section, used to check that there is enough RAM left */
   ._user_heap_stack (NOLOAD) :
