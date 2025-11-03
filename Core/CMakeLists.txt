@@ -21,7 +21,6 @@ set(Core_Src
 	${CMAKE_CURRENT_SOURCE_DIR}/Src/main.c
     ${CMAKE_CURRENT_SOURCE_DIR}/Src/quadspi.c
     ${CMAKE_CURRENT_SOURCE_DIR}/Src/rtc.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/Src/sdmmc.c
 	${CMAKE_CURRENT_SOURCE_DIR}/Src/stm32h7xx_hal_msp.c
 	${CMAKE_CURRENT_SOURCE_DIR}/Src/stm32h7xx_it.c
 	${CMAKE_CURRENT_SOURCE_DIR}/Src/system_stm32h7xx.c
