@@ -244,8 +244,8 @@ KEEP(*(.isr_vector)) /* Startup code */
   .qspi_section :
   {
    . = ALIGN(4);
-    KEEP(*(.qspi_lvgl_assets))
-    KEEP(*(.qspi_lvgl_assets*))
+    KEEP(*(.qspi_section))
+    KEEP(*(.qspi_section*))
    . = ALIGN(4);
   } > QSPI_FLASH
 
