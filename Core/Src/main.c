@@ -23,10 +23,6 @@
 #include "ltdc.h"
 #include "quadspi.h"
 #include "rtc.h"
-#include "sdmmc.h"
-#include "stm32h7xx.h"
-#include "stm32h7xx_hal_def.h"
-#include "stm32h7xx_hal_uart.h"
 #include "usart.h"
 #include "gpio.h"
 #include "fmc.h"
@@ -35,10 +31,10 @@
 /* USER CODE BEGIN Includes */
 #include "lcd_show.h"
 #include "lcd_test.h"
-// #include "lv_demo_music.h"
-// #include "lv_port_disp.h"
-// #include "lv_port_indev.h"
-// #include "lvgl.h"
+#include "lv_demo_music.h"
+#include "lv_port_disp.h"
+#include "lv_port_indev.h"
+#include "lvgl.h"
 #include "map.h"
 #include "qspi_w25q64.h"
 #include "sdram.h"
@@ -64,9 +60,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-PLACE_IN_QSPI_SECTION const uint8_t qspi[]    = "\r\ntest";
-PLACE_IN_QSPI_SECTION const uint8_t success[] = "\r\nOK";
-PLACE_IN_QSPI_SECTION const uint8_t fail[]    = "\r\nFAIL";
+PLACE_IN_QSPI_SECTION const uint8_t qspi[] = "\r\nqspi";
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -131,18 +125,18 @@ int main(void)
     MX_LTDC_Init();
     MX_QUADSPI_Init();
     MX_RTC_Init();
-    // MX_SDMMC1_SD_Init();
     /* USER CODE BEGIN 2 */
-    // SDRAM_Initialization_Sequence(&hsdram1);
-    LCD_RGB_Init();
-    Touch_Init();
-    SDRAM_Initialization_Sequence(&hsdram1);
     if (QSPI_W25Qxx_Init() != QSPI_W25Qxx_OK) { Error_Handler(); }
     if (QSPI_W25Qxx_Reset() != QSPI_W25Qxx_OK) { Error_Handler(); }
     if (QSPI_W25Qxx_MemoryMappedMode() != QSPI_W25Qxx_OK) { Error_Handler(); }
-    //  lv_init(); lv_port_disp_init(); lv_port_indev_init();
+    SDRAM_Initialization_Sequence(&hsdram1);
+    LCD_RGB_Init();
+    Touch_Init();
+    lv_init();
+    lv_port_disp_init();
+    lv_port_indev_init();
 
-    // lv_demo_music();
+    lv_demo_music();
 
     /* USER CODE END 2 */
 
@@ -180,30 +174,28 @@ void SystemClock_Config(void)
 
     while (!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY)) {}
 
-    /** Initializes the RCC Oscillators according to the specified
-     * parameters in the RCC_OscInitTypeDef structure.
+    /** Initializes the RCC Oscillators according to the specified parameters
+     * in the RCC_OscInitTypeDef structure.
      */
-    RCC_OscInitStruct.OscillatorType =
-        RCC_OSCILLATORTYPE_LSI | RCC_OSCILLATORTYPE_HSE;
-    RCC_OscInitStruct.HSEState      = RCC_HSE_ON;
-    RCC_OscInitStruct.LSIState      = RCC_LSI_ON;
-    RCC_OscInitStruct.PLL.PLLState  = RCC_PLL_ON;
-    RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-    RCC_OscInitStruct.PLL.PLLM      = 5;
-    RCC_OscInitStruct.PLL.PLLN      = 192;
-    RCC_OscInitStruct.PLL.PLLP      = 2;
-    RCC_OscInitStruct.PLL.PLLQ      = 4;
-    RCC_OscInitStruct.PLL.PLLR      = 2;
-    RCC_OscInitStruct.PLL.PLLRGE    = RCC_PLL1VCIRANGE_2;
-    RCC_OscInitStruct.PLL.PLLVCOSEL = RCC_PLL1VCOWIDE;
-    RCC_OscInitStruct.PLL.PLLFRACN  = 0;
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_LSI | RCC_OSCILLATORTYPE_HSE;
+    RCC_OscInitStruct.HSEState       = RCC_HSE_ON;
+    RCC_OscInitStruct.LSIState       = RCC_LSI_ON;
+    RCC_OscInitStruct.PLL.PLLState   = RCC_PLL_ON;
+    RCC_OscInitStruct.PLL.PLLSource  = RCC_PLLSOURCE_HSE;
+    RCC_OscInitStruct.PLL.PLLM       = 5;
+    RCC_OscInitStruct.PLL.PLLN       = 192;
+    RCC_OscInitStruct.PLL.PLLP       = 2;
+    RCC_OscInitStruct.PLL.PLLQ       = 4;
+    RCC_OscInitStruct.PLL.PLLR       = 2;
+    RCC_OscInitStruct.PLL.PLLRGE     = RCC_PLL1VCIRANGE_2;
+    RCC_OscInitStruct.PLL.PLLVCOSEL  = RCC_PLL1VCOWIDE;
+    RCC_OscInitStruct.PLL.PLLFRACN   = 0;
     if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) { Error_Handler(); }
 
     /** Initializes the CPU, AHB and APB buses clocks
      */
-    RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK |
-                                  RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2 |
-                                  RCC_CLOCKTYPE_D3PCLK1 | RCC_CLOCKTYPE_D1PCLK1;
+    RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1 |
+                                  RCC_CLOCKTYPE_PCLK2 | RCC_CLOCKTYPE_D3PCLK1 | RCC_CLOCKTYPE_D1PCLK1;
     RCC_ClkInitStruct.SYSCLKSource   = RCC_SYSCLKSOURCE_PLLCLK;
     RCC_ClkInitStruct.SYSCLKDivider  = RCC_SYSCLK_DIV1;
     RCC_ClkInitStruct.AHBCLKDivider  = RCC_HCLK_DIV2;
@@ -212,9 +204,7 @@ void SystemClock_Config(void)
     RCC_ClkInitStruct.APB2CLKDivider = RCC_APB2_DIV2;
     RCC_ClkInitStruct.APB4CLKDivider = RCC_APB4_DIV2;
 
-    if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK) {
-        Error_Handler();
-    }
+    if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK) { Error_Handler(); }
 }
 
 /* USER CODE BEGIN 4 */
@@ -234,7 +224,7 @@ void MPU_Config(void)
      */
     MPU_InitStruct.Enable           = MPU_REGION_ENABLE;
     MPU_InitStruct.Number           = MPU_REGION_NUMBER0;
-    MPU_InitStruct.BaseAddress      = 0x0C000000;
+    MPU_InitStruct.BaseAddress      = 0xC0000000;
     MPU_InitStruct.Size             = MPU_REGION_SIZE_32MB;
     MPU_InitStruct.SubRegionDisable = 0x0;
     MPU_InitStruct.TypeExtField     = MPU_TEX_LEVEL0;
@@ -249,6 +239,11 @@ void MPU_Config(void)
     /** Initializes and configures the Region and the memory to be protected
      */
     MPU_InitStruct.Number = MPU_REGION_NUMBER1;
+    HAL_MPU_ConfigRegion(&MPU_InitStruct);
+
+    /** Initializes and configures the Region and the memory to be protected
+     */
+    MPU_InitStruct.Number = MPU_REGION_NUMBER2;
     HAL_MPU_ConfigRegion(&MPU_InitStruct);
     /* Enables the MPU */
     HAL_MPU_Enable(MPU_PRIVILEGED_DEFAULT);
