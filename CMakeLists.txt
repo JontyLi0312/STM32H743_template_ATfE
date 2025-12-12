@@ -74,7 +74,7 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
     Drivers
 	User_Drivers
     App
-	#lvgl-8.3.10
+	# LVGL-8.3.10
     # LVGL-9.2.1
 	# Add user defined libraries
 )
@@ -98,7 +98,7 @@ add_custom_command(
 # Generate the.bin file for the internal flash.
 add_custom_command(
     OUTPUT ${INTERNAL_BIN_FILE}
-    COMMAND ${CMAKE_OBJCOPY} -O binary --remove-section=.qspi_assets_section
+    COMMAND ${CMAKE_OBJCOPY} -O binary --remove-section=.qspi_section
             $<TARGET_FILE:${PROJECT_NAME}> ${INTERNAL_BIN_FILE}
     DEPENDS ${PROJECT_NAME}
 )
@@ -106,7 +106,7 @@ add_custom_command(
 # Generate the.bin file for the external QSPI flash.
 add_custom_command(
     OUTPUT ${EXTERNAL_BIN_FILE}
-    COMMAND ${CMAKE_OBJCOPY} -O binary --only-section=.qspi_assets_section
+    COMMAND ${CMAKE_OBJCOPY} -O binary --only-section=.qspi_section
             $<TARGET_FILE:${PROJECT_NAME}> ${EXTERNAL_BIN_FILE}
     DEPENDS ${PROJECT_NAME}
 )
