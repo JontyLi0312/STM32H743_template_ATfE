@@ -447,10 +447,10 @@
 
 /*Will be added where memories needs to be aligned (with -Os data might not be aligned to boundary by default).
  * E.g. __attribute__((aligned(4)))*/
-#define LV_ATTRIBUTE_MEM_ALIGN //__attribute__((section(".qspi_assets_section")))
+#define LV_ATTRIBUTE_MEM_ALIGN __attribute__((aligned(32)))
 
 /*Attribute to mark large constant arrays for example font's bitmaps*/
-#define LV_ATTRIBUTE_LARGE_CONST __attribute__((section(".qspi_assets_section"))) __attribute__((used))
+#define LV_ATTRIBUTE_LARGE_CONST __attribute__((section(".qspi_section"))) __attribute__((used))
 
 /*Compiler prefix for a big array declaration in RAM*/
 #define LV_ATTRIBUTE_LARGE_RAM_ARRAY //__attribute__((section(".qspi_assets_section"))) __attribute__((used))
