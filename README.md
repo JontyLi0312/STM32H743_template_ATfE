@@ -126,6 +126,13 @@ __attribute__((section(".buffer"))) __attribute__((aligned(4))) uint8_t my_dma_b
 SCB_CleanDCache_by_Addr((uint32_t*)my_dma_buffer, sizeof(my_dma_buffer));
 ```
 
+如果启用 lvgl，并且将 ui 资源烧录到外部 flash，可以使用下述命令：
+将剥离的 ui 数据烧录到外部 flash：
+pyocd flash -t stm32h743iitx -a 0x90000000 build/Debug/qspi.bin
+将程序烧录至内部 flash：
+pyocd flash -t stm32h743iitx -a 0x08000000 build/Debug/internal.bin
+使用上述烧录方法需要使用 qspi 驱动外部 flash，因此 qspi 引脚配置必须与项目中使用的 qspi 配置相同。
+
 -----
 
 ## 📁 项目结构
