@@ -95,6 +95,7 @@ ATfEP 与 ATfE 有相同功能，但是 ATfEP 提供了官方支持，因此无�
 
 > **注意**: `launch.json` 中也包含了 `probe-rs` 的配置项，但目前尚不稳定，不推荐用于调试。不过，使用 `probe-rs` 进行烧录经过验证后是可行的。
 
+另外，也可以通过 ozone 进行调试，如果没有 JLink 或者 JTrace，ozone 也提供了 GDB 的选项（改选项需要申请，URL:https://www.segger.com/purchase/licensing/license-request/）
 -----
 
 ## 🏗️ 构建配置
