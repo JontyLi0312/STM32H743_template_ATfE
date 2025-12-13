@@ -249,7 +249,7 @@ KEEP(*(.isr_vector)) /* Startup code */
    . = ALIGN(4);
   } > QSPI_FLASH
 
-   .lvgl_buffers (NOLOAD) :
+   .sdram_buffer (NOLOAD) :
   {
    . = ALIGN(32);
     __LVGL_BUFFERS_START__ =.;
