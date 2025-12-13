@@ -44,8 +44,6 @@ add_subdirectory(Core)
 add_subdirectory(User_Drivers)
 add_subdirectory(Drivers)
 add_subdirectory(App)
-#add_subdirectory(LVGL-8.3.10)
-add_subdirectory(LVGL-9.2.1)
 
 # Link directories setup
 target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
