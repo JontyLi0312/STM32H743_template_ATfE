@@ -72,8 +72,6 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
     Drivers
 	User_Drivers
     App
-	# LVGL-8.3.10
-    # LVGL-9.2.1
 	# Add user defined libraries
 )
 
