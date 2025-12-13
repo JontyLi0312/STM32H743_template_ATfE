@@ -56,7 +56,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-PLACE_IN_BUFFER_SECTION const uint8_t qspi[] = "\r\nqspi";
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -134,7 +134,6 @@ int main(void)
     /* Infinite loop */
     /* USER CODE BEGIN WHILE */
     while (1) {
-        Touch_Scan();
         HAL_Delay(1000);
         /* USER CODE END WHILE */
 
