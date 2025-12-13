@@ -7,7 +7,7 @@
 /*----------------------------------------------- 命名参数宏
  * -------------------------------------------*/
 
-#define QSPI_W25Qxx_OK            0  // W25Qxx通信正常
+#define QSPI_W25Qxx_OK            1  // W25Qxx通信正常
 #define W25Qxx_ERROR_INIT         -1 // 初始化错误
 #define W25Qxx_ERROR_WriteEnable  -2 // 写使能错误
 #define W25Qxx_ERROR_AUTOPOLLING  -3 // 轮询等待错误，无响应
