@@ -1,1 +1,1 @@
-#include "map.h"
+/* This file is just a placeholder source file. */
