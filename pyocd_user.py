@@ -11,8 +11,7 @@ QSPI_FLASH_BLOCKSIZE = 0x1000
 
 def will_connect(board):
     """
-    这是一个 pyOCD 代理函数，会在连接前被自动调用。
-   
+    这是一个 pyOCD 代理函数，会在连接前被自动调用。 
     """
     target = board.target
     
