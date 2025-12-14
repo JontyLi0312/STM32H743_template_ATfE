@@ -1,6 +1,6 @@
 # STM32H743IIT6 项目模板 (基于 ATfE)
 
-[English](./README_en.md) | **中文**
+[English](./docs/README_en.md) | **中文**
 
 一个为 STM32H743IIT6 打造的现代化项目模板，基于 Arm 官方嵌入式工具链 (ATfE)，旨在提供一个高效、纯净且易于扩展的模板。
 
