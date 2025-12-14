@@ -30,20 +30,20 @@
 
 ### 🛠️ 环境准备
 
-请确保以下工具已正确安装，并已将其路径添加至系统 `PATH` 环境变量中。
+请确保以下工具已正确安装，并已将其可执行文件路径添加至系统 `PATH` 环境变量中。如果不希望将工具添加至环境变量，只需要确保自己可以调用下述工具即可。
 
-| 工具 (Tool)                    | 说明 (Description)                            | 链接 (Link)                                                                                                           |
-| :----------------------------- | :-------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------- |
-| **CMake**                      | 跨平台构建系统生成器                          | [cmake.org](https://cmake.org/)                                                                                       |
-| **Ninja**                      | 高性能构建系统                                | [github.com/ninja-build/ninja](https://github.com/ninja-build/ninja)                                                  |
-| **OpenOCD**                    | 开源片上调试和烧录工具                        | [github.com/openocd-org/openocd](https://github.com/openocd-org/openocd)                                              |
-| **pyOCD**                      | 通过 USB 烧录和调试 MCU 的 Python 库          | [github.com/pyocd/pyOCD](https://github.com/pyocd/pyOCD)                                                              |
-| **ATfE**                       | Arm 官方嵌入式工具链 (基于 LLVM)              | [arm.com/toolchain](https://www.google.com/search?q=https://developer.arm.com/downloads/-/arm-toolchain-for-embedded) |
-| **GNU Arm Embedded Toolchain** | 提供 GDB 调试器                               | [arm.com/gnu-toolchain](https://developer.arm.com/downloads/-/gnu-rm)                                                 |
-| **LLVM**                       | 提供 `clangd` 用于语言服务 (代码补全、跳转等) | [github.com/llvm/llvm-project](https://github.com/llvm/llvm-project)                                                  |
+| 工具 (Tool)           | 说明 (Description)                            | 链接 (Link)                                                                                                           |
+| :-------------------- | :-------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------- |
+| **CMake**             | 跨平台构建系统生成器                          | [cmake.org](https://cmake.org/)                                                                                       |
+| **Ninja**             | 高性能构建系统                                | [github.com/ninja-build/ninja](https://github.com/ninja-build/ninja)                                                  |
+| **OpenOCD**           | 开源片上调试和烧录工具                        | [github.com/openocd-org/openocd](https://github.com/openocd-org/openocd)                                              |
+| **pyOCD**             | 通过 USB 烧录和调试 MCU 的 Python 库          | [github.com/pyocd/pyOCD](https://github.com/pyocd/pyOCD)                                                              |
+| **ATfE**              | Arm 官方嵌入式工具链 (基于 LLVM)              | [arm.com/toolchain](https://www.google.com/search?q=https://developer.arm.com/downloads/-/arm-toolchain-for-embedded) |
+| **Arm GNU Toolchain** | 提供 GDB 调试器                               | [arm.com/gnu-toolchain](https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads)                            |
+| **LLVM**              | 提供 `clangd` 用于语言服务 (代码补全、跳转等) | [github.com/llvm/llvm-project](https://github.com/llvm/llvm-project)                                                  |
 
 有关 ATfE 的更多细节，建议仔细阅读 ARM 官方关于 ATfEP 的文档：https://developer.arm.com/documentation/107976/20-1-0/Get-started
-ATfEP 与 ATfE 有相同功能，但是 ATfEP 提供了官方支持，因此无法保证该文档对于 ATfE 完全适用。
+ATfEP 与 ATfE 有相同功能，但是 ATfEP 提供了官方支持，两者或许有细微的不同，因此无法保证该文档对于 ATfE 完全适用。
 
 ### 📦 VS Code 插件
 
@@ -86,7 +86,7 @@ ATfEP 与 ATfE 有相同功能，但是 ATfEP 提供了官方支持，因此无�
 
 ## 🔬 调试 (Debugging)
 
-1.  **GDB 依赖**: 本项目的调试功能依赖 **GNU Arm Embedded Toolchain** 中的 GDB。请确保已安装该工具链并将其添加至系统 `PATH`。
+1.  **GDB 依赖**: 本项目的调试功能依赖 **Arm GNU Toolchain** 中的 GDB。请确保已安装该工具链并将其添加至系统 `PATH`。
 2.  **调试配置**: 所有的调试配置都预设在 `.vscode/launch.json` 文件中。
 3.  **启动调试**:
       * 在 VS Code 的侧边栏切换到“运行和调试”视图。
@@ -95,7 +95,7 @@ ATfEP 与 ATfE 有相同功能，但是 ATfEP 提供了官方支持，因此无�
 
 > **注意**: `launch.json` 中也包含了 `probe-rs` 的配置项，但目前尚不稳定，不推荐用于调试。不过，使用 `probe-rs` 进行烧录经过验证后是可行的。
 
-另外，也可以通过 ozone 进行调试，如果没有 JLink 或者 JTrace，ozone 也提供了 GDB 的选项（改选项需要申请，URL:https://www.segger.com/purchase/licensing/license-request/）
+另外，也可以通过 ozone 进行调试，如果没有 JLink 或者 JTrace，ozone 也提供了 GDB 的选项（该选项需要申请，URL:https://www.segger.com/purchase/licensing/license-request/）
 -----
 
 ## 🏗️ 构建配置
@@ -129,9 +129,14 @@ SCB_CleanDCache_by_Addr((uint32_t*)my_dma_buffer, sizeof(my_dma_buffer));
 
 如果启用 lvgl，并且将 ui 资源烧录到外部 flash，可以使用下述命令：
 将剥离的 ui 数据烧录到外部 flash：
+
+```
 pyocd flash -t stm32h743iitx -a 0x90000000 build/Debug/qspi.bin
+```
 将程序烧录至内部 flash：
+```
 pyocd flash -t stm32h743iitx -a 0x08000000 build/Debug/internal.bin
+```
 使用上述烧录方法需要使用 qspi 驱动外部 flash，因此 qspi 引脚配置必须与项目中使用的 qspi 配置相同。
 
 -----
