@@ -35,6 +35,9 @@
 #include "qspi_w25q64.h"
 #include "sdram.h"
 #include "touch_800x480.h"
+#include "lvgl.h"
+#include "lv_port_disp.h"
+#include "lv_port_indev.h"
 #include <stdint.h>
 
 /* USER CODE END Includes */
@@ -128,6 +131,10 @@ int main(void)
     SDRAM_Initialization_Sequence(&hsdram1);
     LCD_RGB_Init();
     Touch_Init();
+
+    lv_init();
+    lv_port_disp_init();
+    lv_port_indev_init();
 
     /* USER CODE END 2 */
 

@@ -1,19 +1,19 @@
 cmake_minimum_required(VERSION 3.22)
 
-project(App LANGUAGES C ASM)
+project(app LANGUAGES C ASM)
 
-set(App_Inc
+set(app_inc
 	${CMAKE_CURRENT_SOURCE_DIR}/Inc
 )
 
-set(App_Src
+set(app_src
 	${CMAKE_CURRENT_SOURCE_DIR}/Src/map.c
 )
 
-add_library(App STATIC)
+add_library(app STATIC)
 
-target_include_directories(App PUBLIC ${App_Inc})
+target_include_directories(app PUBLIC ${app_inc})
 
-target_sources(App PRIVATE ${App_Src})
+target_sources(app PRIVATE ${app_src})
 
-target_link_libraries(App PRIVATE Core_Config Drivers User_Drivers)
+target_link_libraries(app PRIVATE core_config drivers user_drivers)

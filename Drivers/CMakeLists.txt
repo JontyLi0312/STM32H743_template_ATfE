@@ -1,20 +1,20 @@
 cmake_minimum_required(VERSION 3.22)
 
-project(Drivers LANGUAGES C ASM)
+project(drivers LANGUAGES C ASM)
 
-set(Drivers_Defines_Syms
+set(drivers_defines_syms
     STM32H743xx
     USE_HAL_DRIVER
 )
 
-set(Drivers_Inc
+set(drivers_inc
     ${CMAKE_CURRENT_SOURCE_DIR}/STM32H7xx_HAL_Driver/Inc
     ${CMAKE_CURRENT_SOURCE_DIR}/STM32H7xx_HAL_Driver/Inc/Legacy
     ${CMAKE_CURRENT_SOURCE_DIR}/CMSIS/Device/ST/STM32H7xx/Include
     ${CMAKE_CURRENT_SOURCE_DIR}/CMSIS/Include
 )
 
-set(Drivers_Src
+set(drivers_src
     ${CMAKE_CURRENT_SOURCE_DIR}/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex.c
     ${CMAKE_CURRENT_SOURCE_DIR}/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc.c
     ${CMAKE_CURRENT_SOURCE_DIR}/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc_ex.c
@@ -50,12 +50,12 @@ set(Drivers_Src
     ${CMAKE_CURRENT_SOURCE_DIR}/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.c
 )
 
-add_library(Drivers STATIC)
+add_library(drivers STATIC)
 
-target_compile_definitions(Drivers PUBLIC ${Drivers_Defines_Syms})
+target_compile_definitions(drivers PUBLIC ${drivers_defines_syms})
 
-target_include_directories(Drivers PUBLIC ${Drivers_Inc})
+target_include_directories(drivers PUBLIC ${drivers_inc})
 
-target_sources(Drivers PRIVATE ${Drivers_Src})
+target_sources(drivers PRIVATE ${drivers_src})
 
-target_link_libraries(Drivers PRIVATE Core_Config)
+target_link_libraries(drivers PRIVATE core_config)

@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.22)
 
-project(User_Drivers LANGUAGES C ASM)
+project(user_drivers LANGUAGES C ASM)
 
-set(User_Drivers_Inc
+set(user_drivers_inc
 				${CMAKE_CURRENT_SOURCE_DIR}/Inc
 )
 
-set(User_Drivers_Src
+set(user_drivers_src
 				${CMAKE_CURRENT_SOURCE_DIR}/Src/lcd_fonts.c
 				${CMAKE_CURRENT_SOURCE_DIR}/Src/lcd_image.c
 				${CMAKE_CURRENT_SOURCE_DIR}/Src/lcd_show.c
@@ -17,10 +17,10 @@ set(User_Drivers_Src
                 ${CMAKE_CURRENT_SOURCE_DIR}/Src/qspi_w25q64.c
 )
 
-add_library(User_Drivers STATIC)
+add_library(user_drivers STATIC)
 
-target_include_directories(User_Drivers PUBLIC ${User_Drivers_Inc})
+target_include_directories(user_drivers PUBLIC ${user_drivers_inc})
 
-target_sources(User_Drivers PRIVATE ${User_Drivers_Src})
+target_sources(user_drivers PRIVATE ${user_drivers_src})
 
-target_link_libraries(User_Drivers PRIVATE Core_Config Drivers)
+target_link_libraries(user_drivers PRIVATE core_config drivers)

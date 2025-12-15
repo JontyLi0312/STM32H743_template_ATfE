@@ -1,18 +1,18 @@
 cmake_minimum_required(VERSION 3.22)
 
-project(Core LANGUAGES C ASM)
+project(core LANGUAGES C ASM)
 
-set(Core_Defines_Syms
+set(core_defines_syms
 	STM32H743xx
 	USE_PWR_LDO_SUPPLY
 	$<$<CONFIG:Debug>:DEBUG>
 )
 
-set(Core_Inc
+set(core_inc
 	${CMAKE_CURRENT_SOURCE_DIR}/Inc
 )
 
-set(Core_Src
+set(core_src
 	${CMAKE_CURRENT_SOURCE_DIR}/Src/dma2d.c
     ${CMAKE_CURRENT_SOURCE_DIR}/Src/dma.c
 	${CMAKE_CURRENT_SOURCE_DIR}/Src/fmc.c
@@ -28,15 +28,16 @@ set(Core_Src
 	${CMAKE_SOURCE_DIR}/startup_stm32h743xx.s
 )
 
-add_library(Core STATIC)
-add_library(Core_Config INTERFACE)
+add_library(core STATIC)
 
-target_include_directories(Core_Config INTERFACE
+add_library(core_config INTERFACE)
+
+target_include_directories(core_config INTERFACE
     ${CMAKE_CURRENT_SOURCE_DIR}/Inc
 )
 
-target_compile_definitions(Core PRIVATE ${Core_Defines_Syms})
+target_compile_definitions(core PRIVATE ${core_defines_syms})
 
-target_sources(Core PUBLIC ${Core_Src})
+target_sources(core PUBLIC ${core_src})
 
-target_link_libraries(Core PRIVATE Core_Config Drivers User_Drivers App)
+target_link_libraries(core PRIVATE core_config drivers user_drivers app LVGL-9.4.0)
