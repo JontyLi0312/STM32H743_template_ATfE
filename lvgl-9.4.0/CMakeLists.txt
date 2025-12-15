@@ -36,4 +36,4 @@ target_include_directories(LVGL-9.4.0
 
 target_sources(LVGL-9.4.0 PRIVATE ${LVGL_SOURCES})
 
-target_link_libraries(LVGL-9.4.0 PUBLIC core_config drivers user_drivers)
+target_link_libraries(LVGL-9.4.0 PUBLIC core_config drivers user_drivers app)
