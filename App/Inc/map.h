@@ -7,6 +7,6 @@
     __attribute__((section(".qspi_section"))) __attribute__((used))
 
 #define PLACE_IN_SDRAM_SECTION                                                 \
-    __attribute__((section("sdram_buffer"))) __attribute__((aligned(32)))
+    __attribute__((section(".sdram_buffer"))) __attribute__((aligned(32)))
 
 #endif
