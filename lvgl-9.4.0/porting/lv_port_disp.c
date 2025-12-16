@@ -5,6 +5,7 @@
 
 /*Copy this file as "lv_port_disp.c" and set this value to "1" to enable
  * content*/
+#include <stdint.h>
 #if 1
 
 /*********************
@@ -12,6 +13,8 @@
  *********************/
 #include "lv_port_disp.h"
 #include "map.h"
+#include "ltdc.h"
+#include "lcd_show.h"
 #include <stdbool.h>
 
 /*********************
@@ -82,29 +85,26 @@ void lv_port_disp_init(void)
      * Two buffers for partial rendering
      * In flush_cb DMA or similar hardware should be used
      * to update the display in the background.*/
-    LV_ATTRIBUTE_MEM_ALIGN PLACE_IN_SDRAM_SECTION static uint8_t
-        buf_2_1[MY_DISP_HOR_RES * 10 * BYTE_PER_PIXEL];
+    // LV_ATTRIBUTE_MEM_ALIGN PLACE_IN_SDRAM_SECTION static uint8_t
+    // buf_2_1[MY_DISP_HOR_RES * 10 * BYTE_PER_PIXEL];
 
-    LV_ATTRIBUTE_MEM_ALIGN PLACE_IN_SDRAM_SECTION static uint8_t
-        buf_2_2[MY_DISP_HOR_RES * 10 * BYTE_PER_PIXEL];
-    lv_display_set_buffers(disp, buf_2_1, buf_2_2, sizeof(buf_2_1),
-                           LV_DISPLAY_RENDER_MODE_PARTIAL);
+    // LV_ATTRIBUTE_MEM_ALIGN PLACE_IN_SDRAM_SECTION static uint8_t
+    // buf_2_2[MY_DISP_HOR_RES * 10 * BYTE_PER_PIXEL];
+    // lv_display_set_buffers(disp, buf_2_1, buf_2_2, sizeof(buf_2_1),
+    //                     LV_DISPLAY_RENDER_MODE_PARTIAL);
 
     /* Example 3
      * Two buffers screen sized buffer for double
      * buffering. Both LV_DISPLAY_RENDER_MODE_DIRECT and
      * LV_DISPLAY_RENDER_MODE_FULL works, see their
      * comments*/
-    // LV_ATTRIBUTE_MEM_ALIGN
-    // static uint8_t buf_3_1[MY_DISP_HOR_RES *
-    // MY_DISP_VER_RES * BYTE_PER_PIXEL];
+    LV_ATTRIBUTE_MEM_ALIGN PLACE_IN_SDRAM_SECTION static uint8_t
+        buf_3_1[MY_DISP_HOR_RES * MY_DISP_VER_RES * BYTE_PER_PIXEL];
 
-    // LV_ATTRIBUTE_MEM_ALIGN
-    // static uint8_t buf_3_2[MY_DISP_HOR_RES *
-    // MY_DISP_VER_RES * BYTE_PER_PIXEL];
-    // lv_display_set_buffers(disp, buf_3_1, buf_3_2,
-    // sizeof(buf_3_1),
-    //                     LV_DISPLAY_RENDER_MODE_DIRECT);
+    LV_ATTRIBUTE_MEM_ALIGN PLACE_IN_SDRAM_SECTION static uint8_t
+        buf_3_2[MY_DISP_HOR_RES * MY_DISP_VER_RES * BYTE_PER_PIXEL];
+    lv_display_set_buffers(disp, buf_3_1, buf_3_2, sizeof(buf_3_1),
+                           LV_DISPLAY_RENDER_MODE_DIRECT);
 }
 
 /**********************
@@ -147,20 +147,27 @@ static void disp_flush(lv_display_t *disp_drv, const lv_area_t *area,
         /*The most simple case (but also the slowest) to put all pixels to the
          * screen one-by-one*/
 
-        int32_t x;
-        int32_t y;
-        for (y = area->y1; y <= area->y2; y++) {
-            for (x = area->x1; x <= area->x2; x++) {
-                /*Put a pixel to the display. For example:*/
-                /*put_px(x, y, *px_map)*/
-                px_map++;
-            }
-        }
+        // int32_t x;
+        // int32_t y;
+        // for (y = area->y1; y <= area->y2; y++) {
+        // for (x = area->x1; x <= area->x2; x++) {
+        /*Put a pixel to the display. For example:*/
+        /*put_px(x, y, *px_map)*/
+        // px_map++;
+        //}
+        //}
+        LTDC_Layer1->CFBAR = (uint32_t)px_map;
     }
 
     /*IMPORTANT!!!
      *Inform the graphics library that you are ready with the flushing*/
     lv_display_flush_ready(disp_drv);
+}
+
+void HAL_LTDC_LineEvenCallback(LTDC_HandleTypeDef *hltdc)
+{
+    __HAL_LTDC_RELOAD_IMMEDIATE_CONFIG(hltdc);
+    HAL_LTDC_ProgramLineEvent(hltdc, 0);
 }
 
 #else /*Enable this file at the top*/
