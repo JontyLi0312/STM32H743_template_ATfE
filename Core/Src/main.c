@@ -72,6 +72,10 @@ static void MPU_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+uint32_t my_tick_get_cb(void)
+{
+    return HAL_GetTick(); // 直接返回 STM32 HAL 库的毫秒计数
+}
 /* USER CODE END 0 */
 
 /**
@@ -133,6 +137,7 @@ int main(void)
     Touch_Init();
 
     lv_init();
+    lv_tick_set_cb(my_tick_get_cb);
     lv_port_disp_init();
     lv_port_indev_init();
     lv_demo_benchmark();
