@@ -241,6 +241,14 @@ KEEP(*(.isr_vector)) /* Startup code */
   } >RAM AT> FLASH
   __buffer_load_start__ = LOADADDR(.buffer);
 
+ .ram (NOLOAD):
+  {
+    . = ALIGN(4);
+    KEEP(*(.ram))
+    KEEP(*(.ram*))
+    . = ALIGN(4);
+  } >RAM
+
   .qspi_section :
   {
    . = ALIGN(4);
