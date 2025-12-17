@@ -21,6 +21,8 @@ file(GLOB_RECURSE LVGL_SOURCES
     "src/themes/*.c"
     "src/tick/*.c"
     "src/widgets/*.c"
+    "demos/*.c"
+    "demos/benchmark/*.c"
 )
     
 list(APPEND LVGL_SOURCES
@@ -31,6 +33,7 @@ list(APPEND LVGL_SOURCES
 target_include_directories(LVGL-9.4.0
     PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/demos/benchmark
     ${CMAKE_CURRENT_SOURCE_DIR}/porting
 )
 
