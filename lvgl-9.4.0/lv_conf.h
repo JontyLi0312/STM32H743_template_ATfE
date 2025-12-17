@@ -69,13 +69,13 @@
 
 #if LV_USE_STDLIB_MALLOC == LV_STDLIB_BUILTIN
     /** Size of memory available for `lv_malloc()` in bytes (>= 2kB) */
-    #define LV_MEM_SIZE (64 * 1024U)          /**< [bytes] */
+    #define LV_MEM_SIZE (256 * 1024U)          /**< [bytes] */
 
     /** Size of the memory expand for `lv_malloc()` in bytes */
     #define LV_MEM_POOL_EXPAND_SIZE 0
 
     /** Set an address for the memory pool instead of allocating it as a normal array. Can be in external SRAM too. */
-    #define LV_MEM_ADR 0     /**< 0: unused*/
+    #define LV_MEM_ADR (0xc0000000 + 0x400000)     /**< 0: unused*/
     /* Instead of an address give a memory allocator that will be called to get a memory pool for LVGL. E.g. my_malloc */
     #if LV_MEM_ADR == 0
         #undef LV_MEM_POOL_INCLUDE
@@ -129,7 +129,7 @@
 #define LV_DRAW_BUF_STRIDE_ALIGN                1
 
 /** Align start address of draw_buf addresses to this bytes*/
-#define LV_DRAW_BUF_ALIGN                       4
+#define LV_DRAW_BUF_ALIGN                       32
 
 /** Using matrix for transformations.
  * Requirements:
@@ -367,7 +367,7 @@
 #endif
 
 /** Accelerate blends, fills, etc. with STM32 DMA2D */
-#define LV_USE_DRAW_DMA2D 0
+#define LV_USE_DRAW_DMA2D 1
 #if LV_USE_DRAW_DMA2D
     #define LV_DRAW_DMA2D_HAL_INCLUDE "stm32h7xx_hal.h"
 
@@ -609,10 +609,10 @@
 #define LV_FONT_MONTSERRAT_14 1
 #define LV_FONT_MONTSERRAT_16 0
 #define LV_FONT_MONTSERRAT_18 0
-#define LV_FONT_MONTSERRAT_20 0
+#define LV_FONT_MONTSERRAT_20 1
 #define LV_FONT_MONTSERRAT_22 0
-#define LV_FONT_MONTSERRAT_24 0
-#define LV_FONT_MONTSERRAT_26 0
+#define LV_FONT_MONTSERRAT_24 1
+#define LV_FONT_MONTSERRAT_26 1
 #define LV_FONT_MONTSERRAT_28 0
 #define LV_FONT_MONTSERRAT_30 0
 #define LV_FONT_MONTSERRAT_32 0
@@ -1403,13 +1403,13 @@
 
 #if LV_BUILD_DEMOS
     /** Show some widgets. This might be required to increase `LV_MEM_SIZE`. */
-    #define LV_USE_DEMO_WIDGETS 0
+    #define LV_USE_DEMO_WIDGETS 1
 
     /** Demonstrate usage of encoder and keyboard. */
     #define LV_USE_DEMO_KEYPAD_AND_ENCODER 0
 
     /** Benchmark your system */
-    #define LV_USE_DEMO_BENCHMARK 0
+    #define LV_USE_DEMO_BENCHMARK 1
 
     #if LV_USE_DEMO_BENCHMARK
         /** Use fonts where bitmaps are aligned 16 byte and has Nx16 byte stride */
