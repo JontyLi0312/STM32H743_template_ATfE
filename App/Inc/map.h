@@ -3,6 +3,8 @@
 
 #define PLACE_IN_BUFFER_SECTION __attribute__((section(".buffer")))
 
+#define PLACE_IN_RAM_SECTION __attribute__((section(".ram")))
+
 #define PLACE_IN_QSPI_SECTION                                                  \
     __attribute__((section(".qspi_section"))) __attribute__((used))
 
