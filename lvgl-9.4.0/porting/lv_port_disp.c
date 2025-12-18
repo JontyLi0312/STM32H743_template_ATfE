@@ -135,6 +135,8 @@ void disp_disable_update(void)
     disp_flush_enabled = false;
 }
 
+static lv_display_t *g_disp_to_flush = NULL;
+
 /*Flush the content of the internal buffer the specific area on the display.
  *`px_map` contains the rendered image as raw pixel map and it should be copied
  * to `area` on the display. You can use DMA or any hardware acceleration to do
@@ -144,30 +146,33 @@ static void disp_flush(lv_display_t *disp_drv, const lv_area_t *area,
                        uint8_t *px_map)
 {
     if (disp_flush_enabled) {
-        /*The most simple case (but also the slowest) to put all pixels to the
-         * screen one-by-one*/
-
-        // int32_t x;
-        // int32_t y;
-        // for (y = area->y1; y <= area->y2; y++) {
-        // for (x = area->x1; x <= area->x2; x++) {
-        /*Put a pixel to the display. For example:*/
-        /*put_px(x, y, *px_map)*/
-        // px_map++;
-        //}
-        //}
+        // 在 flush_cb 开始处
         LTDC_Layer1->CFBAR = (uint32_t)px_map;
+        g_disp_to_flush    = disp_drv;
+        LTDC->SRCR         = LTDC_SRCR_VBR;
+        LTDC->IER |= LTDC_IT_RR;
+    } else {
+        lv_display_flush_ready(disp_drv);
     }
 
     /*IMPORTANT!!!
      *Inform the graphics library that you are ready with the flushing*/
-    lv_display_flush_ready(disp_drv);
+    // lv_display_flush_ready(disp_drv);
 }
 
-void HAL_LTDC_LineEvenCallback(LTDC_HandleTypeDef *hltdc)
+// void HAL_LTDC_LineEvenCallback(LTDC_HandleTypeDef *hltdc)
+// {
+//     __HAL_LTDC_RELOAD_IMMEDIATE_CONFIG(hltdc);
+//     HAL_LTDC_ProgramLineEvent(hltdc, 0);
+// }
+
+void HAL_LTDC_ReloadEventCallback(LTDC_HandleTypeDef *hltdc)
 {
-    __HAL_LTDC_RELOAD_IMMEDIATE_CONFIG(hltdc);
-    HAL_LTDC_ProgramLineEvent(hltdc, 0);
+    if (g_disp_to_flush != NULL) {
+        lv_display_flush_ready(g_disp_to_flush);
+        g_disp_to_flush = NULL;
+        LTDC->IER &= ~LTDC_IT_RR;
+    }
 }
 
 #else /*Enable this file at the top*/
