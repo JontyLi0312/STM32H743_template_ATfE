@@ -82,23 +82,6 @@ LoopCopyDataInit:
   cmp r4, r1
   bcc CopyDataInit
 
-/* Copy the buffer segment initializers from flash to SRAM */
-  ldr r0, =__buffer_start__       /* 加载 .buffer 的 RAM 起始地址到 r0 */
-  ldr r1, =__buffer_end__         /* 加载 .buffer 的 RAM 结束地址到 r1 */
-  ldr r2, =__buffer_load_start__  /* 加载 .buffer 的 Flash 起始地址到 r2 */
-  movs r3, #0                     /* 将偏移量 r3 清零 */
-  b LoopCopyBufferInit          /* 跳转到循环判断 */
-
-CopyBufferInit:
-  ldr r4, [r2, r3]                /* 从 源地址[r2] + 偏移量[r3] 加载一个字到 r4 */
-  str r4, [r0, r3]                /* 将 r4 中的字存储到 目标地址[r0] + 偏移量[r3] */
-  adds r3, r3, #4                 /* 偏移量增加4字节 */
-
-LoopCopyBufferInit:
-  adds r4, r0, r3                 /* 计算下一个要写入的地址 */
-  cmp r4, r1                      /* 检查是否已到达结束地址 */
-  bcc CopyBufferInit            /* 如果还没到，继续复制 */
-
 /* Zero fill the bss segment. */
   ldr r2, =_sbss
   ldr r4, =_ebss

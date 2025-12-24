@@ -230,18 +230,7 @@ KEEP(*(.isr_vector)) /* Startup code */
   PROVIDE( __bss_start = __tbss_start );
   PROVIDE( __bss_size = __bss_end - __bss_start );
 
-  .buffer :
-  {
-    . = ALIGN(4);
-    __buffer_start__ = .;
-    KEEP(*(.buffer))
-    KEEP(*(.buffer*))
-    . = ALIGN(4);
-    __buffer_end__ = .;
-  } >RAM AT> FLASH
-  __buffer_load_start__ = LOADADDR(.buffer);
-
- .ram_section (NOLOAD):
+   .ram_section (NOLOAD):
   {
     . = ALIGN(4);
     KEEP(*(.ram))
