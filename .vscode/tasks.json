@@ -81,7 +81,7 @@
         },
         // ==================== Composite Workflow Tasks ====================
         {
-            "label": "🚀 Clean + Build",
+            "label": "🧹->🔨",
             "detail": "Full Workflow: Clean, Build",
             "dependsOrder": "sequence",
             "dependsOn": [
@@ -91,8 +91,28 @@
             "group": "build",
         },
         {
-            "label": "🚀📥 (OpenOCD)",
-            "detail": "Full Workflow: Clean, Build and Flash using OpenOCD",
+            "label": "🔨->📥 (OpenOCD)",
+            "detail": "Build and Flash using OpenOCD",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "🔨 Build",
+                "📥 Flash (OpenOCD)"
+            ],
+            "group": "build",
+        },
+        {
+            "label": "🔨->📥 (pyOCD)",
+            "detail": "Build and Flash using pyOCD",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "🔨 Build",
+                "📥 Flash (pyOCD)"
+            ],
+            "group": "build",
+        },
+        {
+            "label": "🧹->🔨->📥 (OpenOCD)",
+            "detail": "Clean, Build and Flash using OpenOCD",
             "dependsOrder": "sequence",
             "dependsOn": [
                 "🧹 Clean",
@@ -102,8 +122,8 @@
             "group": "build",
         },
         {
-            "label": "🚀📥 (pyOCD)",
-            "detail": "Full Workflow: Clean, Build and Flash using pyOCD",
+            "label": "🧹->🔨->📥 (pyOCD)",
+            "detail": "Clean, Build and Flash using pyOCD",
             "dependsOrder": "sequence",
             "dependsOn": [
                 "🧹 Clean",
