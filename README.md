@@ -74,11 +74,11 @@ ATfEP 与 ATfE 有相同功能，但是 ATfEP 提供了官方支持，两者或�
 
 组合工作流 (Composite Workflows): 按顺序执行多个基础任务的便捷工作流。
 
-1.  **🚀 Clean + Build**: 自动完成清理和编译两个步骤。
+1. **🧹->🔨**: 按顺序自动执行清理和编译两个步骤。
 
-2. **🚀🚀 Clean + Build + Flash (OpenOCD)**: (推荐) 全自动工作流，依次执行清理、编译，并使用 OpenOCD 进行烧录。
+2. **🔨->📥 (OpenOCD/pyOCD)**: 按顺序执行编译，并使用 OpenOCD 或 pyOCD 进行烧录。
 
-3. **🚀🚀 Clean + Build + Flash (pyOCD)**: 全自动工作流，依次执行清理、编译，并使用 pyOCD 进行烧录。
+3. **🧹->🔨->📥 (OpenOCD/pyOCD)**: 按顺序执行清理、编译，并使用 OpenOCD 或 pyOCD 进行烧录。
 
 所有任务的详细定义均可在 `.vscode/tasks.json` 文件中查看和修改。
 
