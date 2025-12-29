@@ -86,16 +86,16 @@ ATfEP 与 ATfE 有相同功能，但是 ATfEP 提供了官方支持，两者或�
 
 ## 🔬 调试 (Debugging)
 
-1.  **GDB 依赖**: 本项目的调试功能依赖 **Arm GNU Toolchain** 中的 GDB。请确保已安装该工具链并将其添加至系统 `PATH`。
+1.  **GDB 依赖**: 本项目的调试功能依赖 **Arm GNU Toolchain** 中的 GDB 工具。请确保已安装该工具链并将其添加至系统 `PATH`。
 2.  **调试配置**: 所有的调试配置都预设在 `.vscode/launch.json` 文件中。
 3.  **启动调试**:
       * 在 VS Code 的侧边栏切换到“运行和调试”视图。
       * 根据你使用的调试器，从顶部的下拉菜单中选择 `openocd_CMSIS-DAP`、`openocd_ST-Link` 或 `pyOCD` 配置。
       * 按 `F5` 键启动调试会话。
 
-> **注意**: `launch.json` 中也包含了 `probe-rs` 的配置项，但目前尚不稳定，不推荐用于调试。不过，使用 `probe-rs` 进行烧录经过验证后是可行的。
+> **注意**: `launch.json` 中也包含了 `probe-rs` 的配置项，但目前尚不稳定，不推荐用于调试。不过，使用 `probe-rs` 进行烧录经过验证后是可行的。如果使用了外部 flash，此时 pyocd 调试不可用，请切换至 openocd 或者下述的 ozone。
 
-另外，也可以通过 ozone 进行调试，如果没有 JLink 或者 JTrace，ozone 也提供了 GDB 的选项（该选项需要申请，URL:https://www.segger.com/purchase/licensing/license-request/）
+另外，也可以通过 ozone 进行调试，如果没有 JLink 或者 JTrace，ozone 也提供了 GDB 的选项（该选项需要申请，URL:https://www.segger.com/purchase/licensing/license-request/）。
 -----
 
 ## 🏗️ 构建配置
