@@ -59,7 +59,7 @@ ATfEP 与 ATfE 有相同功能，但是 ATfEP 提供了官方支持，两者或�
 2.  打开 `cmake/ATfE.cmake` 文件。
 3.  修改 `TOOLCHAIN_PREFIX` 变量，使其指向你的 **ATfE** 工具链的实际安装路径。
 
-### 🏃‍♀️ 编译与烧录
+### 🏃‍♀️ 编译与烧录任务
 本项目已预置了 VS Code 任务，以简化开发流程。使用快捷键 `Ctrl+Shift+B` 唤出任务面板，从列表中选择你想要执行的任务。
 
 可用任务列表如下：
@@ -74,13 +74,69 @@ ATfEP 与 ATfE 有相同功能，但是 ATfEP 提供了官方支持，两者或�
 
 组合工作流 (Composite Workflows): 按顺序执行多个基础任务的便捷工作流。
 
-1. **🧹->🔨**: 按顺序自动执行清理和编译两个步骤。
+1. **🧹-> 🔨**: 按顺序自动执行清理和编译两个步骤。
 
-2. **🔨->📥 (OpenOCD/pyOCD)**: 按顺序执行编译，并使用 OpenOCD 或 pyOCD 进行烧录。
+2. **🔨-> 📥 (OpenOCD/pyOCD)**: 按顺序执行编译，并使用 OpenOCD 或 pyOCD 进行烧录。
 
-3. **🧹->🔨->📥 (OpenOCD/pyOCD)**: 按顺序执行清理、编译，并使用 OpenOCD 或 pyOCD 进行烧录。
+3. **🧹-> 🔨 -> 📥 (OpenOCD/pyOCD)**: 按顺序执行清理、编译，并使用 OpenOCD 或 pyOCD 进行烧录。
 
 所有任务的详细定义均可在 `.vscode/tasks.json` 文件中查看和修改。
+
+### 🔨 编译产物
+
+在顶层 CMakeLists.txt 中添加了如下命令，将 .elf 转换为 .hex，将 .elf 剥离成仅包含内部 flash 数据的 .elf，将 .elf 剥离成仅包含外部 flash 数据的 .bin。
+```cmake
+# Define paths for the output artifacts.
+set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)
+# Define separate paths for internal and external flash.
+set(INTERNAL_ELF_FILE ${CMAKE_BINARY_DIR}/internal_flash.elf)
+set(EXTERNAL_BIN_FILE ${CMAKE_BINARY_DIR}/external_flash.bin)
+
+# Add a post-build step to generate the.hex file from the.elf output.
+add_custom_command(
+    OUTPUT ${HEX_FILE}
+    COMMAND ${CMAKE_OBJCOPY} -O ihex $<TARGET_FILE:${PROJECT_NAME}> ${HEX_FILE}
+    DEPENDS ${PROJECT_NAME}
+)
+
+# Generate the.elf file for the internal flash.
+add_custom_command(
+    OUTPUT ${INTERNAL_ELF_FILE}
+    COMMAND ${CMAKE_OBJCOPY} --remove-section=.qspi_section
+            $<TARGET_FILE:${PROJECT_NAME}> ${INTERNAL_ELF_FILE}
+    DEPENDS ${PROJECT_NAME}
+)
+
+# Generate the.bin file for the external QSPI flash.
+add_custom_command(
+    OUTPUT ${EXTERNAL_BIN_FILE}
+    COMMAND ${CMAKE_OBJCOPY} -O binary --only-section=.qspi_section
+            $<TARGET_FILE:${PROJECT_NAME}> ${EXTERNAL_BIN_FILE}
+    DEPENDS ${PROJECT_NAME}
+)
+
+# Create a custom target to execute all file generation commands.  
+add_custom_target(${PROJECT_NAME}_post_build ALL
+    DEPENDS
+        ${HEX_FILE}
+        ${INTERNAL_ELF_FILE}
+        ${EXTERNAL_BIN_FILE}
+)
+```
+
+### 📥 外部 Flash 烧录
+
+将数据烧录至外部 flash 建议使用 pyOCD 结合根目录下的 pyocd_user.py 以及 .conf/*.flm 文件，烧录命令如下：
+1. 将程序烧录至内部 flash
+   ```
+   pyocd flash -t stm32h743iitx build/Debug/internal_flash.elf
+   ```
+2. 将数据烧录至外部 flash
+   ```
+   pyocd flash -t stm32h743iitx -a 0x90000000 build/Debug/external_flash.bin
+   ```
+
+**注意：** 必须先烧录内部 flash 再烧录外部 flash，否则会出现不可预知问题。
 
 -----
 
