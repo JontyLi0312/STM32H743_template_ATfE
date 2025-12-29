@@ -82,10 +82,9 @@ set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES ADDITIONAL_CLEAN_FILES ${
 
 # Define paths for the output artifacts.
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)
-# Define separate paths for internal and external flash binaries.
-set(INTERNAL_BIN_FILE ${CMAKE_BINARY_DIR}/internal.bin)
-set(INTERNAL_ELF_FILE ${CMAKE_BINARY_DIR}/internal.elf)
-set(EXTERNAL_BIN_FILE ${CMAKE_BINARY_DIR}/qspi.bin)
+# Define separate paths for internal and external flash.
+set(INTERNAL_ELF_FILE ${CMAKE_BINARY_DIR}/internal_flash.elf)
+set(EXTERNAL_BIN_FILE ${CMAKE_BINARY_DIR}/external_flash.bin)
 
 # Add a post-build step to generate the.hex file from the.elf output.
 add_custom_command(
@@ -94,14 +93,7 @@ add_custom_command(
     DEPENDS ${PROJECT_NAME}
 )
 
-# Generate the.bin file for the internal flash.
-add_custom_command(
-    OUTPUT ${INTERNAL_BIN_FILE}
-    COMMAND ${CMAKE_OBJCOPY} -O binary --remove-section=.qspi_section
-            $<TARGET_FILE:${PROJECT_NAME}> ${INTERNAL_BIN_FILE}
-    DEPENDS ${PROJECT_NAME}
-)
-
+# Generate the.elf file for the internal flash.
 add_custom_command(
     OUTPUT ${INTERNAL_ELF_FILE}
     COMMAND ${CMAKE_OBJCOPY} --remove-section=.qspi_section
@@ -121,7 +113,6 @@ add_custom_command(
 add_custom_target(${PROJECT_NAME}_post_build ALL
     DEPENDS
         ${HEX_FILE}
-        ${INTERNAL_BIN_FILE}
         ${INTERNAL_ELF_FILE}
         ${EXTERNAL_BIN_FILE}
 )
