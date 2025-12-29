@@ -1,7 +1,5 @@
-# pyocd_user.py
-
-from pyocd.core.memory_map import FlashRegion
 import logging
+from pyocd.core.memory_map import FlashRegion
 
 # --- 定义外部 QSPI Flash 的参数 ---
 FLM_FILE = ".conf/FANKE_FK743M1_V0.FLM"
