@@ -28,15 +28,15 @@
             }
         },
         {
-            "cwd": "${workspaceRoot}",
+            "name": "openocd_CMSIS-DAP",
             "type": "cortex-debug",
             "request": "launch",
-            "name": "openocd_CMSIS-DAP",
             "servertype": "openocd",
-            "executable": "build/Debug/internal.elf",
-            "runToEntryPoint": "main",
             "showDevDebugOutput": "raw",
+            "cwd": "${workspaceRoot}",
+            "executable": "build/Debug/internal.elf",
             "svdFile": ".conf/STM32H743.svd",
+            "runToEntryPoint": "main",
             "configFiles": [
                 "interface/cmsis-dap.cfg",
                 "target/stm32h7x.cfg"
@@ -44,15 +44,15 @@
             "toolchainPrefix": "arm-none-eabi"
         },
         {
-            "cwd": "${workspaceRoot}",
+            "name": "openocd_ST-Link",
             "type": "cortex-debug",
             "request": "launch",
-            "name": "openocd_ST-Link",
             "servertype": "openocd",
-            "executable": "build/Debug/internal.elf",
-            "runToEntryPoint": "main",
+            "cwd": "${workspaceRoot}",
             "showDevDebugOutput": "raw",
+            "executable": "build/Debug/internal.elf",
             "svdFile": ".conf/STM32H743.svd",
+            "runToEntryPoint": "main",
             "configFiles": [
                 "interface/stlink-v2.cfg",
                 "target/stm32h7x.cfg"
@@ -61,17 +61,19 @@
         },
         {
             "name": "pyOCD",
-            "svdFile": ".conf/STM32H743.svd",
-            "cwd": "${workspaceFolder}",
-            "executable": "build/Debug/internal.elf",
-            "request": "launch",
-            "showDevDebugOutput": "raw",
             "type": "cortex-debug",
-            "runToEntryPoint": "main",
+            "request": "launch",
             "servertype": "pyocd",
-            "interface": "swd",
+            "showDevDebugOutput": "raw",
+            "cwd": "${workspaceFolder}",
             "targetId": "STM32H743IITX",
-            "device": "STM32H743IIT6",
+            "interface": "swd",
+            "executable": "build/Debug/internal.elf",
+            "svdFile": ".conf/STM32H743.svd",
+            "runToEntryPoint": "main",
+            "serverArgs": [
+                "--script=${workspaceFolder}/pyocd_user.py"
+            ]
         }
     ]
 }
