@@ -48,7 +48,7 @@
 2. **Clangd**：用于代码补全、语法检查和定义跳转。
 3. **CMake Tools**：用于 CMake 的配置和管理。
 
-### ⚙️ 初始化配置
+### ⚙️ 初始化配置（Init Config）
 
 1. 克隆仓库到本地。
 2. 打开 `cmake/ATfE.cmake` 文件。
@@ -61,11 +61,11 @@
 项目集成了 VS Code 自动化任务（`Ctrl+Shift+B`）以简化开发流程。
 
 基础任务（Basic Tasks）：执行单一操作的基本任务。
-1. **🔧 Configure**：配置 CMake 环境。Build 任务会自动调用它，通常无需手动执行。
-2. **🔨 Build**：编译项目（依赖于 🔧 Configure）。
-3. **🧹 Clean**：清理所有构建生成的文件。
-4. **📥 Flash (OpenOCD)**：使用 OpenOCD（CMSIS-DAP）将固件烧录到目标设备。 
-5. **📥 Flash (pyOCD)**：使用 pyOCD （任意受 pyOCD 支持的烧录器）将固件烧录到目标设备。
+1. **🔧 Configure**：配置 CMake 环境。通常 `🔨 Build` 任务会自动调用它，无需手动执行。
+2. **🔨 Build**：编译。
+3. **🧹 Clean**：清理构建生成的文件。
+4. **📥 Flash (OpenOCD)**：使用 OpenOCD（CMSIS-DAP）将固件烧录到目标设备，若需要使用其他 Link，请修改 task 配置。 
+5. **📥 Flash (pyOCD)**：使用 pyOCD （任意受 pyOCD 支持的Link）将固件烧录到目标设备。
 
 组合工作流 (Composite Workflows): 按顺序执行多个基础任务的便捷工作流。
 1. **🧹-> 🔨**: 按顺序自动执行清理和编译两个步骤。
@@ -128,7 +128,7 @@ add_custom_target(${PROJECT_NAME}_post_build ALL
 pyocd flash -t stm32h743iitx build/Debug/internal_flash.elf build/Debug/external_flash.bin@0x90000000
 ```
 
-**⚠️警告：** 使用本项目提供的 .flm 算法前请确保目标硬件的 QSPI 引脚配置与本项目的相同，否则需要自行准备 .flm 文件。
+**⚠️警告：** 使用本项目提供的 `.flm` 算法前请确保目标硬件的 QSPI 引脚配置与本项目的相同，否则需要自行准备 `.flm` 算法。
 
 ## 🔬 调试 (Debugging)
 
@@ -139,15 +139,15 @@ pyocd flash -t stm32h743iitx build/Debug/internal_flash.elf build/Debug/external
    * 在 VS Code 的侧边栏切换到“Run and Debug”视图。
    * 根据你使用的调试器，选择 `openocd_CMSIS-DAP`、`openocd_ST-Link` 或 `pyOCD` 配置启动调试。
 
-> **注意**: `launch.json` 中包含的 `probe-rs` 的配置项不可用，不过，使用 `probe-rs` 进行烧录是可行的。如果使用了外部 flash，此时 pyocd 调试不可用，请切换至 openocd 或者下述的 ozone。
+> **注意**: 如果使用了外部 flash，此时 pyocd 调试不可用，请切换至 openocd 或者下述的 ozone。
 
-### ozone 调试
+### ozone 调试（Ozone Debug）
 
 ozone 是 Segger 推出的图形化调试器，可以使用 JLink 调试 STM32 项目，如果希望使用 CMSIS-DAP 等其他 Link，ozone 也提供了 GDB 的选项，通过 OpenOCD 或 pyOCD 连接至 MCU 后，在 ozone 中可以通过 GDB 进行调试，该功能目前需要申请证书（URL: https://www.segger.com/purchase/licensing/license-request/）。
 
-## 🏗️ 构建配置
+## 💡 CMake 预设（CMake Preset）
 
-项目预设了两种构建类型：
+项目有两种预设：
 | 配置 （Profile） | 优化等级 （Optimization） |
 | :--------------- | :------------------------ |
 | **Debug**        | -O0 -g3                   |
