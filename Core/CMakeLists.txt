@@ -19,9 +19,11 @@ set(core_src
 	${CMAKE_CURRENT_SOURCE_DIR}/Src/gpio.c
 	${CMAKE_CURRENT_SOURCE_DIR}/Src/ltdc.c
 	${CMAKE_CURRENT_SOURCE_DIR}/Src/main.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/Src/freertos.c
     ${CMAKE_CURRENT_SOURCE_DIR}/Src/quadspi.c
     ${CMAKE_CURRENT_SOURCE_DIR}/Src/rtc.c
 	${CMAKE_CURRENT_SOURCE_DIR}/Src/stm32h7xx_hal_msp.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/Src/stm32h7xx_hal_timebase_tim.c
 	${CMAKE_CURRENT_SOURCE_DIR}/Src/stm32h7xx_it.c
 	${CMAKE_CURRENT_SOURCE_DIR}/Src/system_stm32h7xx.c
 	${CMAKE_CURRENT_SOURCE_DIR}/Src/usart.c
@@ -40,4 +42,4 @@ target_compile_definitions(core PRIVATE ${core_defines_syms})
 
 target_sources(core PUBLIC ${core_src})
 
-target_link_libraries(core PRIVATE core_config drivers user_drivers app)
+target_link_libraries(core PRIVATE core_config drivers user_drivers app freertos)
