@@ -115,7 +115,8 @@ add_custom_target(${PROJECT_NAME}_post_build ALL
 ```
 | 文件（File）       | 说明（Description）                      |
 | :----------------- | :--------------------------------------- |
-| project.hex        | 标准 Intel HEX 文件                      |
+| STM32H743IIT6.elf  | 包含所有数据的 ELF 文件                  |
+| STM32H743IIT6.hex  | 包含所有数据的 HEX 文件                  |
 | internal_flash.elf | 仅包含内部 Flash 数据的 ELF 文件         |
 | external_flash.bin | 仅包含外部 QSPI Flash 数据的纯二进制文件 |
 
