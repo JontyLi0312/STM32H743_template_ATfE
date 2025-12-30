@@ -2,19 +2,17 @@
 
 [English](./docs/README_en.md) | **中文**
 
-本项目提供了一套针对 STM32H743IIT6 微控制器的高性能开发框架。该框架基于 Arm Toolchain for Embedded (ATfE) 构建，旨在通过现代化的工具链（CMake + Clangd）解决传统嵌入式开发的效率瓶颈，提供高度可扩展且标准化的工程模板。
-
 ## 📋 概述（Overview）
 
 本项目采用 Arm 基于 LLVM 及 picolibc 定制的 **Arm Toolchain for Embedded (ATfE)** 编译器。项目初始化代码由 STM32CubeMX 生成，通过引入 **CMake** 构建系统和 **Clangd** LSP，实现了跨平台的一致性开发体验与高效的代码索引能力。
 
 ### ✨ 特性（Features）
 
-  * **现代化工具链**：基于 Clangd 与 ATfE。
-  * **跨平台构建支持**：使用 CMake 和 Ninja，可以在 Windows, macOS, Linux 上获得一致的构建体验。
-  * **VS Code 集成**：预置了 `.vscode/tasks.json` 和 `.vscode/launch.json`，实现快捷的编译、烧录和调试。
+  * **现代化工具链**：采用 Clangd 与 ATfE。
+  * **跨平台构建支持**：使用 CMake 与 Ninja，可以在 Windows, macOS, Linux 上获得一致的构建体验。
+  * **VS Code 集成**：预置 `.vscode/tasks.json` 和 `.vscode/launch.json`，实现快捷的编译、烧录和调试。
   * **模块化工程结构**：结构清晰，易于集成业务代码、中间件或 RTOS。
-  * **DMA 内存管理**：预制了专用 RAM 内存段（`.ram_section`），解决了 Cache 一致性问题。
+  * **DMA 内存管理**：定义专用 RAM 内存段（`.ram_section`），解决了 Cache 一致性问题。
 
 ### 🔌 硬件平台（Hardware Platform）
 
