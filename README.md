@@ -120,16 +120,11 @@ add_custom_target(${PROJECT_NAME}_post_build ALL
 ### 📥 外部 Flash 烧录
 
 将数据烧录至外部 flash 建议使用 pyOCD 结合根目录下的 pyocd_user.py 以及 .conf/*.flm 文件，烧录命令如下：
-1. 将程序烧录至内部 flash
-   ```
-   pyocd flash -t stm32h743iitx build/Debug/internal_flash.elf
-   ```
-2. 将数据烧录至外部 flash
-   ```
-   pyocd flash -t stm32h743iitx -a 0x90000000 build/Debug/external_flash.bin
-   ```
+```
+pyocd flash -t stm32h743iitx build/Debug/internal_flash.elf build/Debug/external_flash.bin@0x90000000
+```
 
-**注意：** 使用本项目提供的 .flm 下载算法前请确保 qspi 配置与本项目的相同，否则需要自行准备 .flm 文件，此外，必须先烧录内部 flash 再烧录外部 flash，否则会出现不可预知问题。
+**注意：** 使用本项目提供的 .flm 下载算法前请确保 qspi 配置与本项目的相同，否则需要自行准备 .flm 文件。
 
 ## 🔬 调试 (Debugging)
 
