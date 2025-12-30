@@ -2,65 +2,64 @@
 
 [English](./docs/README_en.md) | **中文**
 
-一个为 STM32H743IIT6 打造的现代化项目模板，旨在提供一个高效且易于扩展的模板。
+本项目提供了一套针对 STM32H743IIT6 微控制器的高性能开发框架。该框架基于 Arm Toolchain for Embedded (ATfE) 构建，旨在通过现代化的工具链（CMake + Clangd）解决传统嵌入式开发的效率瓶颈，提供高度可扩展且标准化的工程模板。
 
-## 📋 概述
+## 📋 概述（Overview）
 
-本项目基于 **Arm Toolchain for Embedded (ATfE)** 编译器，该编译器由 Arm 基于 LLVM 以及 picolibc 打造。其初始化代码由 STM32CubeMX 生成，并已移植到 **CMake** + **Clangd** 的现代化体系中，以带来更佳的开发体验。
+本项目采用 Arm 基于 LLVM 及 picolibc 定制的 **Arm Toolchain for Embedded (ATfE)** 编译器。项目初始化代码由 STM32CubeMX 生成，通过引入 **CMake** 构建系统和 **Clangd** LSP，实现了跨平台的一致性开发体验与高效的代码索引能力。
 
-### ✨ 特性
+### ✨ 特性（Features）
 
-  * **现代化工具链**：基于 Clang+LLVM 和 ATfE，告别传统工具链的限制。
-  * **跨平台构建**：使用 CMake 和 Ninja，可以在 Windows, macOS, Linux 上获得一致的构建体验。
-  * **VS Code 集成**：预置了详细的 `tasks.json` 和 `launch.json`，实现一键编译、烧录和调试。
-  * **高度可定制**：结构清晰，易于集成你自己的业务代码、中间件或 RTOS。
-  * **DMA 内存优化**：预先配置了独立的 RAM 区域 (`.ram_section` 段) 用于 DMA，避免缓存一致性问题。
+  * **现代化工具链**：基于 Clangd 与 ATfE。
+  * **跨平台构建支持**：使用 CMake 和 Ninja，可以在 Windows, macOS, Linux 上获得一致的构建体验。
+  * **VS Code 集成**：预置了 `.vscode/tasks.json` 和 `.vscode/launch.json`，实现快捷的编译、烧录和调试。
+  * **模块化工程结构**：结构清晰，易于集成业务代码、中间件或 RTOS。
+  * **DMA 内存管理**：预制了专用 RAM 内存段（`.ram_section`），解决了 Cache 一致性问题。
 
-### 🔌 硬件平台
+### 🔌 硬件平台（Hardware Platform）
 
   * **开发板 (Board)**：反客科技 STM32H743IIT6 最小系统板。
-  * **显示屏 (Display)**：RGB 接口 TFT 屏幕。
-  * **引脚配置 (Pinout)**：详见工程目录下的 `.ioc` 文件，可使用 STM32CubeMX 打开查看和修改。
+  * **显示屏 (Display)**：RGB 接口 TFT 液晶屏。
+  * **引脚配置 (Pinout)**：详见项目根目录下的 `.ioc` 文件（需要使用 STM32CubeMX 查看）。
 
-## 🚀 快速开始
+## 🚀 快速开始（Quick Start）
 
-下面将引导你完成开发环境的配置和项目的运行，默认使用 **Visual Studio Code** 编辑器。
+默认使用 **Visual Studio Code** 编辑器。
 
-### 🛠️ 环境准备
+### 🛠️ 环境依赖（Prerequisites）
 
-请确保以下工具已正确安装，并将其可执行文件路径添加至系统 `PATH` 环境变量中。如果不希望将工具添加至环境变量，只需要确保可以调用下述工具即可。
+请确保以下工具已正确安装，并建议将其路径添加至系统 `PATH` 环境变量。
 
-| 工具 (Tool)           | 说明 (Description)                            | 链接 (Link)                                                                                                 |
-| :-------------------- | :-------------------------------------------- | :---------------------------------------------------------------------------------------------------------- |
-| **CMake**             | 跨平台构建系统生成器                          | [cmake.org](https://cmake.org/)                                                                             |
-| **Ninja**             | 高性能构建系统                                | [github.com/ninja-build/ninja](https://github.com/ninja-build/ninja)                                        |
-| **OpenOCD**           | 开源片上调试和烧录工具                        | [github.com/openocd-org/openocd](https://github.com/openocd-org/openocd)                                    |
-| **pyOCD**             | 通过 USB 烧录和调试 MCU 的 Python 库          | [github.com/pyocd/pyOCD](https://github.com/pyocd/pyOCD)                                                    |
-| **ATfE**              | Arm 官方嵌入式工具链 (基于 LLVM)              | [arm.com/toolchain](https://github.com/arm/arm-toolchain/blob/arm-software/arm-software/embedded/README.md) |
-| **Arm GNU Toolchain** | 提供 GDB                                      | [arm.com/gnu-toolchain](https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads)                  |
-| **LLVM**              | 提供 `clangd` 用于语言服务 (代码补全、跳转等) | [github.com/llvm/llvm-project](https://github.com/llvm/llvm-project)                                        |
+| 工具 (Tool)           | 说明 (Description)                                                 | 链接 (Link)                                                                                                 |
+| :-------------------- | :----------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------- |
+| **CMake**             | 构建系统生成器                                                     | [cmake.org](https://cmake.org/)                                                                             |
+| **Ninja**             | 高速构建工具                                                       | [github.com/ninja-build/ninja](https://github.com/ninja-build/ninja)                                        |
+| **OpenOCD**           | 开源调试与烧录工具                                                 | [github.com/openocd-org/openocd](https://github.com/openocd-org/openocd)                                    |
+| **pyOCD**             | 用于调试、编程和探索 Arm Cortex 微控制器的基于 Python 的工具和 API | [github.com/pyocd/pyOCD](https://github.com/pyocd/pyOCD)                                                    |
+| **ATfE**              | Arm 官方嵌入式工具链 (基于 LLVM)                                   | [arm.com/toolchain](https://github.com/arm/arm-toolchain/blob/arm-software/arm-software/embedded/README.md) |
+| **Arm GNU Toolchain** | 提供 GDB 调试器                                                    | [arm.com/gnu-toolchain](https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads)                  |
+| **LLVM**              | 提供 `clangd` LSP                                                  | [github.com/llvm/llvm-project](https://github.com/llvm/llvm-project)                                        |
 
-有关 ATfE 的更多细节，建议仔细阅读 ARM 官方关于 ATfEP 的文档：https://developer.arm.com/documentation/107976/21-1-1/?lang=en。
+有关 ATfE 的详细特性，参阅[Arm Toolchain for Embedded Professional 文档](https://developer.arm.com/documentation/107976/21-1-1/?lang=en)。
 
-ATfEP 与 ATfE 有相同功能，但是 ATfEP 由 ARM 提供了更多企业方面的功能，两者或许有些许不同，因此无法保证该文档对于 ATfE 完全适用。
-
-### 📦 VS Code 插件
+### 📦 VS Code 插件（VS Code Extensions）
 
 1. **Cortex-Debug**：用于调试。
 2. **Clangd**：用于代码补全、语法检查和定义跳转。
 3. **CMake Tools**：用于 CMake 的配置和管理。
 
-### ⚙️ 项目配置
+### ⚙️ 初始化配置
 
 1. 克隆仓库到本地。
 2. 打开 `cmake/ATfE.cmake` 文件。
-3. 修改 `TOOLCHAIN_PREFIX` 变量，使其指向你的 **ATfE** 实际安装路径。
+3. 修改 `TOOLCHAIN_PREFIX` 变量，使其指向本地 **ATfE** 根目录。
 
-### 🏃‍♀️ 编译与烧录任务
+## 🏗️ 构建与部署 (Build & Deploy)
 
-本项目已预置了 VS Code 任务，以简化开发流程。使用快捷键 `Ctrl+Shift+B` 唤出任务面板，从列表中选择你想要执行的任务。
+### 任务流（Workflow）
 
-可用任务列表如下：
+项目集成了 VS Code 自动化任务（`Ctrl+Shift+B`）以简化开发流程。
+
 基础任务（Basic Tasks）：执行单一操作的基本任务。
 1. **🔧 Configure**：配置 CMake 环境。Build 任务会自动调用它，通常无需手动执行。
 2. **🔨 Build**：编译项目（依赖于 🔧 Configure）。
@@ -75,9 +74,9 @@ ATfEP 与 ATfE 有相同功能，但是 ATfEP 由 ARM 提供了更多企业方�
 
 所有任务的详细定义均可在 `.vscode/tasks.json` 文件中查看和修改。
 
-### 🔨 编译产物
+### 🔨 编译产物（Artifacts）
 
-在顶层 CMakeLists.txt 中添加了如下命令，将 .elf 转换为 .hex，将 .elf 剥离成仅包含内部 flash 数据的 .elf，将 .elf 剥离成仅包含外部 flash 数据的 .bin。
+通过在顶层 CMakeLists.txt 中添加如下命令，构建系统会自动处理内存映射，生成表格所示的文件。
 ```cmake
 # Define paths for the output artifacts.
 set(HEX_FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex)
@@ -116,77 +115,89 @@ add_custom_target(${PROJECT_NAME}_post_build ALL
         ${EXTERNAL_BIN_FILE}
 )
 ```
+| 文件（File）       | 说明（Description）                      |
+| :----------------- | :--------------------------------------- |
+| project.hex        | 标准 Intel HEX 文件                      |
+| internal_flash.elf | 仅包含内部 Flash 数据的 ELF 文件         |
+| external_flash.bin | 仅包含外部 QSPI Flash 数据的纯二进制文件 |
 
-### 📥 外部 Flash 烧录
+### 📥 外部 Flash 烧录（External Flash Programming）
 
-将数据烧录至外部 flash 建议使用 pyOCD 结合根目录下的 pyocd_user.py 以及 .conf/*.flm 文件，烧录命令如下：
+针对外部 QSPI Flash 资源，建议使用 pyOCD 配合定制的下载算法（FLM）进行烧录：
 ```
 pyocd flash -t stm32h743iitx build/Debug/internal_flash.elf build/Debug/external_flash.bin@0x90000000
 ```
 
-**注意：** 使用本项目提供的 .flm 下载算法前请确保 qspi 配置与本项目的相同，否则需要自行准备 .flm 文件。
+**⚠️警告：** 使用本项目提供的 .flm 算法前请确保目标硬件的 QSPI 引脚配置与本项目的相同，否则需要自行准备 .flm 文件。
 
 ## 🔬 调试 (Debugging)
 
-1. **GDB 依赖**: 本项目的调试功能依赖 **Arm GNU Toolchain** 中的 GDB 工具。请确保已安装该工具链并将其添加至系统 `PATH`。
+### 标准调试（Standard Debugging）
+1. **GDB 依赖**: 本项目的调试功能依赖 **Arm GNU Toolchain** 中的 GDB。
 2. **调试配置**: 所有的调试配置都预设在 `.vscode/launch.json` 文件中。
 3. **启动调试**:
-   * 在 VS Code 的侧边栏切换到“运行和调试”视图。
-   * 根据你使用的调试器，从顶部的下拉菜单中选择 `openocd_CMSIS-DAP`、`openocd_ST-Link` 或 `pyOCD` 配置。
-   * 按 `F5` 键启动调试会话。
+   * 在 VS Code 的侧边栏切换到“Run and Debug”视图。
+   * 根据你使用的调试器，选择 `openocd_CMSIS-DAP`、`openocd_ST-Link` 或 `pyOCD` 配置启动调试。
 
 > **注意**: `launch.json` 中包含的 `probe-rs` 的配置项不可用，不过，使用 `probe-rs` 进行烧录是可行的。如果使用了外部 flash，此时 pyocd 调试不可用，请切换至 openocd 或者下述的 ozone。
 
 ### ozone 调试
 
-ozone 是 Segger 推出的图形化调试器，可以使用 JLink 调试 STM32 项目，如果希望使用 CMSIS-DAP 等其他 Link，ozone 也提供了 GDB 的选项，通过 OpenOCD 以及 pyOCD 连接至 MCU 后，在 ozone 中可以通过 GDB 进行调试，该功能目前需要申请证书（URL: https://www.segger.com/purchase/licensing/license-request/）。
+ozone 是 Segger 推出的图形化调试器，可以使用 JLink 调试 STM32 项目，如果希望使用 CMSIS-DAP 等其他 Link，ozone 也提供了 GDB 的选项，通过 OpenOCD 或 pyOCD 连接至 MCU 后，在 ozone 中可以通过 GDB 进行调试，该功能目前需要申请证书（URL: https://www.segger.com/purchase/licensing/license-request/）。
 
 ## 🏗️ 构建配置
 
-项目预设了两种构建类型，以满足不同开发阶段的需求：
-| 配置 (Profile) | 优化等级 (Optimization) | 用途 (Usage)       |
-| :------------- | :---------------------- | :----------------- |
-| **Debug**      | `-g3`                   | 用于日常开发和调试 |
-| **Release**    | `-g0`                   | 用于最终的产品发布 |
+项目预设了两种构建类型：
+| 配置 （Profile） | 优化等级 （Optimization） |
+| :--------------- | :------------------------ |
+| **Debug**        | -O0 -g3                   |
+| **Release**      | -Os -g0                   |
 
-## ⚠️ 重要注意事项：DMA 与缓存
+## ⚠️ 内存一致性与缓存（Memory Coerency）
 
-为了解决 **DMA** 访问外设的问题，在链接脚本 (`.ld` 文件) 中新增了一个位于 AXI SRAM (`0x24000000`) 的特殊内存段 `.ram_section`。
-当你需要定义用于 DMA 的区域时，请使用以下属性将其放入指定内存区域：
-```c
-__attribute__(section(".ram_section"))) __attribute__((aligned(32))) uint8_t my_dma_buffer[1024];
-```
-如果启用了 D-Cache，在每次 CPU 修改了这块内存的数据后、启动 DMA 传输前，**必须**手动清理缓存，以确保外设能访问到最新的数据：
-```c
-SCB_CleanDCache_by_Addr((uint32_t*)my_dma_buffer, sizeof(my_dma_buffer));
-```
+为确保 **DMA** 的可访问性，本项目在链接脚本（`.ld`）中新增了一个位于 AXI SRAM (`0x24000000`) 的内存段 `.ram_section`。
 
-## 📁 项目结构
+
+使用方法：
+1. 声明数据：
+    ```c
+    __attribute__(section(".ram_section"))) __attribute__((aligned(32))) uint8_t my_dma_buffer[1024];
+    ```
+2. 维护一致性。若开启了 D-Cache，在 CPU 修改了该区域的数据后、启动 DMA 传输前，**必须**执行缓存清理：
+    ```c
+    SCB_CleanDCache_by_Addr((uint32_t*)my_dma_buffer, sizeof(my_dma_buffer));
+    ```
+
+## 📁 项目结构（Project Struct）
 
 ```
 STM32H743IIT6_template_ATfE/
-├── App/                # 应用程序和业务逻辑代码
-├── Core/               # STM32CubeMX 生成的核心代码 (Inc, Src)
-├── Drivers/            # STM32CubeMX 生成的 HAL 库和 CMSIS
-├── User_Drivers/       # 用户自定义的驱动代码 (例如传感器、屏幕等)
-├── cmake/              # CMake 配置文件
-│   └── ATfE.cmake      # ATfE 工具链定义文件
-├── .vscode/            # VS Code 编辑器配置
-│   ├── launch.json     # 调试配置
-│   └── tasks.json      # 构建任务定义
-├── .gitignore          # Git 忽略文件
-├── CMakeLists.txt      # 主 CMake 配置文件
-└── STM32H743IIT6.ioc   # STM32CubeMX 项目文件
+├─📁 .conf-------------------- # 项目配置文件
+├─📁 .vscode------------------ # VS Code 配置文件
+├─📁 App---------------------- # 业务逻辑代码
+├─📁 cmake-------------------- # CMake 配置文件
+├─📁 Core--------------------- # STM32CubeMX 生成的核心代码
+├─📁 docs--------------------- # 文档
+├─📁 Drivers------------------ # STM32CubeMX 生成的驱动代码
+├─📁 lvgl-9.4.0--------------- # LVGL 图形库
+├─📁 User_Drivers------------- # 用户驱动代码
+├─📄 .clang-format------------ # clang 格式化配置
+├─📄 .clangd------------------ # clangd 配置
+├─📄 .gitignore--------------- # Git 忽略文件
+├─📄 .mxproject--------------- # STM32CubeMX 配置文件
+├─📄 CMakeLists.txt----------- # 顶层 CMake 配置文件
+├─📄 CMakePresets.json-------- # CMake 预设文件
+├─📄 pyocd_user.py------------ # pyOCD 配置文件
+├─📄 README.md---------------- # README
+├─📄 startup_stm32h743xx.s---- # stm32h743 启动文件
+├─📄 STM32H743IIT6.ioc-------- # STM32CubeMX 工程
+└─📄 STM32H743XX_FLASH.ld----- # 链接脚本
 ```
-
-## 🤝 贡献 (Contributing)
-
-欢迎提交 Issue 或 Pull Request！如果你发现了任何问题或有改进建议，请随时提出。
 
 ## 📄 许可 (License)
 
-本项目采用 **MIT** 许可。
+本项目遵循 **MIT License** 开源协议。
 
 ## 📧 联系方式 (Contact)
 
-Email: ljt20030312@outlook.com
+Email: JontyLi0312@outlook.com
