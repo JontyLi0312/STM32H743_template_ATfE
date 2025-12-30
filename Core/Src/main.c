@@ -35,10 +35,6 @@
 #include "qspi_w25q64.h"
 #include "sdram.h"
 #include "touch_800x480.h"
-#include "lvgl.h"
-#include "lv_port_disp.h"
-#include "lv_port_indev.h"
-#include "lv_demo_benchmark.h"
 #include <stdint.h>
 
 /* USER CODE END Includes */
@@ -60,7 +56,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-PLACE_IN_RAM_SECTION uint8_t lv_mem_pool[256 * 1024];
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -72,10 +68,7 @@ static void MPU_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-uint32_t my_tick_get_cb(void)
-{
-    return HAL_GetTick(); // 直接返回 STM32 HAL 库的毫秒计数
-}
+
 /* USER CODE END 0 */
 
 /**
@@ -136,19 +129,11 @@ int main(void)
     LCD_RGB_Init();
     Touch_Init();
 
-    lv_init();
-    lv_tick_set_cb(my_tick_get_cb);
-    lv_port_disp_init();
-    lv_port_indev_init();
-    lv_demo_benchmark();
-
     /* USER CODE END 2 */
 
     /* Infinite loop */
     /* USER CODE BEGIN WHILE */
     while (1) {
-        lv_timer_handler();
-        Touch_Scan();
         HAL_Delay(5);
         /* USER CODE END WHILE */
 

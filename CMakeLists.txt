@@ -44,7 +44,6 @@ add_subdirectory(core)
 add_subdirectory(user_drivers)
 add_subdirectory(drivers)
 add_subdirectory(app)
-add_subdirectory(LVGL-9.4.0)
 
 # Link directories setup
 target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
@@ -73,7 +72,6 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
     drivers
 	user_drivers
     app
-    LVGL-9.4.0
 	# Add user defined libraries
 )
 
