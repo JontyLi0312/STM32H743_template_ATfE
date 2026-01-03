@@ -14,6 +14,7 @@
 #include <stdbool.h>
 #include "ltdc.h"
 #include "map.h"
+#include "stm32h743xx.h"
 
 /*********************
  *      DEFINES
@@ -145,6 +146,11 @@ void disp_disable_update(void)
 static void disp_flush(lv_display_t *disp_drv, const lv_area_t *area,
                        uint8_t *px_map)
 {
+    int32_t width  = lv_area_get_width(area);
+    int32_t height = lv_area_get_height(area);
+    uint32_t size  = width * height * 2;
+    SCB_CleanDCache_by_Addr((uint32_t *)px_map, size);
+
     if (disp_flush_enabled) { LTDC_Layer1->CFBAR = (uint32_t)px_map; }
 
     /*IMPORTANT!!!
