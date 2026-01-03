@@ -35,6 +35,10 @@
 #include "qspi_w25q64.h"
 #include "sdram.h"
 #include "touch_800x480.h"
+#include "lvgl.h"
+#include "lv_port_disp.h"
+#include "lv_port_indev.h"
+#include "lv_demo_music.h"
 #include <stdint.h>
 
 /* USER CODE END Includes */
@@ -129,12 +133,21 @@ int main(void)
     LCD_RGB_Init();
     Touch_Init();
 
+    lv_init();
+    lv_tick_set_cb(HAL_GetTick);
+    lv_tick_get_cb();
+    lv_port_disp_init();
+    lv_port_indev_init();
+    lv_demo_music();
+
     /* USER CODE END 2 */
 
     /* Infinite loop */
     /* USER CODE BEGIN WHILE */
     while (1) {
-        HAL_Delay(5);
+        lv_timer_handler();
+        Touch_Scan();
+        HAL_Delay(1);
         /* USER CODE END WHILE */
 
         /* USER CODE BEGIN 3 */
