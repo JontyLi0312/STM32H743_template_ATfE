@@ -38,4 +38,4 @@ target_compile_definitions(lvgl PRIVATE ${lvgl_defines_syms})
 
 target_sources(lvgl PRIVATE ${lvgl_src})
 
-target_link_libraries(lvgl PRIVATE core_config drivers user_drivers)
+target_link_libraries(lvgl PRIVATE core_config drivers user_drivers app)
