@@ -2,10 +2,6 @@ cmake_minimum_required(VERSION 3.22)
 
 project(lvgl LANGUAGES C)
 
-set(lvgl_defines_syms
-    LV_LVGL_H_INCLUDE_SIMPLE
-)
-
 file(GLOB_RECURSE lvgl_src
     ${CMAKE_CURRENT_SOURCE_DIR}/src/*.c
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/*.c
@@ -25,6 +21,7 @@ file(GLOB_RECURSE lvgl_src
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/*.c
     ${CMAKE_CURRENT_SOURCE_DIR}/porting/lv_port_disp.c
     ${CMAKE_CURRENT_SOURCE_DIR}/porting/lv_port_indev.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/demos/music/*.c
 )
 
 add_library(lvgl STATIC)
@@ -32,9 +29,8 @@ add_library(lvgl STATIC)
 target_include_directories(lvgl PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/porting
+    ${CMAKE_CURRENT_SOURCE_DIR}/demos/music
 )
-
-target_compile_definitions(lvgl PRIVATE ${lvgl_defines_syms})
 
 target_sources(lvgl PRIVATE ${lvgl_src})
 
