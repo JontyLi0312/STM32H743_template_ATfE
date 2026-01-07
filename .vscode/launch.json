@@ -34,7 +34,7 @@
             "servertype": "openocd",
             "showDevDebugOutput": "raw",
             "cwd": "${workspaceRoot}",
-            "executable": "build/Debug/internal.elf",
+            "executable": "build/Debug/internal_flash.elf",
             "svdFile": ".conf/STM32H743.svd",
             "runToEntryPoint": "main",
             "configFiles": [
@@ -50,7 +50,7 @@
             "servertype": "openocd",
             "cwd": "${workspaceRoot}",
             "showDevDebugOutput": "raw",
-            "executable": "build/Debug/internal.elf",
+            "executable": "build/Debug/internal_flash.elf",
             "svdFile": ".conf/STM32H743.svd",
             "runToEntryPoint": "main",
             "configFiles": [
@@ -68,7 +68,7 @@
             "cwd": "${workspaceFolder}",
             "targetId": "STM32H743IITX",
             "interface": "swd",
-            "executable": "build/Debug/internal.elf",
+            "executable": "build/Debug/internal_flash.elf",
             "svdFile": ".conf/STM32H743.svd",
             "runToEntryPoint": "main",
             "serverArgs": [
