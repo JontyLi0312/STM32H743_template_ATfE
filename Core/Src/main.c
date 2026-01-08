@@ -145,6 +145,7 @@ int main(void)
     while (1) {
         lv_timer_handler();
         Touch_Scan();
+        // HAL_GPIO_TogglePin(GPIOH, GPIO_PIN_7);
         HAL_Delay(5);
         /* USER CODE END WHILE */
 
