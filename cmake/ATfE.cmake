@@ -28,9 +28,9 @@ set(CMAKE_ASM_FLAGS "${CMAKE_C_FLAGS} -x assembler-with-cpp -MP")
 set(CMAKE_C_FLAGS	"${CMAKE_C_FLAGS} -Wall -fdata-sections -ffunction-sections")
 
 set(CMAKE_C_FLAGS_DEBUG 	"-O0 -g3")
-set(CMAKE_C_FLAGS_RELEASE 	"-O3 -g0")
+set(CMAKE_C_FLAGS_RELEASE 	"-O3 -g -gdwarf-3")
 set(CMAKE_CXX_FLAGS_DEBUG 	"-O0 -g3")
-set(CMAKE_CXX_FLAGS_RELEASE "-O3 -g0")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3 -g -gdwarf-3")
 
 set(CMAKE_CXX_FLAGS			"${CMAKE_C_FLAGS} -fno-rtti -fno-exceptions -fno-threadsafe-statics")
 
@@ -43,6 +43,7 @@ endif()
 set(CMAKE_EXE_LINKER_FLAGS 	"${CMAKE_EXE_LINKER_FLAGS} -lcrt0-hosted")
 set(CMAKE_EXE_LINKER_FLAGS 	"${CMAKE_EXE_LINKER_FLAGS} -T \"${CMAKE_SOURCE_DIR}/STM32H743XX_FLASH.ld\"")
 set(CMAKE_EXE_LINKER_FLAGS 	"${CMAKE_EXE_LINKER_FLAGS} -Wl,-Map=${CMAKE_PROJECT_NAME}.map -Wl,--gc-sections")
+set(CMAKE_EXE_LINKER_FLAGS 	"${CMAKE_EXE_LINKER_FLAGS} -Wl,--cref")
 set(CMAKE_EXE_LINKER_FLAGS 	"${CMAKE_EXE_LINKER_FLAGS} -z noexecstack")
 set(CMAKE_EXE_LINKER_FLAGS 	"${CMAKE_EXE_LINKER_FLAGS} -Wl,--print-memory-usage ")
 
