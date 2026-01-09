@@ -47,11 +47,11 @@ void MX_LTDC_Init(void)
   hltdc.Init.HorizontalSync = 0;
   hltdc.Init.VerticalSync = 0;
   hltdc.Init.AccumulatedHBP = 80;
-  hltdc.Init.AccumulatedVBP = 40;
+  hltdc.Init.AccumulatedVBP = 20;
   hltdc.Init.AccumulatedActiveW = 880;
-  hltdc.Init.AccumulatedActiveH = 520;
+  hltdc.Init.AccumulatedActiveH = 500;
   hltdc.Init.TotalWidth = 1080;
-  hltdc.Init.TotalHeigh = 542;
+  hltdc.Init.TotalHeigh = 522;
   hltdc.Init.Backcolor.Blue = 0;
   hltdc.Init.Backcolor.Green = 0;
   hltdc.Init.Backcolor.Red = 0;
@@ -211,9 +211,6 @@ void HAL_LTDC_MspInit(LTDC_HandleTypeDef* ltdcHandle)
     GPIO_InitStruct.Alternate = GPIO_AF14_LTDC;
     HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
-    /* LTDC interrupt Init */
-    HAL_NVIC_SetPriority(LTDC_IRQn, 0, 0);
-    HAL_NVIC_EnableIRQ(LTDC_IRQn);
   /* USER CODE BEGIN LTDC_MspInit 1 */
 
   /* USER CODE END LTDC_MspInit 1 */
@@ -279,8 +276,6 @@ void HAL_LTDC_MspDeInit(LTDC_HandleTypeDef* ltdcHandle)
 
     HAL_GPIO_DeInit(GPIOD, GPIO_PIN_6);
 
-    /* LTDC interrupt Deinit */
-    HAL_NVIC_DisableIRQ(LTDC_IRQn);
   /* USER CODE BEGIN LTDC_MspDeInit 1 */
 
   /* USER CODE END LTDC_MspDeInit 1 */

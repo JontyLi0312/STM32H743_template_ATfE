@@ -13,16 +13,17 @@ set(core_inc
 )
 
 set(core_src
-	${CMAKE_CURRENT_SOURCE_DIR}/Src/dma2d.c
     ${CMAKE_CURRENT_SOURCE_DIR}/Src/dma.c
+	${CMAKE_CURRENT_SOURCE_DIR}/Src/dma2d.c
 	${CMAKE_CURRENT_SOURCE_DIR}/Src/fmc.c
 	${CMAKE_CURRENT_SOURCE_DIR}/Src/gpio.c
 	${CMAKE_CURRENT_SOURCE_DIR}/Src/ltdc.c
 	${CMAKE_CURRENT_SOURCE_DIR}/Src/main.c
     ${CMAKE_CURRENT_SOURCE_DIR}/Src/quadspi.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/Src/rtc.c
 	${CMAKE_CURRENT_SOURCE_DIR}/Src/stm32h7xx_hal_msp.c
 	${CMAKE_CURRENT_SOURCE_DIR}/Src/stm32h7xx_it.c
+	${CMAKE_CURRENT_SOURCE_DIR}/Src/syscalls.c
+	${CMAKE_CURRENT_SOURCE_DIR}/Src/sysmem.c
 	${CMAKE_CURRENT_SOURCE_DIR}/Src/system_stm32h7xx.c
 	${CMAKE_CURRENT_SOURCE_DIR}/Src/usart.c
 	${CMAKE_SOURCE_DIR}/startup_stm32h743xx.s

@@ -22,7 +22,6 @@
 #include "dma2d.h"
 #include "ltdc.h"
 #include "quadspi.h"
-#include "rtc.h"
 #include "usart.h"
 #include "gpio.h"
 #include "fmc.h"
@@ -124,7 +123,6 @@ int main(void)
     MX_DMA2D_Init();
     MX_LTDC_Init();
     MX_QUADSPI_Init();
-    MX_RTC_Init();
     /* USER CODE BEGIN 2 */
     if (QSPI_W25Qxx_Init() != QSPI_W25Qxx_OK) { Error_Handler(); }
     if (QSPI_W25Qxx_Reset() != QSPI_W25Qxx_OK) { Error_Handler(); }
@@ -176,20 +174,18 @@ void SystemClock_Config(void)
     /** Initializes the RCC Oscillators according to the specified parameters
      * in the RCC_OscInitTypeDef structure.
      */
-    RCC_OscInitStruct.OscillatorType =
-        RCC_OSCILLATORTYPE_LSI | RCC_OSCILLATORTYPE_HSE;
-    RCC_OscInitStruct.HSEState      = RCC_HSE_ON;
-    RCC_OscInitStruct.LSIState      = RCC_LSI_ON;
-    RCC_OscInitStruct.PLL.PLLState  = RCC_PLL_ON;
-    RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-    RCC_OscInitStruct.PLL.PLLM      = 5;
-    RCC_OscInitStruct.PLL.PLLN      = 192;
-    RCC_OscInitStruct.PLL.PLLP      = 2;
-    RCC_OscInitStruct.PLL.PLLQ      = 4;
-    RCC_OscInitStruct.PLL.PLLR      = 2;
-    RCC_OscInitStruct.PLL.PLLRGE    = RCC_PLL1VCIRANGE_2;
-    RCC_OscInitStruct.PLL.PLLVCOSEL = RCC_PLL1VCOWIDE;
-    RCC_OscInitStruct.PLL.PLLFRACN  = 0;
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+    RCC_OscInitStruct.HSEState       = RCC_HSE_ON;
+    RCC_OscInitStruct.PLL.PLLState   = RCC_PLL_ON;
+    RCC_OscInitStruct.PLL.PLLSource  = RCC_PLLSOURCE_HSE;
+    RCC_OscInitStruct.PLL.PLLM       = 5;
+    RCC_OscInitStruct.PLL.PLLN       = 192;
+    RCC_OscInitStruct.PLL.PLLP       = 2;
+    RCC_OscInitStruct.PLL.PLLQ       = 4;
+    RCC_OscInitStruct.PLL.PLLR       = 2;
+    RCC_OscInitStruct.PLL.PLLRGE     = RCC_PLL1VCIRANGE_2;
+    RCC_OscInitStruct.PLL.PLLVCOSEL  = RCC_PLL1VCOWIDE;
+    RCC_OscInitStruct.PLL.PLLFRACN   = 0;
     if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) { Error_Handler(); }
 
     /** Initializes the CPU, AHB and APB buses clocks
@@ -232,8 +228,8 @@ void MPU_Config(void)
     MPU_InitStruct.SubRegionDisable = 0x0;
     MPU_InitStruct.TypeExtField     = MPU_TEX_LEVEL0;
     MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
-    MPU_InitStruct.DisableExec      = MPU_INSTRUCTION_ACCESS_DISABLE;
-    MPU_InitStruct.IsShareable      = MPU_ACCESS_SHAREABLE;
+    MPU_InitStruct.DisableExec      = MPU_INSTRUCTION_ACCESS_ENABLE;
+    MPU_InitStruct.IsShareable      = MPU_ACCESS_NOT_SHAREABLE;
     MPU_InitStruct.IsCacheable      = MPU_ACCESS_CACHEABLE;
     MPU_InitStruct.IsBufferable     = MPU_ACCESS_NOT_BUFFERABLE;
 
