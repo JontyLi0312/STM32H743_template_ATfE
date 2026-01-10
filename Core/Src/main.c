@@ -28,8 +28,6 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "lcd_show.h"
-#include "lcd_test.h"
 #include "map.h"
 #include "qspi_w25q64.h"
 #include "sdram.h"
@@ -128,7 +126,9 @@ int main(void)
     if (QSPI_W25Qxx_Reset() != QSPI_W25Qxx_OK) { Error_Handler(); }
     if (QSPI_W25Qxx_MemoryMappedMode() != QSPI_W25Qxx_OK) { Error_Handler(); }
     SDRAM_Initialization_Sequence(&hsdram1);
-    LCD_RGB_Init();
+    HAL_LTDC_ProgramLineEvent(&hltdc, 0);
+    HAL_GPIO_WritePin(GPIOH, GPIO_PIN_6, GPIO_PIN_SET);
+    // LCD_RGB_Init();
     Touch_Init();
 
     lv_init();
