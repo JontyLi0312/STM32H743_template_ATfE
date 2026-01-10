@@ -55,48 +55,8 @@ struct {
     uint8_t ShowNum_Mode;
 } LCD;
 
-void LCD_GPIO_Init(void)
-{
-
-    GPIO_InitTypeDef GPIO_InitStruct = {0};
-
-    GPIO_LDC_Backlight_CLK_ENABLE;
-
-    GPIO_InitStruct.Pin   = LCD_Backlight_PIN;
-    GPIO_InitStruct.Mode  = GPIO_MODE_OUTPUT_PP;
-    GPIO_InitStruct.Pull  = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-    HAL_GPIO_Init(LCD_Backlight_PORT, &GPIO_InitStruct);
-
-    LCD_Backlight_OFF;
-}
-
 void LCD_RGB_Init(void)
 {
-    LTDC_LayerCfgTypeDef pLayerCfg = {0}; // layer0 ��ز���
-
-    pLayerCfg.WindowX0    = 0;
-    pLayerCfg.WindowX1    = LCD_Width;
-    pLayerCfg.WindowY0    = 0;
-    pLayerCfg.WindowY1    = LCD_Height;
-    pLayerCfg.ImageWidth  = LCD_Width;
-    pLayerCfg.ImageHeight = LCD_Height;
-    pLayerCfg.PixelFormat = ColorMode_0;
-
-    pLayerCfg.Alpha = 255;
-
-    pLayerCfg.BlendingFactor1 = LTDC_BLENDING_FACTOR1_CA;
-    pLayerCfg.BlendingFactor2 = LTDC_BLENDING_FACTOR2_CA;
-
-    pLayerCfg.FBStartAdress = LCD_MemoryAdd;
-
-    pLayerCfg.Alpha0          = 0;
-    pLayerCfg.Backcolor.Blue  = 0;
-    pLayerCfg.Backcolor.Green = 0;
-    pLayerCfg.Backcolor.Red   = 0;
-
-    HAL_LTDC_ConfigLayer(&hltdc, &pLayerCfg, 0);
-
 #if ((ColorMode_0 == LTDC_PIXEL_FORMAT_RGB888) ||                              \
      (ColorMode_0 == LTDC_PIXEL_FORMAT_ARGB8888))
 
@@ -136,8 +96,6 @@ void LCD_RGB_Init(void)
 
 #endif
 
-    LCD_GPIO_Init();
-
     LCD_DisplayDirection(Direction_H);
     LCD_SetFont(&Font24);
     LCD_ShowNumMode(Fill_Space);
@@ -155,8 +113,6 @@ void LCD_RGB_Init(void)
     LCD_Clear();
 
 #endif
-
-    LCD_Backlight_ON;
 }
 
 void LCD_SetLayer(uint8_t layer)
