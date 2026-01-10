@@ -8,5 +8,6 @@
     ],
     "clangd.arguments": [
         "--query-driver=D:/Toolchain/ATfE-21.1.1/bin/clang.exe",
+        "--header-insertion=never"
     ],
 }
