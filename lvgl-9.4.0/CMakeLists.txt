@@ -21,7 +21,8 @@ file(GLOB_RECURSE lvgl_src
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/*.c
     ${CMAKE_CURRENT_SOURCE_DIR}/porting/lv_port_disp.c
     ${CMAKE_CURRENT_SOURCE_DIR}/porting/lv_port_indev.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/demos/music/*.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/demos/benchmark/*.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/demos/widgets/*.c
 )
 
 add_library(lvgl STATIC)
@@ -29,7 +30,7 @@ add_library(lvgl STATIC)
 target_include_directories(lvgl PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/porting
-    ${CMAKE_CURRENT_SOURCE_DIR}/demos/music
+    ${CMAKE_CURRENT_SOURCE_DIR}/demos/benchmark
 )
 
 target_sources(lvgl PRIVATE ${lvgl_src})
