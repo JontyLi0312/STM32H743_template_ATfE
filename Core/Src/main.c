@@ -38,7 +38,7 @@
 #include "lvgl.h"
 #include "lv_port_disp.h"
 #include "lv_port_indev.h"
-#include "lv_demo_music.h"
+#include "lv_demo_benchmark.h"
 #include <stdint.h>
 
 /* USER CODE END Includes */
@@ -130,7 +130,8 @@ int main(void)
     if (QSPI_W25Qxx_Reset() != QSPI_W25Qxx_OK) { Error_Handler(); }
     if (QSPI_W25Qxx_MemoryMappedMode() != QSPI_W25Qxx_OK) { Error_Handler(); }
     SDRAM_Initialization_Sequence(&hsdram1);
-    LCD_RGB_Init();
+    HAL_LTDC_ProgramLineEvent(&hltdc, 0);
+    HAL_GPIO_WritePin(GPIOH, GPIO_PIN_6, GPIO_PIN_SET);
     Touch_Init();
 
     lv_init();
@@ -138,7 +139,7 @@ int main(void)
     lv_tick_get_cb();
     lv_port_disp_init();
     lv_port_indev_init();
-    lv_demo_music();
+    lv_demo_benchmark();
 
     /* USER CODE END 2 */
 
@@ -147,7 +148,7 @@ int main(void)
     while (1) {
         lv_timer_handler();
         Touch_Scan();
-        HAL_Delay(1);
+        HAL_Delay(20);
         /* USER CODE END WHILE */
 
         /* USER CODE BEGIN 3 */
