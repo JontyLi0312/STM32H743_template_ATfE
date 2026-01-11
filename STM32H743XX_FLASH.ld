@@ -230,33 +230,47 @@ KEEP(*(.isr_vector)) /* Startup code */
   PROVIDE( __bss_start = __tbss_start );
   PROVIDE( __bss_size = __bss_end - __bss_start );
 
-   .ram_section (NOLOAD):
+  .ram_section (NOLOAD):
   {
     . = ALIGN(4);
+
     KEEP(*(.ram))
     KEEP(*(.ram*))
+
     . = ALIGN(4);
   } >RAM
 
+  .sdram_section (NOLOAD):
+  {
+    . = ALIGN(32);
+
+    PROVIDE(__lvgl_fb_start = .);
+    KEEP(*(lvgl_fb))
+    KEEP(*(lvgl_fb*))
+    PROVIDE(__lvgl_fb_end = .);
+
+    KEEP(*(.sdram_section))
+    KEEP(*(.sdram_section*))
+
+    . = ALIGN(32);
+  } >SDRAM
+
   .qspi_section :
   {
-   . = ALIGN(4);
+    . = ALIGN(4);
+
+    PROVIDE(__lvgl_assets_start = .);
+    KEEP(*(lvgl_assets))
+    KEEP(*(lvgl_assets*))
+    PROVIDE(__lvgl_assets_end = .);
+
     KEEP(*(.qspi_section))
     KEEP(*(.qspi_section*))
-   . = ALIGN(4);
-  } > QSPI_FLASH
 
-   .sdram_section (NOLOAD) :
-  {
-   . = ALIGN(32);
-    __LVGL_BUFFERS_START__ =.;
-    *(.lvgl_buffers)
-    *(.lvgl_buffers*)
-   . = ALIGN(32);
-    __LVGL_BUFFERS_END__ =.;
-  } > SDRAM
-  
-  /* User_heap_stack section, used to check that there is enough RAM left */
+    . = ALIGN(4);
+  } >QSPI_FLASH
+
+    /* User_heap_stack section, used to check that there is enough RAM left */
   ._user_heap_stack (NOLOAD) :
   {
     . = ALIGN(8);
