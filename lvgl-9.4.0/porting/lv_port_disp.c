@@ -101,10 +101,10 @@ void lv_port_disp_init(void)
      * Two buffers screen sized buffer for double buffering.
      * Both LV_DISPLAY_RENDER_MODE_DIRECT and LV_DISPLAY_RENDER_MODE_FULL works,
      * see their comments*/
-    LV_ATTRIBUTE_MEM_ALIGN PLACE_IN_SDRAM_SECTION static uint8_t
+    LV_ATTRIBUTE_MEM_ALIGN PLACE_IN_LVGL_FB static uint8_t
         buf_3_1[MY_DISP_HOR_RES * MY_DISP_VER_RES * BYTE_PER_PIXEL];
 
-    LV_ATTRIBUTE_MEM_ALIGN PLACE_IN_SDRAM_SECTION static uint8_t
+    LV_ATTRIBUTE_MEM_ALIGN PLACE_IN_LVGL_FB static uint8_t
         buf_3_2[MY_DISP_HOR_RES * MY_DISP_VER_RES * BYTE_PER_PIXEL];
     lv_display_set_buffers(disp, buf_3_1, buf_3_2, sizeof(buf_3_1),
                            LV_DISPLAY_RENDER_MODE_DIRECT);
