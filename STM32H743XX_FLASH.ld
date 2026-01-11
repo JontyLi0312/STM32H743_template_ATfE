@@ -245,8 +245,8 @@ KEEP(*(.isr_vector)) /* Startup code */
     . = ALIGN(32);
 
     PROVIDE(__lvgl_fb_start = .);
-    KEEP(*(lvgl_fb))
-    KEEP(*(lvgl_fb*))
+    KEEP(*(.lvgl_fb))
+    KEEP(*(.lvgl_fb*))
     PROVIDE(__lvgl_fb_end = .);
 
     KEEP(*(.sdram_section))
@@ -260,8 +260,8 @@ KEEP(*(.isr_vector)) /* Startup code */
     . = ALIGN(4);
 
     PROVIDE(__lvgl_assets_start = .);
-    KEEP(*(lvgl_assets))
-    KEEP(*(lvgl_assets*))
+    KEEP(*(.lvgl_assets))
+    KEEP(*(.lvgl_assets*))
     PROVIDE(__lvgl_assets_end = .);
 
     KEEP(*(.qspi_section))
