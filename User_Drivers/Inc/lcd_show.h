@@ -84,13 +84,6 @@ void LCD_DrawEllipse(int x, int y, int r1, int r2);
 void LCD_FillRect(uint16_t x, uint16_t y, uint16_t width, uint16_t height);
 void LCD_FillCircle(uint16_t x, uint16_t y, uint16_t r);
 
-#define HBP           80
-#define VBP           40
-#define HSW           1
-#define VSW           1
-#define HFP           200
-#define VFP           22
-
 #define LCD_Width     800
 #define LCD_Height    480
 #define LCD_MemoryAdd SDRAM_BANK_ADDR
@@ -120,14 +113,5 @@ void LCD_FillCircle(uint16_t x, uint16_t y, uint16_t r);
 #define LCD_MemoryAdd_OFFSET LCD_Width *LCD_Height *BytesPerPixel_0
 
 #endif
-
-#define LCD_Backlight_PIN             GPIO_PIN_6
-#define LCD_Backlight_PORT            GPIOH
-#define GPIO_LDC_Backlight_CLK_ENABLE __HAL_RCC_GPIOH_CLK_ENABLE()
-
-#define LCD_Backlight_OFF                                                      \
-    HAL_GPIO_WritePin(LCD_Backlight_PORT, LCD_Backlight_PIN, GPIO_PIN_RESET);
-#define LCD_Backlight_ON                                                       \
-    HAL_GPIO_WritePin(LCD_Backlight_PORT, LCD_Backlight_PIN, GPIO_PIN_SET);
 
 #endif

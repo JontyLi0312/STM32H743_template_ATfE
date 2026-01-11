@@ -40,4 +40,4 @@ target_compile_definitions(core PRIVATE ${core_defines_syms})
 
 target_sources(core PUBLIC ${core_src})
 
-target_link_libraries(core PRIVATE core_config drivers user_drivers app)
+target_link_libraries(core PRIVATE core_config drivers user_drivers app lvgl)

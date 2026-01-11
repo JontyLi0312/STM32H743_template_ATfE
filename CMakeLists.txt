@@ -40,10 +40,11 @@ set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
 
 # Add STM32CubeMX generated sources
 #add_subdirectory(cmake/stm32cubemx)
-add_subdirectory(core)
-add_subdirectory(user_drivers)
-add_subdirectory(drivers)
-add_subdirectory(app)
+add_subdirectory(Core)
+add_subdirectory(User_Drivers)
+add_subdirectory(Drivers)
+add_subdirectory(App)
+add_subdirectory(lvgl-9.4.0)
 
 # Link directories setup
 target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
@@ -72,6 +73,7 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
     drivers
 	user_drivers
     app
+    lvgl
 	# Add user defined libraries
 )
 

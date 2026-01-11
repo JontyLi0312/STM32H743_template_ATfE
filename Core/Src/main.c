@@ -35,6 +35,10 @@
 #include "qspi_w25q64.h"
 #include "sdram.h"
 #include "touch_800x480.h"
+#include "lvgl.h"
+#include "lv_port_disp.h"
+#include "lv_port_indev.h"
+#include "lv_demo_benchmark.h"
 #include <stdint.h>
 
 /* USER CODE END Includes */
@@ -126,15 +130,25 @@ int main(void)
     if (QSPI_W25Qxx_Reset() != QSPI_W25Qxx_OK) { Error_Handler(); }
     if (QSPI_W25Qxx_MemoryMappedMode() != QSPI_W25Qxx_OK) { Error_Handler(); }
     SDRAM_Initialization_Sequence(&hsdram1);
-    LCD_RGB_Init();
+    HAL_LTDC_ProgramLineEvent(&hltdc, 0);
+    HAL_GPIO_WritePin(GPIOH, GPIO_PIN_6, GPIO_PIN_SET);
     Touch_Init();
+
+    lv_init();
+    lv_tick_set_cb(HAL_GetTick);
+    lv_tick_get_cb();
+    lv_port_disp_init();
+    lv_port_indev_init();
+    lv_demo_benchmark();
 
     /* USER CODE END 2 */
 
     /* Infinite loop */
     /* USER CODE BEGIN WHILE */
     while (1) {
-        HAL_Delay(5);
+        lv_timer_handler();
+        Touch_Scan();
+        HAL_Delay(20);
         /* USER CODE END WHILE */
 
         /* USER CODE BEGIN 3 */
@@ -221,7 +235,7 @@ void MPU_Config(void)
     MPU_InitStruct.TypeExtField     = MPU_TEX_LEVEL0;
     MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
     MPU_InitStruct.DisableExec      = MPU_INSTRUCTION_ACCESS_DISABLE;
-    MPU_InitStruct.IsShareable      = MPU_ACCESS_SHAREABLE;
+    MPU_InitStruct.IsShareable      = MPU_ACCESS_NOT_SHAREABLE;
     MPU_InitStruct.IsCacheable      = MPU_ACCESS_CACHEABLE;
     MPU_InitStruct.IsBufferable     = MPU_ACCESS_NOT_BUFFERABLE;
 
@@ -232,6 +246,9 @@ void MPU_Config(void)
     MPU_InitStruct.Number      = MPU_REGION_NUMBER1;
     MPU_InitStruct.BaseAddress = 0x24000000;
     MPU_InitStruct.Size        = MPU_REGION_SIZE_512KB;
+    MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_ENABLE;
+    MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
+    MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
 
     HAL_MPU_ConfigRegion(&MPU_InitStruct);
 
