@@ -9,12 +9,11 @@ set(user_drivers_inc
 set(user_drivers_src
 				${CMAKE_CURRENT_SOURCE_DIR}/Src/lcd_fonts.c
 				${CMAKE_CURRENT_SOURCE_DIR}/Src/lcd_image.c
-				${CMAKE_CURRENT_SOURCE_DIR}/Src/lcd_show.c
-				${CMAKE_CURRENT_SOURCE_DIR}/Src/lcd_test.c
+				${CMAKE_CURRENT_SOURCE_DIR}/Src/lcd_driver.c
 				${CMAKE_CURRENT_SOURCE_DIR}/Src/sdram.c
 				${CMAKE_CURRENT_SOURCE_DIR}/Src/touch_800x480.c
 				${CMAKE_CURRENT_SOURCE_DIR}/Src/touch_iic.c
-                ${CMAKE_CURRENT_SOURCE_DIR}/Src/qspi_w25q64.c
+                ${CMAKE_CURRENT_SOURCE_DIR}/Src/w25q64_driver.c
 )
 
 add_library(user_drivers STATIC)
